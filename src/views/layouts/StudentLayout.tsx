@@ -13,7 +13,7 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
-import { FiLogOut, FiHome, FiList, FiSmartphone, FiSettings } from "react-icons/fi"
+import { FiLogOut, FiHome, FiSmartphone, FiSettings } from "react-icons/fi"
 
 type StudentLayoutProps = {
     children: ReactNode
