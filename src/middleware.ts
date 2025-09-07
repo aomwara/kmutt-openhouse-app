@@ -5,14 +5,12 @@ export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
 
-    // Protect student routes
     if (req.nextUrl.pathname.startsWith("/app")) {
       if (token?.role !== "student") {
         return NextResponse.redirect(new URL("/login", req.url));
       }
     }
 
-    // Protect staff routes
     if (req.nextUrl.pathname.startsWith("/staff")) {
       if (token?.role !== "staff") {
         return NextResponse.redirect(new URL("/login", req.url));
