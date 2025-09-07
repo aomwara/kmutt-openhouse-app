@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -14,8 +16,13 @@ import {
     Text,
     VStack,
     Center,
+    useColorModeValue,
 } from "@chakra-ui/react"
-import { ArrowBackIcon, InfoIcon } from "@chakra-ui/icons"
+import { ArrowBackIcon, LockIcon } from "@chakra-ui/icons"
+
+// KMUTT Colors
+const PRIMARY = "#F04E23"
+const SECONDARY = "#FFC233"
 
 const LoginPage = () => {
     const [emailOrUsername, setEmailOrUsername] = useState("")
@@ -55,31 +62,53 @@ const LoginPage = () => {
         setIsLoading(false)
     }
 
+    const cardBg = useColorModeValue("white", "gray.800")
+    const textColor = useColorModeValue("gray.600", "gray.300")
+
     return (
-        <Center minH="100vh" bgGradient="linear(to-br, blue.100, blue.300)" p={4}>
+        <Center
+            minH="100vh"
+            bgGradient={`linear(to-br, ${SECONDARY}50, ${PRIMARY}80)`}
+            p={4}
+        >
             <VStack spacing={6} w="full" maxW="md">
                 {/* Back Button */}
                 <Link href="/">
-                    <Button leftIcon={<ArrowBackIcon />} variant="link" colorScheme="gray">
+                    <Button
+                        leftIcon={<ArrowBackIcon />}
+                        variant="link"
+                        color="white"
+                        _hover={{ color: SECONDARY }}
+                    >
                         กลับหน้าหลัก
                     </Button>
                 </Link>
 
                 {/* Login Card */}
-                <Box bg="white" p={8} rounded="2xl" shadow="xl" w="full">
+                <Box
+                    bg={cardBg}
+                    p={8}
+                    rounded="2xl"
+                    shadow="xl"
+                    w="full"
+                    border="1px solid"
+                    borderColor={useColorModeValue("orange.100", "gray.700")}
+                >
                     <VStack spacing={4} align="stretch">
                         <Center mb={4}>
-                            <InfoIcon w={10} h={10} color="blue.500" />
+                            <LockIcon w={10} h={10} color={PRIMARY} />
                         </Center>
-                        <Heading textAlign="center" size="lg">เข้าสู่ระบบ</Heading>
-                        <Text textAlign="center" color="gray.600">
-                            กรอกอีเมล/Username และรหัสผ่านเพื่อเข้าสู่ระบบ
+                        <Heading textAlign="center" size="lg" color={PRIMARY}>
+                            เข้าสู่ระบบ
+                        </Heading>
+                        <Text textAlign="center" color={textColor}>
+                            กรอกอีเมล (นักเรียน) หรือ Username (เจ้าหน้าที่) และรหัสผ่าน
                         </Text>
 
                         <form onSubmit={handleSubmit}>
                             <VStack spacing={4} align="stretch">
                                 <FormControl id="emailOrUsername" isRequired>
-                                    <FormLabel>Email (Student) หรือ Username (Staff)</FormLabel>
+                                    <FormLabel>Email หรือ Username</FormLabel>
                                     <Input
                                         type="text"
                                         value={emailOrUsername}
@@ -99,22 +128,34 @@ const LoginPage = () => {
                                 </FormControl>
 
                                 {error && (
-                                    <Alert status="error">
+                                    <Alert status="error" rounded="md">
                                         <AlertIcon />
                                         {error}
                                     </Alert>
                                 )}
 
-                                <Button type="submit" colorScheme="blue" w="full" isLoading={isLoading}>
+                                <Button
+                                    type="submit"
+                                    bg={PRIMARY}
+                                    color="white"
+                                    _hover={{ bg: "#d63e1a" }}
+                                    w="full"
+                                    isLoading={isLoading}
+                                >
                                     {isLoading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
                                 </Button>
                             </VStack>
                         </form>
 
-                        <Text textAlign="center" fontSize="sm" color="gray.600" mt={2}>
+                        <Text textAlign="center" fontSize="sm" color={textColor} mt={2}>
                             ไม่มีบัญชี?{" "}
                             <Link href="/register">
-                                <Text as="span" color="blue.500" fontWeight="medium" cursor="pointer">
+                                <Text
+                                    as="span"
+                                    color={PRIMARY}
+                                    fontWeight="semibold"
+                                    cursor="pointer"
+                                >
                                     สมัครสมาชิก
                                 </Text>
                             </Link>
@@ -126,4 +167,4 @@ const LoginPage = () => {
     )
 }
 
-export { LoginPage };
+export { LoginPage }

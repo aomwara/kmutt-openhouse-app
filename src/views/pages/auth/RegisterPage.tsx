@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import {
     Box,
     Button,
@@ -15,24 +15,22 @@ import {
     AlertIcon,
     Flex,
     Icon,
+    SimpleGrid,
+    useColorModeValue,
 } from "@chakra-ui/react"
 import { UserPlus } from "lucide-react"
+import Link from "next/link"
+import { ArrowBackIcon } from "@chakra-ui/icons"
+
+// KMUTT Colors
+const PRIMARY = "#F04E23"
+const SECONDARY = "#FFC233"
 
 export function RegisterPage() {
     const [form, setForm] = useState<Record<string, string>>({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
     const router = useRouter()
-
-    const fields = [
-        { name: "first_name", placeholder: "First Name" },
-        { name: "last_name", placeholder: "Last Name" },
-        { name: "school", placeholder: "School" },
-        { name: "province", placeholder: "Province" },
-        { name: "email", placeholder: "Email", type: "email" },
-        { name: "phone", placeholder: "Phone", type: "tel" },
-        { name: "password", placeholder: "Password", type: "password" },
-    ]
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -50,42 +48,147 @@ export function RegisterPage() {
                 router.push("/login")
             } else {
                 const data = await res.json()
-                setError(data?.message || "Registration failed")
+                setError(data?.message || "การสมัครสมาชิกไม่สำเร็จ")
             }
         } catch {
-            setError("Registration failed. Please try again.")
+            setError("เกิดข้อผิดพลาด กรุณาลองใหม่")
         }
 
         setIsLoading(false)
     }
 
+    const cardBg = useColorModeValue("white", "gray.800")
+    const textColor = useColorModeValue("gray.600", "gray.300")
+
     return (
-        <Flex minH="100vh" align="center" justify="center" bgGradient="linear(to-br, blue.100, blue.300)" p={4}>
-            <Box w="full" maxW="md" bg="white" rounded="2xl" shadow="xl" p={8}>
+        <Flex
+            minH="100vh"
+            align="center"
+            justify="center"
+            bgGradient={`linear(to-br, ${SECONDARY}50, ${PRIMARY}80)`}
+            p={4}
+        >
+
+            <Box
+                w="full"
+                maxW="lg"
+                bg={cardBg}
+                rounded="2xl"
+                shadow="xl"
+                p={10}
+                border="1px solid"
+                borderColor={useColorModeValue("orange.100", "gray.700")}
+            >
                 {/* Header */}
                 <Flex direction="column" align="center" mb={6}>
-                    <Flex w={16} h={16} bg="blue.100" rounded="full" align="center" justify="center" mb={4}>
-                        <Icon as={UserPlus} w={8} h={8} color="blue.600" />
+                    <Flex
+                        w={16}
+                        h={16}
+                        bg={useColorModeValue("orange.50", "gray.700")}
+                        rounded="full"
+                        align="center"
+                        justify="center"
+                        mb={4}
+                    >
+                        <Icon as={UserPlus} w={8} h={8} color={PRIMARY} />
                     </Flex>
-                    <Heading size="lg" mb={1}>Student Registration</Heading>
-                    <Text color="gray.600" fontSize="sm">กรอกข้อมูลเพื่อสมัครบัญชีผู้ใช้งาน</Text>
+                    <Heading size="lg" mb={1} color={PRIMARY}>
+                        สมัครสมาชิก
+                    </Heading>
+                    <Text color={textColor} fontSize="sm">
+                        กรอกข้อมูลจริงเพื่อสมัครบัญชีผู้ใช้งาน
+                    </Text>
                 </Flex>
 
+                {/* Form */}
                 <form onSubmit={handleSubmit}>
-                    <VStack spacing={4}>
-                        {fields.map((field) => (
-                            <FormControl key={field.name} id={field.name} isRequired>
-                                <FormLabel>{field.placeholder}</FormLabel>
+                    <VStack spacing={5}>
+                        {/* สองคอลัมน์ */}
+                        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} w="full">
+                            <FormControl id="first_name" isRequired>
+                                <FormLabel>ชื่อจริง</FormLabel>
                                 <Input
-                                    type={field.type || "text"}
-                                    value={form[field.name] || ""}
-                                    onChange={(e) => setForm({ ...form, [field.name]: e.target.value })}
+                                    type="text"
+                                    value={form.first_name || ""}
+                                    onChange={(e) =>
+                                        setForm({ ...form, first_name: e.target.value })
+                                    }
+                                    placeholder="ชื่อจริง"
                                 />
                             </FormControl>
-                        ))}
+
+                            <FormControl id="last_name" isRequired>
+                                <FormLabel>นามสกุล</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={form.last_name || ""}
+                                    onChange={(e) =>
+                                        setForm({ ...form, last_name: e.target.value })
+                                    }
+                                    placeholder="นามสกุล"
+                                />
+                            </FormControl>
+
+                            <FormControl id="school" isRequired>
+                                <FormLabel>โรงเรียน</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={form.school || ""}
+                                    onChange={(e) =>
+                                        setForm({ ...form, school: e.target.value })
+                                    }
+                                    placeholder="โรงเรียน"
+                                />
+                            </FormControl>
+
+                            <FormControl id="province" isRequired>
+                                <FormLabel>จังหวัด</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={form.province || ""}
+                                    onChange={(e) =>
+                                        setForm({ ...form, province: e.target.value })
+                                    }
+                                    placeholder="จังหวัด"
+                                />
+                            </FormControl>
+                        </SimpleGrid>
+
+                        {/* เต็มบรรทัด */}
+                        <FormControl id="email" isRequired>
+                            <FormLabel>อีเมล</FormLabel>
+                            <Input
+                                type="email"
+                                value={form.email || ""}
+                                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                placeholder="example@email.com"
+                            />
+                        </FormControl>
+
+                        <FormControl id="phone" isRequired>
+                            <FormLabel>เบอร์โทรศัพท์</FormLabel>
+                            <Input
+                                type="tel"
+                                value={form.phone || ""}
+                                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                                placeholder="0812345678"
+                            />
+                        </FormControl>
+
+                        <FormControl id="password" isRequired>
+                            <FormLabel>รหัสผ่าน</FormLabel>
+                            <Input
+                                type="password"
+                                value={form.password || ""}
+                                onChange={(e) =>
+                                    setForm({ ...form, password: e.target.value })
+                                }
+                                placeholder="••••••••"
+                            />
+                        </FormControl>
 
                         {error && (
-                            <Alert status="error">
+                            <Alert status="error" rounded="md">
                                 <AlertIcon />
                                 {error}
                             </Alert>
@@ -93,27 +196,44 @@ export function RegisterPage() {
 
                         <Button
                             type="submit"
-                            colorScheme="blue"
+                            bg={PRIMARY}
+                            color="white"
+                            _hover={{ bg: "#d63e1a" }}
                             w="full"
                             mt={2}
                             isLoading={isLoading}
+                            rounded="xl"
                         >
-                            Register
+                            สมัครสมาชิก
                         </Button>
                     </VStack>
                 </form>
 
-                {/* Tips Section */}
-                <Box mt={6} p={4} bg="blue.50" rounded="lg" textAlign="center" fontSize="sm" color="gray.700">
-                    <Text>ใช้ข้อมูลจริงเพื่อการยืนยันตัวตน</Text>
+                {/* Tips */}
+                <Box
+                    mt={6}
+                    p={4}
+                    bg={useColorModeValue("orange.50", "gray.700")}
+                    rounded="lg"
+                    textAlign="center"
+                    fontSize="sm"
+                    color={textColor}
+                >
+                    <Text>กรุณาใช้ข้อมูลจริงเพื่อการยืนยันตัวตน</Text>
                     <Text>หลังสมัครสมาชิกสามารถเข้าสู่ระบบผ่านหน้า Login</Text>
                 </Box>
 
                 {/* Login Link */}
-                <Text textAlign="center" fontSize="sm" color="gray.600" mt={4}>
-                    Already have an account?{" "}
-                    <Text as="span" color="blue.600" fontWeight="medium" cursor="pointer" onClick={() => router.push("/login")}>
-                        Login here
+                <Text textAlign="center" fontSize="sm" color={textColor} mt={4}>
+                    มีบัญชีแล้ว?{" "}
+                    <Text
+                        as="span"
+                        color={PRIMARY}
+                        fontWeight="semibold"
+                        cursor="pointer"
+                        onClick={() => router.push("/login")}
+                    >
+                        เข้าสู่ระบบ
                     </Text>
                 </Text>
             </Box>
