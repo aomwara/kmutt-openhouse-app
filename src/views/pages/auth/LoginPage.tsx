@@ -43,7 +43,7 @@ const LoginPage = () => {
         })
 
         if (res?.error) {
-            setError("❌ Login failed: " + res.error)
+            setError("❌ Login failed: " + (res.error == "CredentialsSignin" ? "Invalid email or password" : res.error))
             setIsLoading(false)
             return
         }
