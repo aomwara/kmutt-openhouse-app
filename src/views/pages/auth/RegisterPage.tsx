@@ -19,8 +19,6 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 import { UserPlus } from "lucide-react"
-import Link from "next/link"
-import { ArrowBackIcon } from "@chakra-ui/icons"
 
 // KMUTT Colors
 const PRIMARY = "#F04E23"

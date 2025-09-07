@@ -12,9 +12,7 @@ import {
     Badge,
     VStack,
     HStack,
-    Divider,
 } from "@chakra-ui/react"
-import { FiCheckCircle, FiMapPin, FiClock } from "react-icons/fi"
 
 type CheckIn = {
     facultyName: string

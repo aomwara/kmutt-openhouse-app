@@ -13,13 +13,10 @@ import {
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState } from "react";
 import { LandingSections } from "./LandingSection";
-
-const MotionBox = motion(Box);
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
