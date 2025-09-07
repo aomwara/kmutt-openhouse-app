@@ -8,16 +8,18 @@ generator client {
 }
 
 model Students {
-  id            Int      @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   citizen_id    String
   first_name    String
   last_name     String
   school        String
   province      String
-  email         String   @unique
+  email         String       @unique
   phone         String
   password_hash String
-  created_at    DateTime @default(now())
+  created_at    DateTime     @default(now())
+  OAuthCode     OAuthCode[]
+  oAuthToken    oAuthToken[]
 }
 
 model Staffs {
@@ -85,4 +87,38 @@ model ActivityStaff {
   staff    Staffs     @relation(fields: [staffId], references: [id])
 
   @@id([activityId, staffId])
+}
+
+// OAuth2
+model OAuthClient {
+  id            Int         @id @default(autoincrement())
+  name          String
+  client_id     String      @unique
+  client_secret String
+  redirect_uris String
+  created_at    DateTime    @default(now())
+  codes         OAuthCode[]
+}
+
+model OAuthCode {
+  code       String   @id
+  studentId  Int
+  clientId   String
+  expires_at DateTime
+
+  student Students    @relation(fields: [studentId], references: [id])
+  client  OAuthClient @relation(fields: [clientId], references: [client_id])
+
+  created_at DateTime @default(now())
+}
+
+model oAuthToken {
+  id           Int      @id @default(autoincrement())
+  access_token String   @unique
+  studentId    Int
+  clientId     String
+  expires_at   DateTime
+
+  student    Students @relation(fields: [studentId], references: [id])
+  created_at DateTime @default(now())
 }

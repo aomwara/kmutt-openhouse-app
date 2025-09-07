@@ -153,6 +153,17 @@ export function RegisterPage() {
                         </SimpleGrid>
 
                         {/* เต็มบรรทัด */}
+                        <FormControl id="citizen_id" isRequired>
+                            <FormLabel>หมายเลขบัตรประชาชน</FormLabel>
+                            <Input
+                                type="text"
+                                value={form.citizen_id || ""}
+                                onChange={(e) => setForm({ ...form, citizen_id: e.target.value })}
+                                placeholder="หมายเลขบัตรประชาชน"
+                            />
+                        </FormControl>
+
+                        {/* เต็มบรรทัด */}
                         <FormControl id="email" isRequired>
                             <FormLabel>อีเมล</FormLabel>
                             <Input
