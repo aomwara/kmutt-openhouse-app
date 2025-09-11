@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <div class="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
             <h1 class="text-3xl font-bold text-center text-[var(--uni-red)] mb-2">Student Login</h1>
             <p class="text-center mb-6">KMUTT Openhouse OAuth2</p>
-            <form method="POST" class="space-y-5">
+            <form method="POST" action="/api/v1/oauth/authorize" class="space-y-5">
               <div>
                 <label class="block text-sm font-medium mb-1">Email</label>
                 <input type="email" name="email" placeholder="you@example.com" required
@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               </div>
 
               <input type="hidden" name="client_id" value="${client_id}" />
-              <input type="hidden" name="redirect_uri" value="${redirect_uri}" />
+              <input type="text" name="redirect_uri" value="${redirect_uri}" />
               <input type="hidden" name="state" value="${state}" />
 
               <button type="submit" class="w-full bg-[var(--uni-red)] text-white font-semibold py-2 rounded-lg hover:bg-[var(--uni-yellow)] hover:text-[var(--uni-red)] transition">
@@ -58,28 +58,49 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "POST") {
-    const { email, password, client_id, redirect_uri, state } = req.body;
+  console.log("auth post", req.body);
+  const { email, password, client_id, redirect_uri, state } = req.body;
 
-    // ตรวจสอบ student
-    const student = await prisma.students.findUnique({ where: { email } });
-    if (!student) return res.status(401).send("Invalid credentials");
-
-    const match = await compare(password, student.password_hash);
-    if (!match) return res.status(401).send("Invalid credentials");
-
-    // สร้าง authorization code
-    const code = Math.random().toString(36).substring(2, 15);
-
-    await prisma.oAuthCode.create({
-      data: {
-        code,
-        studentId: student.id,
-        clientId: client_id,
-        expires_at: new Date(Date.now() + 5 * 60 * 1000), // 5 นาที
-      },
-    });
-
-    // redirect กลับ client callback (GET)
-    return res.redirect(`${redirect_uri}?code=${code}&state=${state}`);
+  // ตรวจสอบ student
+  const student = await prisma.students.findUnique({ where: { email } });
+  if (!student) {
+    res.status(401).send("Invalid credentials");
+    return;
   }
+
+  const match = await compare(password, student.password_hash);
+  if (!match) {
+    res.status(401).send("Invalid credentials");
+    return;
+  }
+
+  // สร้าง authorization code
+  const code = Math.random().toString(36).substring(2, 15);
+
+  await prisma.oAuthCode.create({
+    data: {
+      code,
+      studentId: student.id,
+      clientId: client_id,
+      expires_at: new Date(Date.now() + 5 * 60 * 1000), // 5 นาที
+    },
+  });
+
+res.setHeader("Content-Type", "text/html");
+res.send(`
+  <html>
+    <body>
+      <script>
+        // redirect ไป client callback
+        window.location.href = "${redirect_uri}?code=${code}&state=${state}";
+      </script>
+      Redirecting...
+      <a href="${redirect_uri}?code=${code}&state=${state}">Click here if not redirected</a>
+    </body>
+  </html>
+`);
+return;
+
+}
+
 }
