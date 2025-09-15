@@ -18,19 +18,37 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req): Promise<User | null> {
         if (!credentials) return null;
         const { emailOrUsername, password } = credentials;
-        const student = await prisma.students.findUnique({ where: { email: emailOrUsername } });
-        const staff = await prisma.staffs.findUnique({ where: { username: emailOrUsername } });
-        const user = student || staff;
-        if (!user) return null;
-        const isValid = await bcrypt.compare(password, user.password_hash);
-        if (!isValid) return null;
+        if(emailOrUsername.startsWith(`KM_`)){
+          console.log("kmuser login")
+          console.log(emailOrUsername)
+          // KMUTT user role
+          const kmuser = await prisma.admins.findUnique({ where: { username: emailOrUsername } });
+          console.log(kmuser);
+           if (!kmuser) return null;
+          const isValid = await bcrypt.compare(password, kmuser.password_hash);
+          if (!isValid) return null;
+          return {
+              id: kmuser.id,
+              role: "kmuser",
+              name: kmuser.name,
+              email: kmuser.email
+          };
+          }else{
+            // normal role
+            const student = await prisma.students.findUnique({ where: { email: emailOrUsername } });
+            const staff = await prisma.staffs.findUnique({ where: { username: emailOrUsername } });
+            const user = student || staff 
+            if (!user) return null;
+            const isValid = await bcrypt.compare(password, user.password_hash);
+            if (!isValid) return null;
 
-        return {
-            id: user.id,
-            role: student ? "student" : "staff",
-            name: student ? `${student.first_name} ${student.last_name}` : staff!.name,
-            email: user.email
-        };
+            return {
+                id: user.id,
+                role: student ? "student" : "staff",
+                name: student ? `${student.first_name} ${student.last_name}` : staff!.name,
+                email: user.email
+            };
+          }
         }
     })
   ],
@@ -61,7 +79,7 @@ export const authOptions: NextAuthOptions = {
 
   async session({ session, token }) {
     session.user.id = token.id as number;
-    session.user.role = token.role as "student" | "staff";
+    session.user.role = token.role as "student" | "staff" | "kmuser";
     session.user.name = (token.name as string) ?? null;
     session.user.email = (token.email as string) ?? null;
 

@@ -20,11 +20,11 @@ import { ReactNode, useState } from "react";
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
 
-type StudentLayoutProps = {
-    children: ReactNode
+type KMLayoutProps = {
+    children: ReactNode;
 }
 
-export default function StudentLayout({ children }: StudentLayoutProps) {
+export default function KMLayout({ children }: KMLayoutProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -70,7 +70,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                             <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
                             <Link href="/" aria-label="KMUTT Open House">
                                 <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
-                                    KMUTT Open House
+                                    KM Account
                                 </Text>
                             </Link>
                         </HStack>

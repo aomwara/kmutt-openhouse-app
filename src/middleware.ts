@@ -16,6 +16,12 @@ export default withAuth(
         return NextResponse.redirect(new URL("/login", req.url));
       }
     }
+
+    if (req.nextUrl.pathname.startsWith("/_km")) {
+      if (token?.role !== "kmuser") {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+    }
   },
   {
     callbacks: {
@@ -25,5 +31,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/app/:path*", "/staff/:path*"],
+  matcher: ["/app/:path*", "/staff/:path*", "/_km/:path*"],
 };

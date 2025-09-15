@@ -3,7 +3,7 @@ import { DefaultSession, DefaultUser } from "next-auth";
 declare module "next-auth" {
   interface User extends DefaultUser {
     id: number;
-    role: "student" | "staff";
+    role: "student" | "staff" | "kmuser";
   }
 
   interface Session {

@@ -9,6 +9,7 @@ CREATE TABLE `Students` (
     `email` VARCHAR(191) NOT NULL,
     `phone` VARCHAR(191) NOT NULL,
     `password_hash` VARCHAR(191) NOT NULL,
+    `role` VARCHAR(191) NOT NULL DEFAULT 'student',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `Students_email_key`(`email`),
@@ -39,6 +40,20 @@ CREATE TABLE `APIUsers` (
 
     UNIQUE INDEX `APIUsers_username_key`(`username`),
     UNIQUE INDEX `APIUsers_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Admins` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(191) NOT NULL,
+    `password_hash` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    UNIQUE INDEX `Admins_username_key`(`username`),
+    UNIQUE INDEX `Admins_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -109,6 +124,19 @@ CREATE TABLE `OAuthCode` (
     PRIMARY KEY (`code`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `oAuthToken` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `access_token` VARCHAR(191) NOT NULL,
+    `studentId` INTEGER NOT NULL,
+    `clientId` VARCHAR(191) NOT NULL,
+    `expires_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    UNIQUE INDEX `oAuthToken_access_token_key`(`access_token`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Department` ADD CONSTRAINT `Department_facultyId_fkey` FOREIGN KEY (`facultyId`) REFERENCES `Faculty`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -126,3 +154,6 @@ ALTER TABLE `OAuthCode` ADD CONSTRAINT `OAuthCode_studentId_fkey` FOREIGN KEY (`
 
 -- AddForeignKey
 ALTER TABLE `OAuthCode` ADD CONSTRAINT `OAuthCode_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `OAuthClient`(`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `oAuthToken` ADD CONSTRAINT `oAuthToken_studentId_fkey` FOREIGN KEY (`studentId`) REFERENCES `Students`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

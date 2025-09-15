@@ -55,6 +55,8 @@ const LoginPage = () => {
             router.push("/app/dashboard")
         } else if (session?.user?.role === "staff") {
             router.push("/staff/dashboard")
+        } else if (session?.user?.role === "kmuser") {
+            router.push("/_km/dashboard")
         } else {
             router.push("/")
         }

@@ -4,7 +4,7 @@ import type { JWT } from "next-auth";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
-export type Role = "student" | "staff" | "admin";
+export type Role = "student" | "staff" | "admin" | "kmuser";
 
 export interface AuthenticatedRequest extends NextApiRequest {
   user: {
