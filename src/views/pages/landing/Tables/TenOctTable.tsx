@@ -11,6 +11,7 @@ import {
     AccordionIcon,
     Box,
     AccordionPanel,
+    TableContainer,
 } from "@chakra-ui/react";
 
 const TenOctTable = () => {
@@ -25,74 +26,75 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>8:30 น. - 9:00 น.</Td>
-                                <Td>ลงทะเบียน</Td>
-                                <Td>Centre Hub ชั้น 1 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:00 น. - 10:30 น.</Td>
-                                <Td>
-                                    พิธีเปิดกิจกรรม โดย รศ. ดร.สุวิทย์ แซ่เตีย อธิการบดี
-                                    และกิจกรรมนำชมบูธของแต่ละคณะ
-                                </Td>
-                                <Td>ด้านหน้าศาลาวีรชน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>10:30 น. - 12:00 น.</Td>
-                                <Td>
-                                    “เสวนา Journey of Discovery: Lessons from Inspiration”<br />
-                                    เส้นทางแห่งการค้นพบ: บทเรียนจากแรงบันดาลใจ<br />
-                                    โดย รศ. ดร.กุลธิดา ธรรมวิภัชน์
-                                    คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี
-                                </Td>
-                                <Td>ห้อง Auditorium ชั้น 3 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:00 น. - 18:00 น.</Td>
-                                <Td>
-                                    School Music Contest<br />
-                                    การแข่งขันวงดนตรีของโรงเรียนระดับมัธยม
-                                </Td>
-                                <Td>เวทีกิจกรรมกลาง ชั้น 1 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td colSpan={3} textAlign="center" fontWeight="bold">
-                                    ตลาดของกิน & ของทำมือ · Workshop สนุกๆ · กิจกรรมสันทนาการ · ดนตรีสด · หนังกลางแปลง
-                                </Td>
-                            </Tr>
-                            <Tr>
-                                <Td>8:30 น. - 16:00 น.</Td>
-                                <Td>
-                                    “ก๊าบก๊าบมาร์เกต สาขา FIET”<br />
-                                    - ตลาดนัดและซุ้มกิจกรรมนักศึกษา ทั้ง 7 สาขาวิชา<br />
-                                    - FIET Folksong Contest 2025<br />
-                                    - FIET Cover Dance Contest 2025<br />
-                                    - การประกวดชุดรีไซเคิล Theme: “Colorful FIET VIBES 2025”
-                                </Td>
-                                <Td>อาคาร S13</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>18:00 น. - 21:00 น.</Td>
-                                <Td>
-                                    “ก๊าบก๊าบมาร์เกต สาขาหลัก” เดินเล่นตลาดคราฟต์ พักเติมพลัง
-                                    มุมอาหาร &amp; เครื่องดื่ม<br />
-                                    และ “ก๊าบไนท์” หนังกลางแปลงชวนดูด้วยกัน
-                                </Td>
-                                <Td>บริเวณโดยรอบ ชั้น 1 อาคาร LX</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
-
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>8:30 น. - 9:00 น.</Td>
+                                    <Td>ลงทะเบียน</Td>
+                                    <Td>Centre Hub ชั้น 1 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:00 น. - 10:30 น.</Td>
+                                    <Td>
+                                        พิธีเปิดกิจกรรม โดย รศ. ดร.สุวิทย์ แซ่เตีย อธิการบดี
+                                        และกิจกรรมนำชมบูธของแต่ละคณะ
+                                    </Td>
+                                    <Td>ด้านหน้าศาลาวีรชน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:30 น. - 12:00 น.</Td>
+                                    <Td>
+                                        “เสวนา Journey of Discovery: Lessons from Inspiration”<br />
+                                        เส้นทางแห่งการค้นพบ: บทเรียนจากแรงบันดาลใจ<br />
+                                        โดย รศ. ดร.กุลธิดา ธรรมวิภัชน์
+                                        คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี
+                                    </Td>
+                                    <Td>ห้อง Auditorium ชั้น 3 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 น. - 18:00 น.</Td>
+                                    <Td>
+                                        School Music Contest<br />
+                                        การแข่งขันวงดนตรีของโรงเรียนระดับมัธยม
+                                    </Td>
+                                    <Td>เวทีกิจกรรมกลาง ชั้น 1 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td colSpan={3} textAlign="center" fontWeight="bold">
+                                        ตลาดของกิน & ของทำมือ · Workshop สนุกๆ · กิจกรรมสันทนาการ · ดนตรีสด · หนังกลางแปลง
+                                    </Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>8:30 น. - 16:00 น.</Td>
+                                    <Td>
+                                        “ก๊าบก๊าบมาร์เกต สาขา FIET”<br />
+                                        - ตลาดนัดและซุ้มกิจกรรมนักศึกษา ทั้ง 7 สาขาวิชา<br />
+                                        - FIET Folksong Contest 2025<br />
+                                        - FIET Cover Dance Contest 2025<br />
+                                        - การประกวดชุดรีไซเคิล Theme: “Colorful FIET VIBES 2025”
+                                    </Td>
+                                    <Td>อาคาร S13</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>18:00 น. - 21:00 น.</Td>
+                                    <Td>
+                                        “ก๊าบก๊าบมาร์เกต สาขาหลัก” เดินเล่นตลาดคราฟต์ พักเติมพลัง
+                                        มุมอาหาร &amp; เครื่องดื่ม<br />
+                                        และ “ก๊าบไนท์” หนังกลางแปลงชวนดูด้วยกัน
+                                    </Td>
+                                    <Td>บริเวณโดยรอบ ชั้น 1 อาคาร LX</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -105,37 +107,39 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>8:30 – 16:00</Td>
-                                <Td>การแข่งขันนวัตกรรมสิ่งประดิษฐ์ (Science & Technology Idea Contest)</Td>
-                                <Td>อาคารพระจอมเกล้าราชานุสรณ์ 190 ปี</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:00 – 16:00</Td>
-                                <Td>Engineering Open House 2025 · Workshop · พี่พาน้องทัวร์</Td>
-                                <Td>อาคาร S4, S11, S12, S15</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:30 – 12:00</Td>
-                                <Td>กิจกรรมแนะแนวผู้ปกครอง</Td>
-                                <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:00 – 17:00</Td>
-                                <Td>กิจกรรมโต๊ะให้คำปรึกษาจากรุ่นพี่</Td>
-                                <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>8:30 – 16:00</Td>
+                                    <Td>การแข่งขันนวัตกรรมสิ่งประดิษฐ์ (Science & Technology Idea Contest)</Td>
+                                    <Td>อาคารพระจอมเกล้าราชานุสรณ์ 190 ปี</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:00 – 16:00</Td>
+                                    <Td>Engineering Open House 2025 · Workshop · พี่พาน้องทัวร์</Td>
+                                    <Td>อาคาร S4, S11, S12, S15</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:30 – 12:00</Td>
+                                    <Td>กิจกรรมแนะแนวผู้ปกครอง</Td>
+                                    <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 – 17:00</Td>
+                                    <Td>กิจกรรมโต๊ะให้คำปรึกษาจากรุ่นพี่</Td>
+                                    <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -148,33 +152,35 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>9:00 – 16:00</Td>
-                                <Td>“FIET LAND ดินแดนแห่งการเรียนรู้” (Workshop 7 สาขาวิชา)</Td>
-                                <Td>อาคาร S13</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:30 – 16:00</Td>
-                                <Td>
-                                    การแข่งขันเทคนิคการถ่ายทอดความรู้
-                                    นวัตกรรม สิ่งประดิษฐ์ทางด้านวิทยาศาสตร์และเทคโนโลยี
-                                </Td>
-                                <Td>
-                                    Smart classroom ชั้น 2, ห้องคอมพิวเตอร์ CB30612 ชั้น 6,
-                                    โถงชั้น 1 คณะครุศาสตร์ฯ
-                                </Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 – 16:00</Td>
+                                    <Td>“FIET LAND ดินแดนแห่งการเรียนรู้” (Workshop 7 สาขาวิชา)</Td>
+                                    <Td>อาคาร S13</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:30 – 16:00</Td>
+                                    <Td>
+                                        การแข่งขันเทคนิคการถ่ายทอดความรู้
+                                        นวัตกรรม สิ่งประดิษฐ์ทางด้านวิทยาศาสตร์และเทคโนโลยี
+                                    </Td>
+                                    <Td>
+                                        Smart classroom ชั้น 2, ห้องคอมพิวเตอร์ CB30612 ชั้น 6,
+                                        โถงชั้น 1 คณะครุศาสตร์ฯ
+                                    </Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -187,53 +193,55 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>9:00 – 16:00</Td>
-                                <Td>SoA+D Exhibition</Td>
-                                <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>PICKNIC BAZAAR</Td>
-                                <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:00 – 16:00</Td>
-                                <Td>DIY Creative Workshops</Td>
-                                <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:00 – 16:00</Td>
-                                <Td>Portfolio Clinic</Td>
-                                <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:30 – 14:30</Td>
-                                <Td>
-                                    Mock Classroom (5 Programs: Architecture, Interior, Landscape,
-                                    Design Innovation, Communication Design)
-                                </Td>
-                                <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:30 – 15:30</Td>
-                                <Td>
-                                    Entrepreneurship Workshop from MIDI
-                                    (Multiple Intelligences for Design Integration Program)
-                                </Td>
-                                <Td>คณะศิลปศาสตร์ ชั้น 1 อาคาร N15 มจธ. บางมด</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 – 16:00</Td>
+                                    <Td>SoA+D Exhibition</Td>
+                                    <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>PICKNIC BAZAAR</Td>
+                                    <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 – 16:00</Td>
+                                    <Td>DIY Creative Workshops</Td>
+                                    <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 – 16:00</Td>
+                                    <Td>Portfolio Clinic</Td>
+                                    <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:30 – 14:30</Td>
+                                    <Td>
+                                        Mock Classroom (5 Programs: Architecture, Interior, Landscape,
+                                        Design Innovation, Communication Design)
+                                    </Td>
+                                    <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:30 – 15:30</Td>
+                                    <Td>
+                                        Entrepreneurship Workshop from MIDI
+                                        (Multiple Intelligences for Design Integration Program)
+                                    </Td>
+                                    <Td>คณะศิลปศาสตร์ ชั้น 1 อาคาร N15 มจธ. บางมด</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -246,39 +254,41 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>9:00 – 12:00</Td>
-                                <Td>Workshop I: Computer Vision with Deep Learning</Td>
-                                <Td>ห้อง 10/3 ชั้น 10 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:00 – 12:00</Td>
-                                <Td>
-                                    Workshop II: พลิกโฉมการวิเคราะห์ข้อมูลอนาคตด้วย Power BI และ AI Agents
-                                </Td>
-                                <Td>ห้อง 10/4 และ 10/5 ชั้น 10 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>9:30 – 16:00</Td>
-                                <Td>Digital Technology Aptitude Test</Td>
-                                <Td>ห้อง 10/1–10/2 และ 10/5 ชั้น 10 อาคาร LX</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>13:30 – 16:00</Td>
-                                <Td>SIT Talk / Tech Talk / Alumni Talk</Td>
-                                <Td>Auditorium ชั้น 3 อาคาร LX</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 – 12:00</Td>
+                                    <Td>Workshop I: Computer Vision with Deep Learning</Td>
+                                    <Td>ห้อง 10/3 ชั้น 10 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:00 – 12:00</Td>
+                                    <Td>
+                                        Workshop II: พลิกโฉมการวิเคราะห์ข้อมูลอนาคตด้วย Power BI และ AI Agents
+                                    </Td>
+                                    <Td>ห้อง 10/4 และ 10/5 ชั้น 10 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>9:30 – 16:00</Td>
+                                    <Td>Digital Technology Aptitude Test</Td>
+                                    <Td>ห้อง 10/1–10/2 และ 10/5 ชั้น 10 อาคาร LX</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:30 – 16:00</Td>
+                                    <Td>SIT Talk / Tech Talk / Alumni Talk</Td>
+                                    <Td>Auditorium ชั้น 3 อาคาร LX</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -291,22 +301,24 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>SoLA So Cool: ก้าวสู่พลเมืองโลกอย่างเข้มแข็ง</Td>
-                                <Td>ชั้น 1 อาคาร N15</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>SoLA So Cool: ก้าวสู่พลเมืองโลกอย่างเข้มแข็ง</Td>
+                                    <Td>ชั้น 1 อาคาร N15</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -319,22 +331,24 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>9:00 – 16:00</Td>
-                                <Td>กิจกรรม “แชะ แชร์ เช็คอิน”</Td>
-                                <Td>GMI ชั้น 1 อาคาร N19</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 – 16:00</Td>
+                                    <Td>กิจกรรม “แชะ แชร์ เช็คอิน”</Td>
+                                    <Td>GMI ชั้น 1 อาคาร N19</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -347,37 +361,39 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>FIBO Tour</Td>
-                                <Td>อาคาร N9</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>Portfolio Clinic</Td>
-                                <Td>อาคาร N9</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>FIBO Workshop</Td>
-                                <Td>อาคาร N9</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>10:00 – 16:00</Td>
-                                <Td>Showcase Technology (ผลงานนวัตกรรมและวิจัย)</Td>
-                                <Td>อาคาร N9</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>FIBO Tour</Td>
+                                    <Td>อาคาร N9</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>Portfolio Clinic</Td>
+                                    <Td>อาคาร N9</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>FIBO Workshop</Td>
+                                    <Td>อาคาร N9</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 – 16:00</Td>
+                                    <Td>Showcase Technology (ผลงานนวัตกรรมและวิจัย)</Td>
+                                    <Td>อาคาร N9</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
 
@@ -390,25 +406,27 @@ const TenOctTable = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <Table size="sm">
-                        <Thead>
-                            <Tr>
-                                <Th>เวลา</Th>
-                                <Th>กิจกรรม</Th>
-                                <Th>สถานที่</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>9:00 – 15:00</Td>
-                                <Td>
-                                    Creative Media Open House: Workshop Unity · Drawing · Paint Your Pouch
-                                    Alumni Talk: Tanpopoe Talk, พี่นนท์
-                                </Td>
-                                <Td>อาคาร A1 เทคโนโลยีและศิลปประยุกต์ มจธ. บางขุนเทียน</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <TableContainer>
+                        <Table size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th>เวลา</Th>
+                                    <Th>กิจกรรม</Th>
+                                    <Th>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 – 15:00</Td>
+                                    <Td>
+                                        Creative Media Open House: Workshop Unity · Drawing · Paint Your Pouch
+                                        Alumni Talk: Tanpopoe Talk, พี่นนท์
+                                    </Td>
+                                    <Td>อาคาร A1 เทคโนโลยีและศิลปประยุกต์ มจธ. บางขุนเทียน</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </AccordionPanel>
             </AccordionItem >
         </Accordion >

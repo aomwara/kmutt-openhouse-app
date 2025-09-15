@@ -35,7 +35,7 @@ const LandingPage = () => {
     return (
         <Box minH="100vh" bg={useColorModeValue("white", "gray.900")} color={textColor}>
             {/* ===== NAVBAR ===== */}
-            <Box as="header" position="sticky" top="0" zIndex="50" w="full" px={4}>
+            <Box as="header" position="sticky" top="0" zIndex="50" w="full" px={0}>
                 <Container maxW="7xl" py={4}>
                     <Flex
                         bg={navBg}
@@ -54,7 +54,7 @@ const LandingPage = () => {
 
                             <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
                             <Link href="/" aria-label="KMUTT Open House">
-                                <Text fontWeight="bold" color={PRIMARY}>
+                                <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
                                     KMUTT Open House
                                 </Text>
                             </Link>
@@ -161,8 +161,9 @@ const LandingPage = () => {
 
             {/* ===== HERO ===== */}
             <Flex
+                mt={"-20vh"}
                 as="section"
-                minH="90vh"
+                minH="110vh"
                 align="center"
                 justify="center"
                 overflow="hidden"
@@ -180,14 +181,14 @@ const LandingPage = () => {
                     </svg>
                 </Box>
 
-                <VStack zIndex={1} textAlign="center" spacing={6} px={6} maxW="3xl">
-                    <Heading size="3xl" fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
+                <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="3xl">
+                    <Heading size={{ base: "lg", md: "3xl" }} fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
                         <Text as="span" color={PRIMARY}>
                             KMUTT OPEN HOUSE 2025:
                         </Text> {" "}
                         JOURNEY OF DISCOVERY
                     </Heading>
-                    <Text fontSize={{ base: "lg", md: "lg" }} color={textColor}>
+                    <Text px={6} fontSize={{ base: "md", md: "lg" }} color={textColor}>
                         วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
                         ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
                     </Text>
@@ -195,7 +196,7 @@ const LandingPage = () => {
                         <Button
                             as={Link}
                             href="#schedule"
-                            size="lg"
+                            size={{ base: "md", md: "lg" }}
                             bg={PRIMARY}
                             _hover={{ bg: "#d6451f" }}
                             color="white"
@@ -207,7 +208,7 @@ const LandingPage = () => {
                         <Button
                             as={Link}
                             href="/register"
-                            size="lg"
+                            size={{ base: "md", md: "lg" }}
                             variant="outline"
                             borderColor={PRIMARY}
                             color={PRIMARY}

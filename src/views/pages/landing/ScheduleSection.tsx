@@ -5,17 +5,7 @@ import {
     TabList,
     TabPanel,
     TabPanels,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
+    Text,
     Heading,
     VStack,
 } from "@chakra-ui/react";
@@ -37,9 +27,24 @@ const ScheduleSection = () => {
 
             <Tabs variant="enclosed" colorScheme="orange" isFitted>
                 <TabList>
-                    <Tab>10 ตุลาคม 2568</Tab>
-                    <Tab>11 ตุลาคม 2568</Tab>
-                    <Tab>12 ตุลาคม 2568</Tab>
+                    <Tab>
+                        <Text>
+                            <Text display={{ base: "inline", md: "none" }}>10 ต.ค.</Text>
+                            <Text display={{ base: "none", md: "inline" }}>10 ตุลาคม 2568</Text>
+                        </Text>
+                    </Tab>
+                    <Tab>
+                        <Text>
+                            <Text display={{ base: "inline", md: "none" }}>11 ต.ค.</Text>
+                            <Text display={{ base: "none", md: "inline" }}>11 ตุลาคม 2568</Text>
+                        </Text>
+                    </Tab>
+                    <Tab>
+                        <Text>
+                            <Text display={{ base: "inline", md: "none" }}>12 ต.ค.</Text>
+                            <Text display={{ base: "none", md: "inline" }}>12 ตุลาคม 2568</Text>
+                        </Text>
+                    </Tab>
                 </TabList>
 
                 <TabPanels>
