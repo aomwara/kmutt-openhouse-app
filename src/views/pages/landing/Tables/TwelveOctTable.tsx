@@ -395,8 +395,6 @@ const TweleveOctTable = () => {
                     </Table>
                 </AccordionPanel>
             </AccordionItem>
-
-
         </Accordion >
     );
 };

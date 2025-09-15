@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import TenOctTable from "./Tables/TenOctTable";
 import ElevenOctTable from "./Tables/ElevenOctTable";
+import TweleveOctTable from "./Tables/TwelveOctTable";
 
 const ScheduleSection = () => {
     return (
@@ -55,9 +56,7 @@ const ScheduleSection = () => {
 
                     {/* ---------------- วันที่ 12 ---------------- */}
                     <TabPanel>
-                        <Heading size="md" textAlign="center" color="gray.500">
-                            (จะเพิ่มข้อมูลกิจกรรมวันที่ 12 ได้ที่นี่)
-                        </Heading>
+                        <TweleveOctTable />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
