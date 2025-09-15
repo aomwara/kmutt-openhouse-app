@@ -19,6 +19,7 @@ import { useState } from "react";
 import { LandingSections } from "./LandingSection";
 import { ScheduleSection } from "./ScheduleSection";
 import BoothSection from "./BoothSection";
+import MapSection from "./MapSection";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -224,6 +225,7 @@ const LandingPage = () => {
             {/* ===== SCHEDULE ===== */}
             <ScheduleSection />
             <BoothSection />
+            <MapSection />
             {/* ===== OTHER SECTIONS ===== */}
             <LandingSections />
 
