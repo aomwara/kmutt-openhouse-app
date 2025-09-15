@@ -1,4 +1,5 @@
-import { Box, Heading, SimpleGrid, Text, VStack, Stack, Badge, useColorModeValue } from "@chakra-ui/react";
+import { Container, Box, Heading, SimpleGrid, Text, VStack, Stack, Badge, useColorModeValue } from "@chakra-ui/react";
+
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -54,6 +55,7 @@ const BoothSection = () => {
             location: "A5 – อาคารสำนักหอสมุด (N10)",
             units: ["บูธกิจกรรมสำนักหอสมุด", "คณะวิศวกรรมศาสตร์", "คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี"],
         },
+
     ];
 
     return (
@@ -65,35 +67,39 @@ const BoothSection = () => {
                 <Text fontSize={{ base: "sm", md: "md" }} color={textColor} maxW="700px">
                     พบกับข้อมูลหลักสูตร ปริญญาตรี-โท-เอก แนะนำทุนการศึกษา และกิจกรรม Portfolio Clinic
                 </Text>
-                <Badge bg={badgeBg} color={badgeText} px={4} py={1} fontSize="0.9rem">
+                <Badge bg={badgeBg} color={badgeText} px={4} py={1} fontSize="1.2rem">
                     วันที่ 10 – 12 ตุลาคม 2568 | 08:30 – 16:30 น.
                 </Badge>
             </VStack>
-
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-                {boothData.map((booth, index) => (
-                    <Box
-                        key={index}
-                        p={{ base: 4, md: 6 }}
-                        bg={bgCard}
-                        borderRadius="lg"
-                        borderLeft={`6px solid ${PRIMARY}`}
-                        shadow="sm"
-                        _hover={{ shadow: "md", transform: "translateY(-2px)", transition: "0.2s" }}
-                    >
-                        <Heading size="md" mb={3} color={PRIMARY} lineHeight="short">
-                            {booth.location}
-                        </Heading>
-                        <Stack spacing={1.5}>
-                            {booth.units.map((unit, i) => (
-                                <Text key={i} fontSize={{ base: "sm", md: "sm" }} color={textColor}>
-                                    • {unit}
-                                </Text>
-                            ))}
-                        </Stack>
-                    </Box>
-                ))}
-            </SimpleGrid>
+            <Container maxW="7xl" centerContent>
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+                    {boothData.map((booth, index) => (
+                        <Box
+                            maxH={"270px"}
+                            overflow={"auto"}
+                            key={index}
+                            p={{ base: 4, md: 6 }}
+                            bg={bgCard}
+                            borderRadius="lg"
+                            borderLeft={`6px solid ${PRIMARY}`}
+                            shadow="sm"
+                            _hover={{ shadow: "md", transform: "translateY(-2px)", transition: "0.2s" }}
+                        >
+                            <Heading size="md" mb={3} color={PRIMARY} lineHeight="short">
+                                {booth.location}
+                            </Heading>
+                            <Stack spacing={-2}>
+                                {booth.units.map((unit, i) => (
+                                    <Text key={i} fontSize={{ base: "sm", md: "sm" }} color={textColor}>
+                                        • {unit}
+                                    </Text>
+                                ))}
+                            </Stack>
+                        </Box>
+                    ))
+                    }
+                </SimpleGrid >
+            </Container>
         </Box>
     );
 };
