@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { Users, QrCode, BarChart3, GraduationCap } from "lucide-react";
 import Link from "next/link";
+import BoothSection from "./BoothSection";
 
 // KMUTT Colors
 const PRIMARY = "#F04E23"; // Orange Red
@@ -24,9 +25,10 @@ export function LandingSections() {
     const borderColor = useColorModeValue("orange.100", "gray.700");
 
     return (
+
         <>
             {/* ===== HOW IT WORKS ===== */}
-            <Box as="section" id="how" py={20} px={6}>
+            {/* <Box as="section" id="how" py={20} px={6}>
                 <Container maxW="7xl" textAlign="center">
                     <Heading size="2xl" mb={4}>
                         เริ่มต้นใช้งานใน 4 ขั้นตอน
@@ -69,13 +71,13 @@ export function LandingSections() {
                         ))}
                     </SimpleGrid>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* ===== FEATURES ===== */}
-            <Box as="section" id="features" py={20} px={6} bg={useColorModeValue("orange.50", "gray.900")}>
+            {/* <Box as="section" id="features" py={20} px={6} bg={useColorModeValue("orange.50", "gray.900")}>
                 <Container maxW="7xl">
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={12} alignItems="center">
-                        {/* Text */}
+                      
                         <VStack align="start" spacing={6}>
                             <Heading size="2xl">ฟีเจอร์เด่นที่ทีมงานรัก ผู้ใช้ชอบ</Heading>
                             <VStack align="start" spacing={4}>
@@ -111,7 +113,7 @@ export function LandingSections() {
                             </VStack>
                         </VStack>
 
-                        {/* Image Mockup */}
+            
                         <Box
                             position="relative"
                             rounded="3xl"
@@ -134,10 +136,10 @@ export function LandingSections() {
                         </Box>
                     </SimpleGrid>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* ===== STATS ===== */}
-            <Box as="section" id="stats" py={20} px={6}>
+            {/* <Box as="section" id="stats" py={20} px={6}>
                 <Container maxW="6xl" textAlign="center">
                     <Heading size="2xl">ตัวเลขที่บอกคุณภาพ</Heading>
                     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} mt={12}>
@@ -163,10 +165,10 @@ export function LandingSections() {
                         ))}
                     </SimpleGrid>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* ===== TESTIMONIALS ===== */}
-            <Box as="section" id="testimonials" py={20} px={6} bg={useColorModeValue("orange.50", "gray.800")}>
+            {/* <Box as="section" id="testimonials" py={20} px={6} bg={useColorModeValue("orange.50", "gray.800")}>
                 <Container maxW="6xl" textAlign="center">
                     <Heading size="2xl">เสียงจากผู้ใช้</Heading>
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} mt={12}>
@@ -203,7 +205,7 @@ export function LandingSections() {
                         ))}
                     </SimpleGrid>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* ===== FOOTER ===== */}
             <Box as="footer" py={10} px={6} bg={useColorModeValue("gray.900", "black")} color="gray.400">

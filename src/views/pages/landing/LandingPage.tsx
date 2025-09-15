@@ -17,6 +17,8 @@ import Link from "next/link";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState } from "react";
 import { LandingSections } from "./LandingSection";
+import { ScheduleSection } from "./ScheduleSection";
+import BoothSection from "./BoothSection";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -49,10 +51,13 @@ const LandingPage = () => {
                     >
                         {/* Logo */}
                         <HStack spacing={3}>
+
                             <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
-                            <Text fontWeight="bold" color={PRIMARY}>
-                                KMUTT Passport
-                            </Text>
+                            <Link href="/" aria-label="KMUTT Open House">
+                                <Text fontWeight="bold" color={PRIMARY}>
+                                    KMUTT Open House
+                                </Text>
+                            </Link>
                         </HStack>
 
                         {/* Desktop nav */}
@@ -63,7 +68,8 @@ const LandingPage = () => {
                             fontSize="sm"
                             fontWeight="medium"
                         >
-                            <Link href="#how">วิธีใช้งาน</Link>
+                            {/* <Link href="#how">วิธีใช้งาน</Link> */}
+                            <Link href="#schedule">กำหนดการ</Link>
                             <Link href="#features">ฟีเจอร์</Link>
                             <Link href="#stats">สถิติ</Link>
                             <Link href="#testimonials">เสียงจากผู้ใช้</Link>
@@ -80,7 +86,7 @@ const LandingPage = () => {
                             />
 
                             {/* Desktop login */}
-                            <Box display={{ base: "none", md: "block" }}>
+                            {/* <Box display={{ base: "none", md: "block" }}>
                                 <Button
                                     as={Link}
                                     href="/login"
@@ -91,7 +97,9 @@ const LandingPage = () => {
                                 >
                                     เข้าสู่ระบบ
                                 </Button>
-                            </Box>
+                            </Box> */}
+
+
 
                             {/* Mobile Hamburger */}
                             <Box display={{ base: "block", md: "none" }}>
@@ -119,8 +127,11 @@ const LandingPage = () => {
                             py={4}
                         >
                             <VStack align="stretch" spacing={4}>
-                                <Link href="#how" onClick={() => setMenuOpen(false)}>
+                                {/* <Link href="#how" onClick={() => setMenuOpen(false)}>
                                     วิธีใช้งาน
+                                </Link> */}
+                                <Link href="#schedule" onClick={() => setMenuOpen(false)}>
+                                    กำหนดการ
                                 </Link>
                                 <Link href="#features" onClick={() => setMenuOpen(false)}>
                                     ฟีเจอร์
@@ -151,7 +162,7 @@ const LandingPage = () => {
             {/* ===== HERO ===== */}
             <Flex
                 as="section"
-                minH="100vh"
+                minH="90vh"
                 align="center"
                 justify="center"
                 overflow="hidden"
@@ -170,19 +181,20 @@ const LandingPage = () => {
                 </Box>
 
                 <VStack zIndex={1} textAlign="center" spacing={6} px={6} maxW="3xl">
-                    <Heading size="3xl" fontWeight="extrabold" color={textColor}>
-                        KMUTT Passport{" "}
+                    <Heading size="3xl" fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
                         <Text as="span" color={PRIMARY}>
-                            Open House 2025
-                        </Text>
+                            KMUTT OPEN HOUSE 2025:
+                        </Text> {" "}
+                        JOURNEY OF DISCOVERY
                     </Heading>
-                    <Text fontSize={{ base: "lg", md: "xl" }} color={textColor}>
-                        พาสปอร์ตดิจิทัลที่จะพาคุณทัวร์ทุกคณะ ทุกกิจกรรม และค้นหาแรงบันดาลใจที่ มจธ.
+                    <Text fontSize={{ base: "lg", md: "lg" }} color={textColor}>
+                        วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
+                        ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
                     </Text>
                     <HStack spacing={4} pt={4}>
                         <Button
                             as={Link}
-                            href="/login"
+                            href="#schedule"
                             size="lg"
                             bg={PRIMARY}
                             _hover={{ bg: "#d6451f" }}
@@ -190,7 +202,7 @@ const LandingPage = () => {
                             rounded="xl"
                             px={8}
                         >
-                            เริ่มใช้งาน Passport
+                            กำหนดการกิจกรรม
                         </Button>
                         <Button
                             as={Link}
@@ -203,16 +215,19 @@ const LandingPage = () => {
                             rounded="xl"
                             px={8}
                         >
-                            สมัครสมาชิก
+                            ลงทะเบียน
                         </Button>
                     </HStack>
                 </VStack>
             </Flex>
-
+            {/* ===== SCHEDULE ===== */}
+            <ScheduleSection />
+            <BoothSection />
+            {/* ===== OTHER SECTIONS ===== */}
             <LandingSections />
+
         </Box>
     );
-}
-
+};
 
 export { LandingPage }
