@@ -206,7 +206,7 @@ const LandingPage = () => {
                         >
                             กำหนดการกิจกรรม
                         </Button>
-                        <Button
+                        {/* <Button
                             as={Link}
                             href="/register"
                             size={{ base: "md", md: "lg" }}
@@ -218,7 +218,7 @@ const LandingPage = () => {
                             px={8}
                         >
                             ลงทะเบียน
-                        </Button>
+                        </Button> */}
                     </HStack>
                 </VStack>
             </Flex>
