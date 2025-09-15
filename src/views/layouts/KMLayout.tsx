@@ -68,9 +68,9 @@ export default function KMLayout({ children }: KMLayoutProps) {
                         {/* Logo */}
                         <HStack spacing={3}>
                             <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
-                            <Link href="/" aria-label="KMUTT Open House">
+                            <Link href="/_km/dashboard" aria-label="KMUTT Open House">
                                 <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
-                                    KM Account
+                                    Back Office
                                 </Text>
                             </Link>
                         </HStack>
