@@ -72,6 +72,9 @@ const theme = extendTheme({
       800: "#6B1401",
       900: "#490D00",
     },
+    kmutt:{
+      100: "#F04E23",
+    },
     grayScale: {
       50: "#EDF2F7",
       100: "#D6DCE3",

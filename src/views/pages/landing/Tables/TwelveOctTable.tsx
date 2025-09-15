@@ -34,9 +34,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -71,7 +71,7 @@ const TweleveOctTable = () => {
                                     <Td>KMUTT STADIUM</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td colSpan={3} textAlign="center" fontWeight="bold">
+                                    <Td fontSize={"sm"} color={"kmutt.100"} colSpan={3} textAlign="center" fontWeight="bold">
                                         ตลาดของกิน & ของทำมือ · Workshop สนุกๆ · กิจกรรมสันทนาการ · ดนตรีสด · หนังกลางแปลง
                                     </Td>
                                 </Tr>
@@ -93,15 +93,15 @@ const TweleveOctTable = () => {
                     <TableContainer>
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Tr>
-                                <Td colSpan={3} textAlign="center" fontWeight="bold">
+                                <Td fontSize={"sm"} color={"kmutt.100"} colSpan={3} textAlign="center" fontWeight="bold">
                                     บูธแนะนำหลักสูตรจากทุกคณะและหน่วยงานบริการการศึกษา  เวลา 08:30 – 16:30 น.
                                 </Td>
                             </Tr>
                             <Tr>
-                                <Td fontWeight={"bold"} textAlign="center">
+                                <Td fontSize={"sm"} color={"kmutt.100"} fontWeight={"bold"} textAlign="center">
                                     สถานที่
                                 </Td>
-                                <Td colSpan={2} fontWeight={"bold"}>คณะ/หน่วยงาน</Td>
+                                <Td fontSize={"sm"} color={"kmutt.100"} colSpan={2} fontWeight={"bold"}>คณะ/หน่วยงาน</Td>
                             </Tr>
                             <Tr>
                                 <Td fontWeight="bold" verticalAlign="top">
@@ -187,9 +187,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -233,9 +233,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -272,9 +272,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -348,9 +348,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -393,9 +393,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -430,9 +430,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -462,9 +462,9 @@ const TweleveOctTable = () => {
                         <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th width={"20%"}>เวลา</Th>
-                                    <Th width={"60%"}>กิจกรรม</Th>
-                                    <Th width={"20%"}>สถานที่</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
