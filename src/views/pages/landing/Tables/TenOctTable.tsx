@@ -16,7 +16,7 @@ import {
 
 const TenOctTable = () => {
     return (
-        <Accordion allowMultiple defaultIndex={[0]}>
+        <Accordion allowMultiple defaultIndex={[0]} >
             {/* กิจกรรมส่วนกลาง */}
             < AccordionItem >
                 <AccordionButton>
@@ -27,12 +27,12 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th >กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -43,7 +43,7 @@ const TenOctTable = () => {
                                 </Tr>
                                 <Tr>
                                     <Td>9:00 น. - 10:30 น.</Td>
-                                    <Td>
+                                    <Td >
                                         พิธีเปิดกิจกรรม โดย รศ. ดร.สุวิทย์ แซ่เตีย อธิการบดี
                                         และกิจกรรมนำชมบูธของแต่ละคณะ
                                     </Td>
@@ -108,32 +108,32 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th >กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>8:30 – 16:00</Td>
+                                    <Td>8:30 น. – 16:00 น.</Td>
                                     <Td>การแข่งขันนวัตกรรมสิ่งประดิษฐ์ (Science & Technology Idea Contest)</Td>
                                     <Td>อาคารพระจอมเกล้าราชานุสรณ์ 190 ปี</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>9:00 – 16:00</Td>
+                                    <Td>9:00 น. – 16:00 น.</Td>
                                     <Td>Engineering Open House 2025 · Workshop · พี่พาน้องทัวร์</Td>
                                     <Td>อาคาร S4, S11, S12, S15</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>9:30 – 12:00</Td>
+                                    <Td>9:30 น. – 12:00 น.</Td>
                                     <Td>กิจกรรมแนะแนวผู้ปกครอง</Td>
                                     <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:00 – 17:00</Td>
+                                    <Td>13:00 น. – 17:00 น.</Td>
                                     <Td>กิจกรรมโต๊ะให้คำปรึกษาจากรุ่นพี่</Td>
                                     <Td>ห้องประชุม ชั้น 2 อาคาร S12</Td>
                                 </Tr>
@@ -153,22 +153,22 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 – 16:00</Td>
+                                    <Td>9:00 น. – 16:00 น.</Td>
                                     <Td>“FIET LAND ดินแดนแห่งการเรียนรู้” (Workshop 7 สาขาวิชา)</Td>
                                     <Td>อาคาร S13</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>9:30 – 16:00</Td>
+                                    <Td>9:30 น. – 16:00 น.</Td>
                                     <Td>
                                         การแข่งขันเทคนิคการถ่ายทอดความรู้
                                         นวัตกรรม สิ่งประดิษฐ์ทางด้านวิทยาศาสตร์และเทคโนโลยี
@@ -194,37 +194,37 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 – 16:00</Td>
+                                    <Td>9:00 น. – 16:00 น.</Td>
                                     <Td>SoA+D Exhibition</Td>
                                     <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>PICKNIC BAZAAR</Td>
                                     <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:00 – 16:00</Td>
+                                    <Td>13:00 น. – 16:00 น.</Td>
                                     <Td>DIY Creative Workshops</Td>
                                     <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:00 – 16:00</Td>
+                                    <Td>13:00 น. – 16:00 น.</Td>
                                     <Td>Portfolio Clinic</Td>
                                     <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:30 – 14:30</Td>
+                                    <Td>13:30 น. – 14:30 น.</Td>
                                     <Td>
                                         Mock Classroom (5 Programs: Architecture, Interior, Landscape,
                                         Design Innovation, Communication Design)
@@ -232,7 +232,7 @@ const TenOctTable = () => {
                                     <Td>อาคาร A2 มจธ. บางขุนเทียน</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:30 – 15:30</Td>
+                                    <Td>13:30 น. – 15:30 น.</Td>
                                     <Td>
                                         Entrepreneurship Workshop from MIDI
                                         (Multiple Intelligences for Design Integration Program)
@@ -255,34 +255,34 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 – 12:00</Td>
+                                    <Td>9:00 น. – 12:00 น.</Td>
                                     <Td>Workshop I: Computer Vision with Deep Learning</Td>
                                     <Td>ห้อง 10/3 ชั้น 10 อาคาร LX</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>9:00 – 12:00</Td>
+                                    <Td>9:00 น. – 12:00 น.</Td>
                                     <Td>
                                         Workshop II: พลิกโฉมการวิเคราะห์ข้อมูลอนาคตด้วย Power BI และ AI Agents
                                     </Td>
                                     <Td>ห้อง 10/4 และ 10/5 ชั้น 10 อาคาร LX</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>9:30 – 16:00</Td>
+                                    <Td>9:30 น. – 16:00 น.</Td>
                                     <Td>Digital Technology Aptitude Test</Td>
                                     <Td>ห้อง 10/1–10/2 และ 10/5 ชั้น 10 อาคาร LX</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>13:30 – 16:00</Td>
+                                    <Td>13:30 น. – 16:00 น.</Td>
                                     <Td>SIT Talk / Tech Talk / Alumni Talk</Td>
                                     <Td>Auditorium ชั้น 3 อาคาร LX</Td>
                                 </Tr>
@@ -302,17 +302,17 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>SoLA So Cool: ก้าวสู่พลเมืองโลกอย่างเข้มแข็ง</Td>
                                     <Td>ชั้น 1 อาคาร N15</Td>
                                 </Tr>
@@ -332,17 +332,17 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 – 16:00</Td>
+                                    <Td>9:00 น. – 16:00 น.</Td>
                                     <Td>กิจกรรม “แชะ แชร์ เช็คอิน”</Td>
                                     <Td>GMI ชั้น 1 อาคาร N19</Td>
                                 </Tr>
@@ -362,32 +362,32 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>FIBO Tour</Td>
                                     <Td>อาคาร N9</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>Portfolio Clinic</Td>
                                     <Td>อาคาร N9</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>FIBO Workshop</Td>
                                     <Td>อาคาร N9</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>10:00 – 16:00</Td>
+                                    <Td>10:00 น. – 16:00 น.</Td>
                                     <Td>Showcase Technology (ผลงานนวัตกรรมและวิจัย)</Td>
                                     <Td>อาคาร N9</Td>
                                 </Tr>
@@ -407,17 +407,17 @@ const TenOctTable = () => {
                 </AccordionButton>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 – 15:00</Td>
+                                    <Td>9:00 น. – 15:00 น.</Td>
                                     <Td>
                                         Creative Media Open House: Workshop Unity · Drawing · Paint Your Pouch
                                         Alumni Talk: Tanpopoe Talk, พี่นนท์

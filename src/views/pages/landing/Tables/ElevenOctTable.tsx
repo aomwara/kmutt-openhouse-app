@@ -31,12 +31,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -116,12 +116,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -176,12 +176,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -233,12 +233,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -312,12 +312,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -382,12 +382,12 @@ const ElevenOctTable = () => {
                 </h2>
                 <AccordionPanel pb={4}>
                     <TableContainer>
-                        <Table size="sm">
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -417,9 +417,9 @@ const ElevenOctTable = () => {
                         <Table size="sm" variant="simple">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -449,9 +449,9 @@ const ElevenOctTable = () => {
                         <Table size="sm" variant="simple">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -481,9 +481,9 @@ const ElevenOctTable = () => {
                         <Table size="sm" variant="simple">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -533,9 +533,9 @@ const ElevenOctTable = () => {
                         <Table size="sm" variant="simple">
                             <Thead>
                                 <Tr>
-                                    <Th>เวลา</Th>
-                                    <Th>กิจกรรม</Th>
-                                    <Th>สถานที่</Th>
+                                    <Th width={"20%"}>เวลา</Th>
+                                    <Th width={"60%"}>กิจกรรม</Th>
+                                    <Th width={"20%"}>สถานที่</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>

@@ -8,8 +8,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --font-sans: var(--font-geist-sans); */
+  /* --font-mono: var(--font-geist-mono); */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +22,39 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+/* globals.css */
+@font-face {
+  font-family: "DB Heavent Cond";
+  src: url("/fonts/DB Heavent Cond v3.2.1.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DB Heavent Cond It";
+  src: url("/fonts/DB Heavent Cond It v3.2.1.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "DB Heavent Bd Cond";
+  src: url("/fonts/DB Heavent Bd Cond v3.2.1.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DB Heavent Bd Cond It";
+  src: url("/fonts/DB Heavent Bd Cond It v3.2.1.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ตัวอย่างตั้งค่า default font สำหรับ body */
+body {
+  font-family: "DB Heavent Cond", "IBM Plex Sans Thai", sans-serif;
 }

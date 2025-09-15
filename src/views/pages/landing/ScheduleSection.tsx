@@ -28,22 +28,21 @@ const ScheduleSection = () => {
             <Tabs variant="enclosed" colorScheme="orange" isFitted>
                 <TabList>
                     <Tab>
-                        <Text>
-                            <Text display={{ base: "inline", md: "none" }}>10 ต.ค.</Text>
-                            <Text display={{ base: "none", md: "inline" }}>10 ตุลาคม 2568</Text>
-                        </Text>
+
+                        <Text display={{ base: "inline", md: "none" }}>10 ต.ค.</Text>
+                        <Text display={{ base: "none", md: "inline" }}>10 ตุลาคม 2568</Text>
+
                     </Tab>
                     <Tab>
-                        <Text>
-                            <Text display={{ base: "inline", md: "none" }}>11 ต.ค.</Text>
-                            <Text display={{ base: "none", md: "inline" }}>11 ตุลาคม 2568</Text>
-                        </Text>
+
+                        <Text display={{ base: "inline", md: "none" }}>11 ต.ค.</Text>
+                        <Text display={{ base: "none", md: "inline" }}>11 ตุลาคม 2568</Text>
+
                     </Tab>
                     <Tab>
-                        <Text>
-                            <Text display={{ base: "inline", md: "none" }}>12 ต.ค.</Text>
-                            <Text display={{ base: "none", md: "inline" }}>12 ตุลาคม 2568</Text>
-                        </Text>
+
+                        <Text display={{ base: "inline", md: "none" }}>12 ต.ค.</Text>
+                        <Text display={{ base: "none", md: "inline" }}>12 ตุลาคม 2568</Text>
                     </Tab>
                 </TabList>
 

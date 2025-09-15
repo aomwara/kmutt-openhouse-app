@@ -32,7 +32,7 @@ const BoothSection = () => {
                 "สำนักงานกิจการต่างประเทศ",
                 "KMUTTWORKS",
                 "สำนักงานคัดเลือกและสรรหานักศึกษา",
-                "Portfolio Clinic",
+
             ],
         },
         {

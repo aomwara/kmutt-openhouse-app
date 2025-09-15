@@ -17,16 +17,24 @@ const theme = extendTheme({
   config,
 
   fontSizes: {
-    xs: "0.625rem",
-    sm: "0.812rem",
-    md: "1rem",
-    lg: "1.25rem",
-    xl: "1.562rem",
-    "2xl": "1.938rem",
-    "3xl": "2.438rem",
-    "4xl": "3.062rem",
+    xs: "1rem",        // ~16px
+    sm: "1.35rem",     // ~20px
+    md: "1.5rem",      // ~24px
+    lg: "1.875rem",    // ~30px
+    xl: "2.25rem",     // ~36px
+    "2xl": "2.75rem",  // ~44px
+    "3xl": "3rem",  // ~52px
+    "4xl": "4rem",     // ~64px
   },
 
+  letterSpacings: {
+    tighter: "-0.02em",
+    tight: "-0.01em",
+    normal: "0",
+    wide: "0.03em",
+    wider: "0.05em",
+    widest: "0.1em",
+  },
    colors: {
     accent_purple: {
       50: "#FAEEFF",
@@ -97,8 +105,9 @@ const theme = extendTheme({
   },
 
   fonts: {
-    heading: "IBM Plex Sans Thai",
-    body: "IBM Plex Sans Thai",
+    heading: "'DB Heavent Bd Cond', sans-serif",
+    body: "'DB Heavent Cond', 'IBM Plex Sans Thai', sans-serif",
+    mono: "Menlo, monospace",
   },
 
   breakpoints,
@@ -114,6 +123,13 @@ const theme = extendTheme({
         backgroundRepeat: "no-repeat",
         justifyContent: "center",
         backgroundSize: "cover",
+        letterSpacing: "0.025rem",
+      },
+      td: {
+        lineHeight: "22px",
+      },
+      th: {
+        lineHeight: "22px",
       },
     }),
   },

@@ -181,10 +181,10 @@ const LandingPage = () => {
                     </svg>
                 </Box>
 
-                <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="3xl">
-                    <Heading size={{ base: "lg", md: "3xl" }} fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
+                <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="4xl">
+                    <Heading size={{ base: "md", md: "3xl" }} fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
                         <Text as="span" color={PRIMARY}>
-                            KMUTT OPEN HOUSE 2025:
+                            KMUTT OPEN HOUSE 2025
                         </Text> {" "}
                         JOURNEY OF DISCOVERY
                     </Heading>
