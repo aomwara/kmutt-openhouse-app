@@ -209,14 +209,13 @@ export function LandingSections() {
 
             {/* ===== FOOTER ===== */}
             <Box as="footer" py={10} px={6} bg={useColorModeValue("gray.900", "black")} color="gray.400">
-                <Container maxW="7xl">
+                <Container maxW="7xl" fontSize={"sm"}>
                     <Flex direction={{ base: "column", md: "row" }} justify="space-between" align="center">
                         <Text>© {new Date().getFullYear()} King {"Mongkut's"} University of Technology Thonburi</Text>
                         <HStack spacing={6} mt={{ base: 4, md: 0 }}>
-                            <Link href="#how">วิธีใช้งาน</Link>
-                            <Link href="#features">ฟีเจอร์</Link>
-                            <Link href="#stats">สถิติ</Link>
-                            <Link href="#testimonials">เสียงจากผู้ใช้</Link>
+                            <Link href="#schedule">กำหนดการ</Link>
+                            <Link href="#booth">บูธแนะนำหลักสูตร</Link>
+                            <Link href="#map">แผนที่</Link>
                         </HStack>
                     </Flex>
                 </Container>

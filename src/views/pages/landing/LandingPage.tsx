@@ -20,6 +20,7 @@ import { LandingSections } from "./LandingSection";
 import { ScheduleSection } from "./ScheduleSection";
 import BoothSection from "./BoothSection";
 import MapSection from "./MapSection";
+import { IoCalendar } from "react-icons/io5";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -48,10 +49,9 @@ const LandingPage = () => {
                         px={6}
                         h="16"
                         align="center"
-                        justify="space-between"
                     >
                         {/* Logo */}
-                        <HStack spacing={3}>
+                        <HStack spacing={3} flex="1">
 
                             <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
                             <Link href="/" aria-label="KMUTT Open House">
@@ -68,16 +68,21 @@ const LandingPage = () => {
                             display={{ base: "none", md: "flex" }}
                             fontSize="sm"
                             fontWeight="medium"
+                            justify="center"
+                            flex="1"
                         >
                             {/* <Link href="#how">วิธีใช้งาน</Link> */}
                             <Link href="#schedule">กำหนดการ</Link>
-                            <Link href="#features">ฟีเจอร์</Link>
+                            <Link href="#booth">บูธแนะนำหลักสูตร</Link>
+                            <Link href="#map">แผนที่</Link>
+                            {/* <Link href="#features">ฟีเจอร์</Link>
                             <Link href="#stats">สถิติ</Link>
-                            <Link href="#testimonials">เสียงจากผู้ใช้</Link>
+                            <Link href="#testimonials">เสียงจากผู้ใช้</Link> */}
                         </HStack>
 
+
                         {/* Right side buttons */}
-                        <HStack spacing={2}>
+                        <HStack spacing={2} flex="1" justify="flex-end">
                             {/* Dark Mode Toggle */}
                             <IconButton
                                 aria-label="Toggle Dark Mode"
@@ -103,7 +108,7 @@ const LandingPage = () => {
 
 
                             {/* Mobile Hamburger */}
-                            <Box display={{ base: "block", md: "none" }}>
+                            <Box display={{ base: "block", md: "none" }} >
                                 <IconButton
                                     aria-label="Toggle Menu"
                                     icon={menuOpen ? <X /> : <Menu />}
@@ -126,15 +131,24 @@ const LandingPage = () => {
                             shadow="md"
                             px={6}
                             py={4}
+                            fontSize={"sm"}
                         >
                             <VStack align="stretch" spacing={4}>
                                 {/* <Link href="#how" onClick={() => setMenuOpen(false)}>
                                     วิธีใช้งาน
                                 </Link> */}
                                 <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                    กำหนดการ
+                                    {"> "} กำหนดการ
                                 </Link>
-                                <Link href="#features" onClick={() => setMenuOpen(false)}>
+                                {/* บูธแนะนำหลักสูตร & หน่วยงาน */}
+                                <Link href="#booth" onClick={() => setMenuOpen(false)}>
+                                    {"> "} บูธแนะนำหลักสูตร & หน่วยงาน
+                                </Link>
+                                {/* แผนที่ */}
+                                <Link href="#map" onClick={() => setMenuOpen(false)}>
+                                    {"> "} แผนที่
+                                </Link>
+                                {/* <Link href="#features" onClick={() => setMenuOpen(false)}>
                                     ฟีเจอร์
                                 </Link>
                                 <Link href="#stats" onClick={() => setMenuOpen(false)}>
@@ -153,7 +167,7 @@ const LandingPage = () => {
                                     rounded="xl"
                                 >
                                     เข้าสู่ระบบ
-                                </Button>
+                                </Button> */}
                             </VStack>
                         </Box>
                     )}
@@ -204,7 +218,11 @@ const LandingPage = () => {
                             rounded="xl"
                             px={8}
                         >
-                            กำหนดการกิจกรรม
+                            <Flex justify={"center"} align="center">
+                                <IoCalendar style={{ marginRight: "8px" }} />
+                                <Text>กำหนดการ</Text>
+                            </Flex>
+
                         </Button>
                         {/* <Button
                             as={Link}
@@ -229,7 +247,7 @@ const LandingPage = () => {
             {/* ===== OTHER SECTIONS ===== */}
             <LandingSections />
 
-        </Box>
+        </Box >
     );
 };
 

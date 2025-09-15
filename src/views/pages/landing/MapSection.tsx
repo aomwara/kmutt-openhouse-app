@@ -9,7 +9,7 @@ const MapSection = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <Box position="relative" overflow="hidden" py={{ base: 10, md: 16 }} px={{ base: 4, md: 12 }}>
+        <Box id="map" position="relative" overflow="hidden" py={{ base: 10, md: 16 }} px={{ base: 4, md: 12 }}>
             {/* Background Circles + Gradient */}
             <Box position="absolute" inset="0" zIndex={0} overflow="hidden">
                 <svg width="100%" height="100%" style={{ position: "absolute", top: 0, left: 0 }}>
