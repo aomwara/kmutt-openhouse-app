@@ -182,13 +182,13 @@ const LandingPage = () => {
                 </Box>
 
                 <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="4xl">
-                    <Heading size={{ base: "md", md: "3xl" }} fontWeight="extrabold" lineHeight={{ base: "60px", md: "62px" }} color={textColor}>
+                    <Heading size={{ base: "md", md: "4xl" }} fontWeight="extrabold" color={textColor}>
                         <Text as="span" color={PRIMARY}>
                             KMUTT OPEN HOUSE 2025 <br />
                         </Text> {" "}
                         JOURNEY OF DISCOVERY
                     </Heading>
-                    <Text px={6} fontSize={{ base: "md", md: "lg" }} color={textColor}>
+                    <Text px={6} fontSize={{ base: "md", md: "lg" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
                         วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
                         ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
                     </Text>

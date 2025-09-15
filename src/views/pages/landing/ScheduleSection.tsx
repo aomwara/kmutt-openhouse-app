@@ -17,10 +17,10 @@ const ScheduleSection = () => {
     return (
         <Box as="section" id="schedule" py={20} px={6} maxW="7xl" mx="auto">
             <VStack spacing={6} textAlign="center" mb={{ base: 7, md: 10 }}>
-                <Heading size="lg" color="#F04E23">
+                <Heading size="lg" mb={-5} color="#F04E23">
                     กำหนดการกิจกรรม
                 </Heading>
-                <Heading size={{ base: "sm", md: "md" }} color="gray.600">
+                <Heading size={{ base: "sm", md: "md" }} color="gray.500">
                     เส้นทางค้นพบแรงบันดาลใจและกิจกรรมหลากหลาย ตลอดวัน
                 </Heading>
             </VStack>
