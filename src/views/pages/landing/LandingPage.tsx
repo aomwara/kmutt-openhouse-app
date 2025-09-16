@@ -21,6 +21,8 @@ import { ScheduleSection } from "./ScheduleSection";
 import BoothSection from "./BoothSection";
 import MapSection from "./MapSection";
 import { IoCalendar } from "react-icons/io5";
+import BannerSection from "./BannerSection";
+import Head from "next/head";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -35,64 +37,78 @@ const LandingPage = () => {
     const borderColor = useColorModeValue("orange.100", "gray.700");
 
     return (
-        <Box minH="100vh" bg={useColorModeValue("white", "gray.900")} color={textColor}>
-            {/* ===== NAVBAR ===== */}
-            <Box as="header" position="sticky" top="0" zIndex="50" w="full" px={0}>
-                <Container maxW="7xl" py={4}>
-                    <Flex
-                        bg={navBg}
-                        backdropFilter="blur(12px)"
-                        border="1px solid"
-                        borderColor={borderColor}
-                        rounded="2xl"
-                        shadow="sm"
-                        px={6}
-                        h="16"
-                        align="center"
-                    >
-                        {/* Logo */}
-                        <HStack spacing={3} flex="1">
-
-                            <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
-                            <Link href="/" aria-label="KMUTT Open House">
-                                <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
-                                    KMUTT Open House
-                                </Text>
-                            </Link>
-                        </HStack>
-
-                        {/* Desktop nav */}
-                        <HStack
-                            as="nav"
-                            spacing={8}
-                            display={{ base: "none", md: "flex" }}
-                            fontSize="sm"
-                            fontWeight="medium"
-                            justify="center"
-                            flex="1"
+        <>
+            <Head>
+                <title>KMUTT Open House 2025 - Journey of Discovery</title>
+                <meta
+                    name="description"
+                    content="KMUTT Open House 2025 | Journey of Discovery - เปิดประสบการณ์ใหม่กับทุกคณะและหน่วยงาน"
+                />
+                <meta property="og:title" content="KMUTT Open House 2025 - Journey of Discovery" />
+                <meta property="og:description" content="ค้นหาแรงบันดาลใจและเริ่มต้น Journey of Discovery ไปกับ มจธ." />
+                <meta property="og:image" content="/images/banner.jpg" />
+            </Head>
+            <Box minH="100vh" bg={useColorModeValue("white", "gray.900")} color={textColor}>
+                {/* ===== NAVBAR ===== */}
+                <Box as="header" position="sticky" top="0" zIndex="50" w="full" px={0}>
+                    <Container maxW="7xl" py={4}>
+                        <Flex
+                            bg={navBg}
+                            backdropFilter="blur(12px)"
+                            border="1px solid"
+                            borderColor={borderColor}
+                            rounded="2xl"
+                            shadow="sm"
+                            px={6}
+                            h="16"
+                            align="center"
                         >
-                            {/* <Link href="#how">วิธีใช้งาน</Link> */}
-                            <Link href="#schedule">กำหนดการ</Link>
-                            <Link href="#booth">บูธแนะนำหลักสูตร</Link>
-                            <Link href="#map">แผนที่</Link>
-                            {/* <Link href="#features">ฟีเจอร์</Link>
+                            {/* Logo */}
+                            <HStack spacing={3} flex="1">
+
+                                <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
+                                <Link href="/" aria-label="KMUTT Open House">
+                                    <Text fontWeight="bold" display={{ base: "block", md: "none" }} lineHeight={{ base: "20px" }} fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
+                                        KMUTT <br /> Open House
+                                    </Text>
+                                    <Text fontWeight="bold" display={{ base: "none", md: "block" }} fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
+                                        KMUTT Open House
+                                    </Text>
+                                </Link>
+                            </HStack>
+
+                            {/* Desktop nav */}
+                            <HStack
+                                as="nav"
+                                spacing={8}
+                                display={{ base: "none", md: "flex" }}
+                                fontSize="sm"
+                                fontWeight="medium"
+                                justify="center"
+                                flex="1"
+                            >
+                                {/* <Link href="#how">วิธีใช้งาน</Link> */}
+                                <Link href="#schedule">กำหนดการ</Link>
+                                <Link href="#booth">บูธแนะนำหลักสูตร</Link>
+                                <Link href="#map">แผนที่</Link>
+                                {/* <Link href="#features">ฟีเจอร์</Link>
                             <Link href="#stats">สถิติ</Link>
                             <Link href="#testimonials">เสียงจากผู้ใช้</Link> */}
-                        </HStack>
+                            </HStack>
 
 
-                        {/* Right side buttons */}
-                        <HStack spacing={2} flex="1" justify="flex-end">
-                            {/* Dark Mode Toggle */}
-                            <IconButton
-                                aria-label="Toggle Dark Mode"
-                                icon={colorMode === "light" ? <Moon /> : <Sun />}
-                                onClick={toggleColorMode}
-                                variant="ghost"
-                            />
+                            {/* Right side buttons */}
+                            <HStack spacing={2} flex="1" justify="flex-end">
+                                {/* Dark Mode Toggle */}
+                                <IconButton
+                                    aria-label="Toggle Dark Mode"
+                                    icon={colorMode === "light" ? <Moon /> : <Sun />}
+                                    onClick={toggleColorMode}
+                                    variant="ghost"
+                                />
 
-                            {/* Desktop login */}
-                            {/* <Box display={{ base: "none", md: "block" }}>
+                                {/* Desktop login */}
+                                {/* <Box display={{ base: "none", md: "block" }}>
                                 <Button
                                     as={Link}
                                     href="/login"
@@ -107,48 +123,48 @@ const LandingPage = () => {
 
 
 
-                            {/* Mobile Hamburger */}
-                            <Box display={{ base: "block", md: "none" }} >
-                                <IconButton
-                                    aria-label="Toggle Menu"
-                                    icon={menuOpen ? <X /> : <Menu />}
-                                    onClick={() => setMenuOpen(!menuOpen)}
-                                    color={PRIMARY}
-                                    variant="ghost"
-                                />
-                            </Box>
-                        </HStack>
-                    </Flex>
+                                {/* Mobile Hamburger */}
+                                <Box display={{ base: "block", md: "none" }} >
+                                    <IconButton
+                                        aria-label="Toggle Menu"
+                                        icon={menuOpen ? <X /> : <Menu />}
+                                        onClick={() => setMenuOpen(!menuOpen)}
+                                        color={PRIMARY}
+                                        variant="ghost"
+                                    />
+                                </Box>
+                            </HStack>
+                        </Flex>
 
-                    {/* Mobile dropdown menu */}
-                    {menuOpen && (
-                        <Box
-                            mt={2}
-                            rounded="2xl"
-                            border="1px solid"
-                            borderColor={borderColor}
-                            bg={bg}
-                            shadow="md"
-                            px={6}
-                            py={4}
-                            fontSize={"sm"}
-                        >
-                            <VStack align="stretch" spacing={4}>
-                                {/* <Link href="#how" onClick={() => setMenuOpen(false)}>
+                        {/* Mobile dropdown menu */}
+                        {menuOpen && (
+                            <Box
+                                mt={2}
+                                rounded="2xl"
+                                border="1px solid"
+                                borderColor={borderColor}
+                                bg={bg}
+                                shadow="md"
+                                px={6}
+                                py={4}
+                                fontSize={"sm"}
+                            >
+                                <VStack align="stretch" spacing={4}>
+                                    {/* <Link href="#how" onClick={() => setMenuOpen(false)}>
                                     วิธีใช้งาน
                                 </Link> */}
-                                <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                    {"> "} กำหนดการ
-                                </Link>
-                                {/* บูธแนะนำหลักสูตร & หน่วยงาน */}
-                                <Link href="#booth" onClick={() => setMenuOpen(false)}>
-                                    {"> "} บูธแนะนำหลักสูตร & หน่วยงาน
-                                </Link>
-                                {/* แผนที่ */}
-                                <Link href="#map" onClick={() => setMenuOpen(false)}>
-                                    {"> "} แผนที่
-                                </Link>
-                                {/* <Link href="#features" onClick={() => setMenuOpen(false)}>
+                                    <Link href="#schedule" onClick={() => setMenuOpen(false)}>
+                                        {"> "} กำหนดการ
+                                    </Link>
+                                    {/* บูธแนะนำหลักสูตร & หน่วยงาน */}
+                                    <Link href="#booth" onClick={() => setMenuOpen(false)}>
+                                        {"> "} บูธแนะนำหลักสูตร & หน่วยงาน
+                                    </Link>
+                                    {/* แผนที่ */}
+                                    <Link href="#map" onClick={() => setMenuOpen(false)}>
+                                        {"> "} แผนที่
+                                    </Link>
+                                    {/* <Link href="#features" onClick={() => setMenuOpen(false)}>
                                     ฟีเจอร์
                                 </Link>
                                 <Link href="#stats" onClick={() => setMenuOpen(false)}>
@@ -168,63 +184,63 @@ const LandingPage = () => {
                                 >
                                     เข้าสู่ระบบ
                                 </Button> */}
-                            </VStack>
-                        </Box>
-                    )}
-                </Container>
-            </Box>
-
-            {/* ===== HERO ===== */}
-            <Flex
-                mt={"-20vh"}
-                as="section"
-                minH="110vh"
-                align="center"
-                justify="center"
-                overflow="hidden"
-                bgGradient={useColorModeValue(
-                    `linear(to-br, white, ${SECONDARY}20)`,
-                    `linear(to-br, gray.900, ${PRIMARY}20)`
-                )}
-                position="relative"
-            >
-                {/* Background Circles */}
-                <Box position="absolute" inset="0" zIndex={0}>
-                    <svg width="100%" height="100%">
-                        <circle cx="20%" cy="30%" r="250" fill={`${PRIMARY}20`} />
-                        <circle cx="80%" cy="70%" r="200" fill={`${SECONDARY}25`} />
-                    </svg>
+                                </VStack>
+                            </Box>
+                        )}
+                    </Container>
                 </Box>
 
-                <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="4xl">
-                    <Heading size={{ base: "md", md: "4xl" }} fontWeight="extrabold" color={textColor}>
-                        <Text as="span" color={PRIMARY}>
-                            KMUTT OPEN HOUSE 2025 <br />
-                        </Text> {" "}
-                        JOURNEY OF DISCOVERY
-                    </Heading>
-                    <Text px={6} fontSize={{ base: "md", md: "lg" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
-                        วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
-                        ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
-                    </Text>
-                    <HStack spacing={4} pt={4}>
-                        <Button
-                            as={Link}
-                            href="#schedule"
-                            size={{ base: "md", md: "lg" }}
-                            bg={PRIMARY}
-                            _hover={{ bg: "#d6451f" }}
-                            color="white"
-                            rounded="xl"
-                            px={8}
-                        >
-                            <Flex justify={"center"} align="center">
-                                <IoCalendar style={{ marginRight: "8px" }} />
-                                <Text>กำหนดการ</Text>
-                            </Flex>
+                {/* ===== HERO ===== */}
+                <Flex
+                    mt={"-20vh"}
+                    as="section"
+                    minH="110vh"
+                    align="center"
+                    justify="center"
+                    overflow="hidden"
+                    bgGradient={useColorModeValue(
+                        `linear(to-br, white, ${SECONDARY}20)`,
+                        `linear(to-br, gray.900, ${PRIMARY}20)`
+                    )}
+                    position="relative"
+                >
+                    {/* Background Circles */}
+                    <Box position="absolute" inset="0" zIndex={0}>
+                        <svg width="100%" height="100%">
+                            <circle cx="20%" cy="30%" r="250" fill={`${PRIMARY}20`} />
+                            <circle cx="80%" cy="70%" r="200" fill={`${SECONDARY}25`} />
+                        </svg>
+                    </Box>
 
-                        </Button>
-                        {/* <Button
+                    <VStack zIndex={1} mt="20" textAlign="center" spacing={6} px={6} maxW="4xl">
+                        <Heading size={{ base: "md", md: "4xl" }} fontWeight="extrabold" color={textColor}>
+                            <Text as="span" color={PRIMARY}>
+                                KMUTT OPEN HOUSE 2025 <br />
+                            </Text> {" "}
+                            JOURNEY OF DISCOVERY
+                        </Heading>
+                        <Text px={6} fontSize={{ base: "md", md: "lg" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
+                            วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
+                            ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
+                        </Text>
+                        <HStack spacing={4} pt={4}>
+                            <Button
+                                as={Link}
+                                href="#schedule"
+                                size={{ base: "md", md: "lg" }}
+                                bg={PRIMARY}
+                                _hover={{ bg: "#d6451f" }}
+                                color="white"
+                                rounded="xl"
+                                px={8}
+                            >
+                                <Flex justify={"center"} align="center">
+                                    <IoCalendar style={{ marginRight: "8px" }} />
+                                    <Text>กำหนดการ</Text>
+                                </Flex>
+
+                            </Button>
+                            {/* <Button
                             as={Link}
                             href="/register"
                             size={{ base: "md", md: "lg" }}
@@ -237,17 +253,20 @@ const LandingPage = () => {
                         >
                             ลงทะเบียน
                         </Button> */}
-                    </HStack>
-                </VStack>
-            </Flex>
-            {/* ===== SCHEDULE ===== */}
-            <ScheduleSection />
-            <BoothSection />
-            <MapSection />
-            {/* ===== OTHER SECTIONS ===== */}
-            <LandingSections />
+                        </HStack>
+                    </VStack>
+                </Flex>
+                {/* ===== SCHEDULE ===== */}
+                <BannerSection />
+                <ScheduleSection />
+                <BoothSection />
 
-        </Box >
+                <MapSection />
+                {/* ===== OTHER SECTIONS ===== */}
+                <LandingSections />
+
+            </Box >
+        </>
     );
 };
 

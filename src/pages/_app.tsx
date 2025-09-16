@@ -4,11 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import theme from "@/themes";
-import "@fontsource/ibm-plex-sans-thai";
-import "@fontsource/ibm-plex-sans-thai/400.css";
-import "@fontsource/ibm-plex-sans-thai/500.css";
-import "@fontsource/ibm-plex-sans-thai/600.css";
-import "@fontsource/ibm-plex-sans-thai/700.css";
 
 import Router from "next/router";
 import NProgress from "nprogress";
