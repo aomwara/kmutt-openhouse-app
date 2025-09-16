@@ -23,6 +23,7 @@ import MapSection from "./MapSection";
 import { IoCalendar } from "react-icons/io5";
 import BannerSection from "./BannerSection";
 import Head from "next/head";
+import Image from "next/image";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -66,7 +67,8 @@ const LandingPage = () => {
                             {/* Logo */}
                             <HStack spacing={3} flex="1">
 
-                                <Box w={8} h={8} rounded="xl" bg={PRIMARY} />
+                                {/* <Box w={8} h={8} rounded="xl" bg={PRIMARY} /> */}
+                                <Image src="/images/logo.jpg" style={{ borderRadius: "12px" }} alt="KMUTT Logo" width={32} height={32} />
                                 <Link href="/" aria-label="KMUTT Open House">
                                     <Text fontWeight="bold" display={{ base: "block", md: "none" }} lineHeight={{ base: "20px" }} fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
                                         KMUTT <br /> Open House
