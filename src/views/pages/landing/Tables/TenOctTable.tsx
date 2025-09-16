@@ -206,7 +206,11 @@ const TenOctTable = () => {
                                 </Tr>
                                 <Tr>
                                     <Td>9:00 น. – 16:00 น.</Td>
-                                    <Td>Engineering Open House 2025 · Workshop · พี่พาน้องทัวร์</Td>
+                                    <Td>
+                                        Engineering Open House 2025 <br />
+                                        - Workshop ภาควิชา x INNO-X <br />
+                                        - พี่พาน้องเดินทัวร์
+                                    </Td>
                                     <Td>อาคาร S4, S11, S12, S15</Td>
                                 </Tr>
                                 <Tr>
