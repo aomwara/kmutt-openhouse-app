@@ -12,7 +12,8 @@ import {
     MdPerson,
     MdSettings,
     MdAddBusiness,
-    MdLogout
+    MdLogout,
+    MdQuestionAnswer
 } from "react-icons/md"
 import { useRouter } from "next/router"
 
@@ -25,7 +26,8 @@ const KMSidebar = () => {
 
     const menuItems = [
         { label: "Dashboard", icon: MdDashboard, link: "/_km/dashboard" },
-        { label: "เพิ่มกิจกรรม", icon: MdAddBusiness, link: "/_km/create-activity" },
+        { label: "เพิ่มกิจกรรม", icon: MdAddBusiness, link: "/_km/activity/add" },
+        { label: "จัดการแบบสอบถาม", icon: MdQuestionAnswer, link: "/_km/activity/add" },
         { label: "ออกจากระบบ", icon: MdLogout, link: "/login" }
     ]
 

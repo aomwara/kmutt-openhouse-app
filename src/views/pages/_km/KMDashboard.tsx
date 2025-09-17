@@ -19,6 +19,7 @@ import KMLayout from "@/views/layouts/KMLayout"
 import KMProfileCard from "@/components/ProfileCard/KMProfileCard"
 
 import { KMProfile } from "@/interfaces/KMProfile"
+import KMAppLayout from "@/views/layouts/KMAppLayout"
 
 interface Activity {
     id: number
@@ -48,8 +49,6 @@ const KMDashboardPage = () => {
     const [activities, setActivities] = useState<Activity[]>([])
     const [currentPage, setCurrentPage] = useState(1)
 
-    const showSidebar = useBreakpointValue({ base: false, md: true })
-
     useEffect(() => {
         fetch("/api/km/profile")
             .then((res) => res.json())
@@ -76,104 +75,85 @@ const KMDashboardPage = () => {
     const currentActivities = activities.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
     return (
-        <KMLayout>
-            <Container maxW="7xl" px={4} py={6} mt="-10">
-                <Flex direction={{ base: "column", md: "row" }} gap={6}>
-                    {/* Sidebar */}
-                    {showSidebar && <KMSidebar />}
+        <KMAppLayout navigation="Dashboard">
+            <Box>
+                <KMProfileCard data={data} />
+                <Divider mt="-1" mb={6} />
 
-                    <Flex direction="column" flex="1" gap={6}>
-                        <Box
-                            bg={cardBg}
-                            p={6}
-                            rounded="2xl"
-                            shadow="lg"
-                            flex="1"
-                        >
-                            <Text fontSize="lg" fontWeight="bold" mb={4}>
-                                Openhouse / Back office system
+                <Box>
+                    <Text fontSize="md" fontWeight="bold" mb={4} color={textColor}>
+                        กิจกรรมทั้งหมด
+                    </Text>
+
+                    <VStack align="stretch" spacing={4}>
+                        {currentActivities.length === 0 ? (
+                            <Text fontSize="sm" color="gray.500">
+                                ยังไม่มีกิจกรรม
                             </Text>
-
-                            <KMProfileCard data={data} />
-                            <Divider mt="-1" mb={6} />
-
-                            <Box>
-                                <Text fontSize="md" fontWeight="bold" mb={4} color={textColor}>
-                                    กิจกรรมทั้งหมด
-                                </Text>
-
-                                <VStack align="stretch" spacing={4}>
-                                    {currentActivities.length === 0 ? (
-                                        <Text fontSize="sm" color="gray.500">
-                                            ยังไม่มีกิจกรรม
+                        ) : (
+                            currentActivities.map((act) => (
+                                <Box
+                                    key={act.id}
+                                    p={4}
+                                    bg={cardBg}
+                                    rounded="xl"
+                                    shadow="sm"
+                                >
+                                    <HStack justify="space-between" mb={2}>
+                                        <Text fontSize="md" fontWeight="bold">
+                                            {act.title}
                                         </Text>
-                                    ) : (
-                                        currentActivities.map((act) => (
-                                            <Box
-                                                key={act.id}
-                                                p={4}
-                                                bg={cardBg}
-                                                rounded="xl"
-                                                shadow="sm"
-                                            >
-                                                <HStack justify="space-between" mb={2}>
-                                                    <Text fontSize="md" fontWeight="bold">
-                                                        {act.title}
-                                                    </Text>
-                                                    <Badge colorScheme="blue">{act.activity_type}</Badge>
-                                                </HStack>
-                                                <Text fontSize="sm" color={textColor} noOfLines={2}>
-                                                    {act.description}
-                                                </Text>
-                                                <Text fontSize="xs" mt={2} color="gray.500">
-                                                    📍 {act.location} | 🏫 {act.faculty.name} - {act.department.name}
-                                                </Text>
-                                                <Text fontSize="xs" color="gray.500">
-                                                    📅 {new Date(act.date).toLocaleString("th-TH")}
-                                                </Text>
-                                            </Box>
-                                        ))
-                                    )}
-                                </VStack>
-
-                                {/* Pagination controls */}
-                                {totalPages > 1 && (
-                                    <HStack justify="center" spacing={2} mt={6}>
-                                        <Button
-                                            size="sm"
-                                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                                            isDisabled={currentPage === 1}
-                                        >
-                                            ก่อนหน้า
-                                        </Button>
-
-                                        {[...Array(totalPages)].map((_, i) => (
-                                            <Button
-                                                key={i}
-                                                size="sm"
-                                                variant={currentPage === i + 1 ? "solid" : "outline"}
-                                                colorScheme="blue"
-                                                onClick={() => setCurrentPage(i + 1)}
-                                            >
-                                                {i + 1}
-                                            </Button>
-                                        ))}
-
-                                        <Button
-                                            size="sm"
-                                            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                                            isDisabled={currentPage === totalPages}
-                                        >
-                                            ถัดไป
-                                        </Button>
+                                        <Badge colorScheme="blue">{act.activity_type}</Badge>
                                     </HStack>
-                                )}
-                            </Box>
-                        </Box>
-                    </Flex>
-                </Flex>
-            </Container>
-        </KMLayout>
+                                    <Text fontSize="sm" color={textColor} noOfLines={2}>
+                                        {act.description}
+                                    </Text>
+                                    <Text fontSize="xs" mt={2} color="gray.500">
+                                        📍 {act.location} | 🏫 {act.faculty.name} - {act.department.name}
+                                    </Text>
+                                    <Text fontSize="xs" color="gray.500">
+                                        📅 {new Date(act.date).toLocaleString("th-TH")}
+                                    </Text>
+                                </Box>
+                            ))
+                        )}
+                    </VStack>
+
+                    {/* Pagination controls */}
+                    {totalPages > 1 && (
+                        <HStack justify="center" spacing={2} mt={6}>
+                            <Button
+                                size="sm"
+                                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                                isDisabled={currentPage === 1}
+                            >
+                                ก่อนหน้า
+                            </Button>
+
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Button
+                                    key={i}
+                                    size="sm"
+                                    variant={currentPage === i + 1 ? "solid" : "outline"}
+                                    colorScheme="blue"
+                                    onClick={() => setCurrentPage(i + 1)}
+                                >
+                                    {i + 1}
+                                </Button>
+                            ))}
+
+                            <Button
+                                size="sm"
+                                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                                isDisabled={currentPage === totalPages}
+                            >
+                                ถัดไป
+                            </Button>
+                        </HStack>
+                    )}
+                </Box>
+            </Box>
+        </KMAppLayout>
     )
 }
 
