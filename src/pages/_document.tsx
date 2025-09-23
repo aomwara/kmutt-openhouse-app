@@ -29,9 +29,9 @@ export default function Document() {
           property="og:description"
           content="ร่วมเป็นส่วนหนึ่งของการเดินทางครั้งใหม่ Journey of Discovery | เปิดประสบการณ์กับทุกคณะและหน่วยงานของ มจธ."
         />
-        <meta property="og:image" content="/images/banner.jpg" />
+        <meta property="og:image" content="/images/banner.png" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://openhouse.kmutt.me" />
+        <meta property="og:url" content="https://openhouse.kmutt.ac.th" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -40,7 +40,7 @@ export default function Document() {
           name="twitter:description"
           content="ค้นหาแรงบันดาลใจ และเริ่มต้น Journey of Discovery ไปกับ KMUTT"
         />
-        <meta name="twitter:image" content="/images/banner.jpg" />
+        <meta name="twitter:image" content="/images/banner.png" />
       </Head>
       <body className="antialiased">
         <Main />

@@ -47,7 +47,7 @@ const LandingPage = () => {
                 />
                 <meta property="og:title" content="KMUTT Open House 2025 - Journey of Discovery" />
                 <meta property="og:description" content="ค้นหาแรงบันดาลใจและเริ่มต้น Journey of Discovery ไปกับ มจธ." />
-                <meta property="og:image" content="/images/banner.jpg" />
+                <meta property="og:image" content="/images/banner.png" />
             </Head>
             <Box minH="100vh" bg={useColorModeValue("white", "gray.900")} color={textColor}>
                 {/* ===== NAVBAR ===== */}

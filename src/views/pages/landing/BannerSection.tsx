@@ -7,7 +7,7 @@ const BannerSection = () => {
             {/* Banner Full Width */}
             <Box width={{ base: "100%", md: "100%" }} >
                 <Image
-                    src="/images/banner.jpg"
+                    src="/images/banner.png"
                     alt="KMUTT Open House 2025 Banner"
                     objectFit="cover"
                     w="100%"
