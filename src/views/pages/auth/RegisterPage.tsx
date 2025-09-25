@@ -17,6 +17,9 @@ import {
     Icon,
     SimpleGrid,
     useColorModeValue,
+    Select,
+    Switch,
+    HStack,
 } from "@chakra-ui/react"
 import { UserPlus } from "lucide-react"
 
@@ -24,16 +27,125 @@ import { UserPlus } from "lucide-react"
 const PRIMARY = "#F04E23"
 const SECONDARY = "#FFC233"
 
+// รายชื่อจังหวัดไทย
+export const provincesTH = [
+    "กรุงเทพมหานคร", "กระบี่", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร",
+    "ขอนแก่น", "จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ชัยนาท",
+    "ชัยภูมิ", "ชุมพร", "เชียงใหม่", "เชียงราย", "ตรัง",
+    "ตราด", "ตาก", "นครนายก", "นครปฐม", "นครพนม",
+    "นครราชสีมา", "นครศรีธรรมราช", "นครสวรรค์", "นนทบุรี", "นราธิวาส",
+    "น่าน", "บึงกาฬ", "บุรีรัมย์", "ปทุมธานี", "ประจวบคีรีขันธ์",
+    "ปราจีนบุรี", "ปัตตานี", "พระนครศรีอยุธยา", "พังงา", "พัทลุง",
+    "พิจิตร", "พิษณุโลก", "เพชรบุรี", "เพชรบูรณ์", "แพร่",
+    "ภูเก็ต", "มหาสารคาม", "มุกดาหาร", "แม่ฮ่องสอน", "ยโสธร",
+    "ยะลา", "ร้อยเอ็ด", "ระนอง", "ระยอง", "ราชบุรี",
+    "ลพบุรี", "ลำปาง", "ลำพูน", "เลย", "ศรีสะเกษ",
+    "สกลนคร", "สงขลา", "สตูล", "สมุทรปราการ", "สมุทรสงคราม",
+    "สมุทรสาคร", "สระแก้ว", "สระบุรี", "สิงห์บุรี", "สุโขทัย",
+    "สุพรรณบุรี", "สุราษฎร์ธานี", "สุรินทร์", "หนองคาย", "หนองบัวลำภู",
+    "อ่างทอง", "อำนาจเจริญ", "อุดรธานี", "อุตรดิตถ์", "อุทัยธานี",
+    "อุบลราชธานี"
+]
+
+export const provincesEN = [
+    "Bangkok", "Krabi", "Kanchanaburi", "Kalasin", "Kamphaeng Phet",
+    "Khon Kaen", "Chanthaburi", "Chachoengsao", "Chonburi", "Chai Nat",
+    "Chaiyaphum", "Chumphon", "Chiang Mai", "Chiang Rai", "Trang",
+    "Trat", "Tak", "Nakhon Nayok", "Nakhon Pathom", "Nakhon Phanom",
+    "Nakhon Ratchasima", "Nakhon Si Thammarat", "Nakhon Sawan", "Nonthaburi", "Narathiwat",
+    "Nan", "Bueng Kan", "Buri Ram", "Pathum Thani", "Prachuap Khiri Khan",
+    "Prachin Buri", "Pattani", "Phra Nakhon Si Ayutthaya", "Phang Nga", "Phatthalung",
+    "Phichit", "Phitsanulok", "Phetchaburi", "Phetchabun", "Phrae",
+    "Phuket", "Maha Sarakham", "Mukdahan", "Mae Hong Son", "Yasothon",
+    "Yala", "Roi Et", "Ranong", "Rayong", "Ratchaburi",
+    "Lopburi", "Lampang", "Lamphun", "Loei", "Si Sa Ket",
+    "Sakon Nakhon", "Songkhla", "Satun", "Samut Prakan", "Samut Songkhram",
+    "Samut Sakhon", "Sa Kaeo", "Saraburi", "Sing Buri", "Sukhothai",
+    "Suphan Buri", "Surat Thani", "Surin", "Nong Khai", "Nong Bua Lamphu",
+    "Ang Thong", "Amnat Charoen", "Udon Thani", "Uttaradit", "Uthai Thani",
+    "Ubon Ratchathani"
+]
+
+
+// ตรวจสอบเลขบัตรประชาชนไทย
+const isValidCitizenId = (id: string) => {
+    if (!/^[0-9]{13}$/.test(id)) return false
+    let sum = 0
+    for (let i = 0; i < 12; i++) {
+        sum += parseInt(id.charAt(i)) * (13 - i)
+    }
+    return (11 - (sum % 11)) % 10 === parseInt(id.charAt(12))
+}
+
 export function RegisterPage() {
     const [form, setForm] = useState<Record<string, string>>({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
+    const [lang, setLang] = useState<"TH" | "EN">("TH")
+    const [usePassport, setUsePassport] = useState(false)
     const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
         setError("")
+
+        // Validation
+        if (!form.first_name || !form.last_name) {
+            setError("กรุณากรอกชื่อ-นามสกุล")
+            setIsLoading(false)
+            return
+        }
+
+        if (!form.school) {
+            setError("กรุณากรอกโรงเรียน")
+            setIsLoading(false)
+            return
+        }
+
+        if (!form.province) {
+            setError("กรุณาเลือกจังหวัด")
+            setIsLoading(false)
+            return
+        }
+
+        if (!usePassport) {
+            if (!form.citizen_id || !isValidCitizenId(form.citizen_id)) {
+                setError("เลขบัตรประชาชนไม่ถูกต้อง")
+                setIsLoading(false)
+                return
+            }
+        } else {
+            if (!form.passport_id) {
+                setError("กรุณากรอก Passport ID")
+                setIsLoading(false)
+                return
+            }
+        }
+
+        if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            setError("อีเมลไม่ถูกต้อง")
+            setIsLoading(false)
+            return
+        }
+
+        if (!form.phone || !/^[0-9]{10}$/.test(form.phone)) {
+            setError("เบอร์โทรศัพท์ต้องมี 10 หลัก")
+            setIsLoading(false)
+            return
+        }
+
+        if (!form.password || form.password.length < 6) {
+            setError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร")
+            setIsLoading(false)
+            return
+        }
+
+        if (form.password !== form.confirm_password) {
+            setError("รหัสผ่านไม่ตรงกัน")
+            setIsLoading(false)
+            return
+        }
 
         try {
             const res = await fetch("/api/register", {
@@ -43,6 +155,7 @@ export function RegisterPage() {
             })
 
             if (res.ok) {
+                alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้า Login...")
                 router.push("/login")
             } else {
                 const data = await res.json()
@@ -58,6 +171,8 @@ export function RegisterPage() {
     const cardBg = useColorModeValue("white", "gray.800")
     const textColor = useColorModeValue("gray.600", "gray.300")
 
+    const provinces = lang === "TH" ? provincesTH : provincesEN
+
     return (
         <Flex
             minH="100vh"
@@ -66,7 +181,6 @@ export function RegisterPage() {
             bgGradient={`linear(to-br, ${SECONDARY}50, ${PRIMARY}80)`}
             p={4}
         >
-
             <Box
                 w="full"
                 maxW="lg"
@@ -91,81 +205,136 @@ export function RegisterPage() {
                         <Icon as={UserPlus} w={8} h={8} color={PRIMARY} />
                     </Flex>
                     <Heading size="lg" mb={1} color={PRIMARY}>
-                        สมัครสมาชิก
+                        {lang === "TH" ? "สมัครสมาชิก" : "Register"}
                     </Heading>
                     <Text color={textColor} fontSize="sm">
-                        กรอกข้อมูลจริงเพื่อสมัครบัญชีผู้ใช้งาน
+                        {lang === "TH" ? "กรอกข้อมูลจริงเพื่อสมัครบัญชีผู้ใช้งาน" : "Please enter valid information to register"}
                     </Text>
                 </Flex>
+
+                {/* Switch Language */}
+                <HStack justify="flex-end" mb={4}>
+                    <Text fontSize="sm">TH</Text>
+                    <Switch
+                        isChecked={lang === "EN"}
+                        onChange={() => setLang(lang === "TH" ? "EN" : "TH")}
+                        colorScheme="orange"
+                    />
+                    <Text fontSize="sm">EN</Text>
+                </HStack>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={5}>
-                        {/* สองคอลัมน์ */}
                         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} w="full">
-                            <FormControl id="first_name" isRequired>
-                                <FormLabel>ชื่อจริง</FormLabel>
+                            <FormControl isRequired>
+                                <FormLabel>{lang === "TH" ? "ชื่อจริง" : "First Name"}</FormLabel>
                                 <Input
                                     type="text"
                                     value={form.first_name || ""}
                                     onChange={(e) =>
                                         setForm({ ...form, first_name: e.target.value })
                                     }
-                                    placeholder="ชื่อจริง"
+                                    placeholder={lang === "TH" ? "ชื่อจริง" : "First Name"}
                                 />
                             </FormControl>
 
-                            <FormControl id="last_name" isRequired>
-                                <FormLabel>นามสกุล</FormLabel>
+                            <FormControl isRequired>
+                                <FormLabel>{lang === "TH" ? "นามสกุล" : "Last Name"}</FormLabel>
                                 <Input
                                     type="text"
                                     value={form.last_name || ""}
                                     onChange={(e) =>
                                         setForm({ ...form, last_name: e.target.value })
                                     }
-                                    placeholder="นามสกุล"
+                                    placeholder={lang === "TH" ? "นามสกุล" : "Last Name"}
                                 />
                             </FormControl>
 
-                            <FormControl id="school" isRequired>
-                                <FormLabel>โรงเรียน</FormLabel>
+                            <FormControl isRequired>
+                                <FormLabel>{lang === "TH" ? "โรงเรียน" : "School"}</FormLabel>
                                 <Input
                                     type="text"
                                     value={form.school || ""}
                                     onChange={(e) =>
                                         setForm({ ...form, school: e.target.value })
                                     }
-                                    placeholder="โรงเรียน"
+                                    placeholder={lang === "TH" ? "โรงเรียน" : "School"}
                                 />
                             </FormControl>
 
-                            <FormControl id="province" isRequired>
-                                <FormLabel>จังหวัด</FormLabel>
-                                <Input
-                                    type="text"
+                            <FormControl isRequired>
+                                <FormLabel>{lang === "TH" ? "จังหวัด" : "Province"}</FormLabel>
+                                <Select
+                                    placeholder={lang === "TH" ? "เลือกจังหวัด" : "Select Province"}
                                     value={form.province || ""}
                                     onChange={(e) =>
                                         setForm({ ...form, province: e.target.value })
                                     }
-                                    placeholder="จังหวัด"
-                                />
+                                >
+                                    {provinces.map((p, i) => (
+                                        <option key={i} value={p}>{p}</option>
+                                    ))}
+                                </Select>
                             </FormControl>
                         </SimpleGrid>
 
-                        {/* เต็มบรรทัด */}
-                        <FormControl id="citizen_id" isRequired>
-                            <FormLabel>หมายเลขบัตรประชาชน</FormLabel>
-                            <Input
-                                type="text"
-                                value={form.citizen_id || ""}
-                                onChange={(e) => setForm({ ...form, citizen_id: e.target.value })}
-                                placeholder="หมายเลขบัตรประชาชน"
-                            />
+                        {/* Citizen / Passport */}
+                        <FormControl isRequired>
+                            <HStack justify="space-between" mb={2}>
+                                <FormLabel mb="0">
+                                    {usePassport
+                                        ? lang === "TH" ? "Passport ID" : "Passport ID"
+                                        : lang === "TH" ? "หมายเลขบัตรประชาชน" : "Citizen ID"}
+                                </FormLabel>
+                                <HStack>
+                                    <Text fontSize="sm">ID</Text>
+                                    <Switch
+                                        required={false}
+                                        isChecked={usePassport}
+                                        onChange={() => setUsePassport(!usePassport)}
+                                        colorScheme="orange"
+                                    />
+                                    <Text fontSize="sm">Passport</Text>
+                                </HStack>
+                            </HStack>
+
+                            {!usePassport ? (
+                                <Input
+                                    type="text"
+                                    value={form.citizen_id || ""}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            citizen_id: e.target.value,
+                                            passport_id: "", // clear ค่า passport ตอนสลับ
+                                        })
+                                    }
+                                    placeholder={
+                                        lang === "TH" ? "เลขบัตรประชาชน 13 หลัก" : "13-digit Citizen ID"
+                                    }
+                                />
+                            ) : (
+                                <Input
+                                    type="text"
+                                    value={form.passport_id || ""}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            passport_id: e.target.value,
+                                            citizen_id: "", // clear ค่า citizen ตอนสลับ
+                                        })
+                                    }
+                                    placeholder={
+                                        lang === "TH" ? "เลข Passport" : "Passport Number"
+                                    }
+                                />
+                            )}
                         </FormControl>
 
-                        {/* เต็มบรรทัด */}
-                        <FormControl id="email" isRequired>
-                            <FormLabel>อีเมล</FormLabel>
+
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "อีเมล" : "Email"}</FormLabel>
                             <Input
                                 type="email"
                                 value={form.email || ""}
@@ -174,8 +343,8 @@ export function RegisterPage() {
                             />
                         </FormControl>
 
-                        <FormControl id="phone" isRequired>
-                            <FormLabel>เบอร์โทรศัพท์</FormLabel>
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "เบอร์โทรศัพท์" : "Phone"}</FormLabel>
                             <Input
                                 type="tel"
                                 value={form.phone || ""}
@@ -184,13 +353,25 @@ export function RegisterPage() {
                             />
                         </FormControl>
 
-                        <FormControl id="password" isRequired>
-                            <FormLabel>รหัสผ่าน</FormLabel>
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "รหัสผ่าน" : "Password"}</FormLabel>
                             <Input
                                 type="password"
                                 value={form.password || ""}
                                 onChange={(e) =>
                                     setForm({ ...form, password: e.target.value })
+                                }
+                                placeholder="••••••••"
+                            />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "ยืนยันรหัสผ่าน" : "Confirm Password"}</FormLabel>
+                            <Input
+                                type="password"
+                                value={form.confirm_password || ""}
+                                onChange={(e) =>
+                                    setForm({ ...form, confirm_password: e.target.value })
                                 }
                                 placeholder="••••••••"
                             />
@@ -213,12 +394,11 @@ export function RegisterPage() {
                             isLoading={isLoading}
                             rounded="xl"
                         >
-                            สมัครสมาชิก
+                            {lang === "TH" ? "สมัครสมาชิก" : "Register"}
                         </Button>
                     </VStack>
                 </form>
 
-                {/* Tips */}
                 <Box
                     mt={6}
                     p={4}
@@ -228,13 +408,20 @@ export function RegisterPage() {
                     fontSize="sm"
                     color={textColor}
                 >
-                    <Text>กรุณาใช้ข้อมูลจริงเพื่อการยืนยันตัวตน</Text>
-                    <Text>หลังสมัครสมาชิกสามารถเข้าสู่ระบบผ่านหน้า Login</Text>
+                    <Text>
+                        {lang === "TH"
+                            ? "กรุณาใช้ข้อมูลจริงเพื่อการยืนยันตัวตน"
+                            : "Please use real information for verification"}
+                    </Text>
+                    <Text>
+                        {lang === "TH"
+                            ? "หลังสมัครสมาชิกสามารถเข้าสู่ระบบผ่านหน้า Login"
+                            : "After registration, you can log in on the Login page"}
+                    </Text>
                 </Box>
 
-                {/* Login Link */}
                 <Text textAlign="center" fontSize="sm" color={textColor} mt={4}>
-                    มีบัญชีแล้ว?{" "}
+                    {lang === "TH" ? "มีบัญชีแล้ว?" : "Already have an account?"}{" "}
                     <Text
                         as="span"
                         color={PRIMARY}
@@ -242,7 +429,7 @@ export function RegisterPage() {
                         cursor="pointer"
                         onClick={() => router.push("/login")}
                     >
-                        เข้าสู่ระบบ
+                        {lang === "TH" ? "เข้าสู่ระบบ" : "Login"}
                     </Text>
                 </Text>
             </Box>

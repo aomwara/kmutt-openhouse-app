@@ -7,9 +7,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Role {
+  student
+  parent
+  teacher
+  guest
+}
+
 model Students {
   id            Int          @id @default(autoincrement())
-  citizen_id    String
+  citizen_id    String?
+  passport_id   String?
   first_name    String
   last_name     String
   school        String
@@ -17,7 +25,7 @@ model Students {
   email         String       @unique
   phone         String
   password_hash String
-  role          String       @default("student")
+  role          Role         @default(student)
   created_at    DateTime     @default(now())
   OAuthCode     OAuthCode[]
   oAuthToken    oAuthToken[]
