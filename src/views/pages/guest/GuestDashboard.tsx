@@ -18,6 +18,7 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 import StudentSidebar from "@/components/Sidebar/StudentSidebar"
+import { ScheduleSection } from "../landing/ScheduleSection"
 
 const PRIMARY = "#F04E23"
 const SECONDARY = "#FFC233"
@@ -109,6 +110,16 @@ const GuestDashboardPage = () => {
 
                             </Flex>
                         </Box>
+                        <Box
+                            mt={-2}
+                            // bg={cardBg}
+                            // p={{ base: 4, md: 6 }}
+                            rounded="2xl"
+                            shadow="lg"
+                            bg={cardBg}
+                        // borderLeft={`5px solid ${SECONDARY}`}
+                        >  <ScheduleSection /> </Box>
+
                     </Box>
                 </Flex>
             </Container>
