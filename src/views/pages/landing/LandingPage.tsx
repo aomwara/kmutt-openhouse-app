@@ -227,12 +227,13 @@ const LandingPage = () => {
                         <Text px={6} fontSize={{ base: "md", md: "lg" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
                             วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
                             ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
+                            <br />ลงทะเบียน: 29 กันยายน 2568
                         </Text>
 
                         <Text px={6} fontSize={{ base: "sm", md: "md" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
                             October 10-12, 2025, from  08:30 a.m. to 9:00 p.m.
                             at King {"Mongkut's"} University of Technology Thonburi (KMUTT), Bangmod and Bang khunthian Campuses
-                            Registration: September 29, 2025
+                            <br />Registration: September 29, 2025
                         </Text>
 
 
