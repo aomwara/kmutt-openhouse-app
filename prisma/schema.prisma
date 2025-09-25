@@ -31,24 +31,6 @@ model Students {
   oAuthToken    oAuthToken[]
 }
 
-model Staffs {
-  id            Int             @id @default(autoincrement())
-  username      String          @unique
-  password_hash String
-  name          String
-  email         String          @unique
-  created_at    DateTime        @default(now())
-  ActivityStaff ActivityStaff[]
-}
-
-model APIUsers {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
-  password_hash String
-  email         String   @unique
-  created_at    DateTime @default(now())
-}
-
 model Admins {
   id            Int      @id @default(autoincrement())
   username      String   @unique
@@ -58,53 +40,77 @@ model Admins {
   created_at    DateTime @default(now())
 }
 
-model Faculty {
-  id         Int      @id @default(autoincrement())
-  name       String
-  created_at DateTime @default(now())
+model Staffs {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  password_hash String
+  name          String
+  email         String   @unique
+  created_at    DateTime @default(now())
 
+  activity_id Int
+  activity    Activities @relation(fields: [activity_id], references: [id])
+}
+
+// University Structure
+/**
+ * * University Structure:
+ * - Faculty
+ * - Department
+ */
+model Faculty {
+  id          Int          @id @default(autoincrement())
+  name_th     String
+  name_en     String
+  created_at  DateTime     @default(now())
   departments Department[]
 }
 
 model Department {
   id         Int          @id @default(autoincrement())
-  name       String
+  name_th    String
+  name_en    String
   facultyId  Int
   faculty    Faculty      @relation(fields: [facultyId], references: [id])
   created_at DateTime     @default(now())
   activities Activities[]
 }
 
-model Activities {
-  id               Int          @id @default(autoincrement())
-  title            String
-  description      String
-  date             DateTime
-  location         String
-  created_at       DateTime     @default(now())
-  max_participants Int
-  activity_type    ActivityType
-  departmentId     Int
-  department       Department   @relation(fields: [departmentId], references: [id])
-
-  ActivityStaff ActivityStaff[]
-}
-
+/**
+ * * Types of activities:
+ * - workshop: กิจกรรมที่ลงทะเบียนได้เฉพาะนักเรียนที่สมัครเข้าร่วมงานแล้ว
+ * - regis_activity: กิจกรรมที่ลงทะเบียนได้เฉพาะนักเรียนที่สมัครเข้าร่วมงานแล้ว
+ * - non_regis_activity: กิจกรรมที่เปิดให้ทุกคนเข้าร่วมได้
+ */
 enum ActivityType {
   workshop
-  seminar
-  meeting
+  regis_activity
+  non_regis_activity
 }
 
-model ActivityStaff {
-  activityId Int
-  staffId    Int
-  created_at DateTime @default(now())
+model Activities {
+  id            Int          @id @default(autoincrement())
+  activity_type ActivityType
 
-  activity Activities @relation(fields: [activityId], references: [id])
-  staff    Staffs     @relation(fields: [staffId], references: [id])
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
 
-  @@id([activityId, staffId])
+  title       String
+  description String
+  date        String
+  round       Int
+  start_time  DateTime
+  end_time    DateTime
+  location    String
+  point       Int
+  form_link   String?
+  image_url   String?
+  stars       Int      @default(0)
+
+  max_participants              Int
+  current_register_participants Int      @default(0)
+  staffs                        Staffs[]
+  created_at                    DateTime @default(now())
 }
 
 // OAuth2
