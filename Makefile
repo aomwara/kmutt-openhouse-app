@@ -6,3 +6,6 @@ run-docker:
 		-e "NEXTAUTH_URL=http://localhost:3000" \
 		-e "EXTERNAL_JWT_SECRET=supersecrettest" \
 		kmutt_oph
+
+build:
+	docker build -t kmutt_oph .
