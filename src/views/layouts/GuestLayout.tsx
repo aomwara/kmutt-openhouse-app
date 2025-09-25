@@ -24,7 +24,7 @@ type StudentLayoutProps = {
     children: ReactNode
 }
 
-export default function StudentLayout({ children }: StudentLayoutProps) {
+export default function GuestLayout({ children }: StudentLayoutProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -125,28 +125,22 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                             py={4}
                         >
                             <VStack align="stretch" spacing={4}>
-                                <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                    กำหนดการ
+                                <Link href="/#schedule" onClick={() => setMenuOpen(false)}>
+                                    {"> "}  กำหนดการ / Schedule
                                 </Link>
-                                <Link href="#features" onClick={() => setMenuOpen(false)}>
-                                    ฟีเจอร์
-                                </Link>
-                                <Link href="#stats" onClick={() => setMenuOpen(false)}>
-                                    สถิติ
-                                </Link>
-                                <Link href="#testimonials" onClick={() => setMenuOpen(false)}>
-                                    เสียงจากผู้ใช้
-                                </Link>
+
                                 <Button
                                     as={Link}
-                                    href="/student/login"
+                                    href="/login"
                                     w="full"
+                                    size={{ base: "sm", md: "md" }}
                                     bg={PRIMARY}
                                     _hover={{ bg: "#d6451f" }}
                                     color="white"
                                     rounded="xl"
+                                    fontSize={{ base: "sm", md: "md" }}
                                 >
-                                    เข้าสู่ระบบ
+                                    ออกจากระบบ
                                 </Button>
                             </VStack>
                         </Box>

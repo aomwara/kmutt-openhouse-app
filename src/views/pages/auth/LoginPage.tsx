@@ -53,6 +53,8 @@ const LoginPage = () => {
 
         if (session?.user?.role === "student") {
             router.push("/app/dashboard")
+        } else if (session?.user?.role === "guest" || session?.user?.role === "parent" || session?.user?.role === "teacher") {
+            router.push("/guest/dashboard")
         } else if (session?.user?.role === "staff") {
             router.push("/staff/dashboard")
         } else if (session?.user?.role === "kmuser") {

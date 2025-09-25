@@ -1,0 +1,1 @@
+export { GuestDashboardPage as default } from '@/views/pages/guest/GuestDashboard';

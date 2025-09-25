@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
 
             return {
                 id: user.id,
-                role: student ? "student" : "staff",
+                role: student ? student.role : "staff",
                 name: student ? `${student.first_name} ${student.last_name}` : staff!.name,
                 email: user.email
             };
@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
 
   async session({ session, token }) {
     session.user.id = token.id as number;
-    session.user.role = token.role as "student" | "staff" | "kmuser";
+    session.user.role = token.role as "student" | "staff" | "kmuser" | "parent" | "guest" | "teacher";
     session.user.name = (token.name as string) ?? null;
     session.user.email = (token.email as string) ?? null;
 
