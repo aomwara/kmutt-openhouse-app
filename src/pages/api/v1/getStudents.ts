@@ -17,6 +17,11 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       last_name: true,
       school: true,
       province: true,
+      email: true,
+      phone: true,
+      created_at: true,
+      passport_id: true,
+      role: true,
     },
     skip,
     take: limit,
@@ -34,4 +39,4 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   });
 }
 
-export default withExternalAuth(handler, ["staff"]);
+export default withExternalAuth(handler, ["kmuser"]);

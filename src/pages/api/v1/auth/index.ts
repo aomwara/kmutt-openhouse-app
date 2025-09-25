@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: "Missing username or password" });
   }
 
-  const staff = await prisma.staffs.findUnique({
+  const staff = await prisma.admins.findUnique({
     where: { username },
   });
 
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const payload = {
     id: staff.id,
-    role: "staff",
+    role: "kmuser",
     name: staff.name,
     email: staff.email,
   };

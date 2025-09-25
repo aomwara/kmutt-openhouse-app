@@ -5,7 +5,7 @@ const EXTERNAL_JWT_SECRET = process.env.EXTERNAL_JWT_SECRET!;
 
 export type PayloadJWT = {
   id: number;                    
-  role: "student" | "staff" | "admin";
+  role: "student" | "staff" | "admin" | "kmuser" | "parent" | "guest" | "teacher";
   name?: string;
   email?: string;
   iat?: number;
@@ -15,7 +15,7 @@ export type PayloadJWT = {
 export interface AuthenticatedRequest extends NextApiRequest {
   user: {
     id: number;                   
-    role: "student" | "staff" | "admin";
+    role: "student" | "staff" | "admin" | "kmuser" | "parent" | "guest" | "teacher";
     name?: string;
     email?: string;
   };
@@ -23,7 +23,7 @@ export interface AuthenticatedRequest extends NextApiRequest {
 
 export function withExternalAuth(
   handler: (req: AuthenticatedRequest, res: NextApiResponse) => void | Promise<void>,
-  roles: ("student" | "staff" | "admin")[] = []
+  roles: ("student" | "staff" | "admin" | "kmuser" | "parent" | "guest" | "teacher")[] = []
 ) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const authHeader = req.headers.authorization;
