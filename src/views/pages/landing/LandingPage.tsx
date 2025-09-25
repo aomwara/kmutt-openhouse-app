@@ -159,15 +159,15 @@ const LandingPage = () => {
                                     วิธีใช้งาน
                                 </Link> */}
                                     <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                        {"> "} กำหนดการ
+                                        {"> "}      กำหนดการ / Schedule
                                     </Link>
                                     {/* บูธแนะนำหลักสูตร & หน่วยงาน */}
                                     <Link href="#booth" onClick={() => setMenuOpen(false)}>
-                                        {"> "} บูธแนะนำหลักสูตร & หน่วยงาน
+                                        {"> "} บูธแนะนำหลักสูตร & หน่วยงาน / Program Information Booth
                                     </Link>
                                     {/* แผนที่ */}
                                     <Link href="#map" onClick={() => setMenuOpen(false)}>
-                                        {"> "} แผนที่
+                                        {"> "} แผนที่ / Map
                                     </Link>
                                     {/* <Link href="#features" onClick={() => setMenuOpen(false)}>
                                     ฟีเจอร์
