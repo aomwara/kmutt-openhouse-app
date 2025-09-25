@@ -22,6 +22,13 @@ export default withAuth(
         return NextResponse.redirect(new URL("/login", req.url));
       }
     }
+
+    console.log(token?.role)
+    if (req.nextUrl.pathname.startsWith("/guest")) {
+      if (token?.role !== "guest" && token?.role !== "parent" && token?.role !== "teacher") {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+    }
   },
   {
     callbacks: {
@@ -31,5 +38,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/app/:path*", "/staff/:path*", "/_km/:path*"],
+  matcher: ["/app/:path*", "/staff/:path*", "/_km/:path*", "/guest/:path*"],
 };
