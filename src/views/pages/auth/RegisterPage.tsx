@@ -66,6 +66,12 @@ export const provincesEN = [
     "Ubon Ratchathani"
 ]
 
+export const roles = [
+    { value: "student", labelTH: "นักเรียน", labelEN: "Student" },
+    { value: "teacher", labelTH: "ครู/อาจารย์", labelEN: "Teacher" },
+    { value: "parent", labelTH: "ผู้ปกครอง", labelEN: "Parent" },
+    { value: "guest", labelTH: "ผู้เยี่ยมชม", labelEN: "Guest" },
+]
 
 // ตรวจสอบเลขบัตรประชาชนไทย
 const isValidCitizenId = (id: string) => {
@@ -79,16 +85,21 @@ const isValidCitizenId = (id: string) => {
 
 export function RegisterPage() {
     const [form, setForm] = useState<Record<string, string>>({})
+    //set default role to student
+    if (!form.role) setForm({ ...form, role: "student" })
+
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
     const [lang, setLang] = useState<"TH" | "EN">("TH")
     const [usePassport, setUsePassport] = useState(false)
     const router = useRouter()
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
         setError("")
+
 
         // Validation
         if (!form.first_name || !form.last_name) {
@@ -109,14 +120,14 @@ export function RegisterPage() {
             return
         }
 
-        if (!usePassport) {
+        if (!usePassport && form.role == "student") {
             if (!form.citizen_id || !isValidCitizenId(form.citizen_id)) {
                 setError("เลขบัตรประชาชนไม่ถูกต้อง")
                 setIsLoading(false)
                 return
             }
         } else {
-            if (!form.passport_id) {
+            if (!form.passport_id && form.role == "student") {
                 setError("กรุณากรอก Passport ID")
                 setIsLoading(false)
                 return
@@ -135,8 +146,11 @@ export function RegisterPage() {
             return
         }
 
-        if (!form.password || form.password.length < 6) {
-            setError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร")
+        // ตรวจสอบรหัสผ่าน
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+        if (!form.password || !passwordRegex.test(form.password)) {
+            setError("รหัสผ่านต้องมีอย่างน้อย 8 ตัว และประกอบด้วยทั้งตัวอักษรและตัวเลข")
             setIsLoading(false)
             return
         }
@@ -280,7 +294,7 @@ export function RegisterPage() {
                         </SimpleGrid>
 
                         {/* Citizen / Passport */}
-                        <FormControl isRequired>
+                        <FormControl isRequired={form.role == "student"}>
                             <HStack justify="space-between" mb={2}>
                                 <FormLabel mb="0">
                                     {usePassport
@@ -351,6 +365,23 @@ export function RegisterPage() {
                                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                                 placeholder="0812345678"
                             />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "ผู้ใช้งาน" : "User type"}</FormLabel>
+                            <Select
+                                // placeholder={lang === "TH" ? "เลือกประเภทผู้ใช้งาน" : "Select User Type"}
+                                value={form.role || ""}
+                                onChange={(e) =>
+                                    setForm({ ...form, role: e.target.value })
+                                }
+                            >
+                                {roles.map((role) => (
+                                    <option key={role.value} value={role.value}>
+                                        {lang === "TH" ? role.labelTH : role.labelEN}
+                                    </option>
+                                ))}
+                            </Select>
                         </FormControl>
 
                         <FormControl isRequired>

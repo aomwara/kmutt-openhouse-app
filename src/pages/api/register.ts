@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { first_name, last_name, school, province, email, phone, password, citizen_id } = req.body;
+  const { first_name, last_name, school, province, email, phone, password, citizen_id, passport_id, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,12 +16,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: {
         first_name,
         last_name,
-        citizen_id,
+        citizen_id : citizen_id || null,
         school,
         province,
         email,
         phone,
-        password_hash: hashedPassword
+        password_hash: hashedPassword,
+        role,
+        passport_id: passport_id || null,
       }
     });
 
