@@ -240,6 +240,24 @@ export function RegisterPage() {
                 {/* Form */}
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={5}>
+                        {/* Role */}
+                        <FormControl isRequired>
+                            <FormLabel>{lang === "TH" ? "ผู้ใช้งาน" : "User type"}</FormLabel>
+                            <Select
+                                // placeholder={lang === "TH" ? "เลือกประเภทผู้ใช้งาน" : "Select User Type"}
+                                value={form.role || ""}
+                                onChange={(e) =>
+                                    setForm({ ...form, role: e.target.value })
+                                }
+                            >
+                                {roles.map((role) => (
+                                    <option key={role.value} value={role.value}>
+                                        {lang === "TH" ? role.labelTH : role.labelEN}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+
                         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} w="full">
                             <FormControl isRequired>
                                 <FormLabel>{lang === "TH" ? "ชื่อจริง" : "First Name"}</FormLabel>
@@ -346,7 +364,6 @@ export function RegisterPage() {
                             )}
                         </FormControl>
 
-
                         <FormControl isRequired>
                             <FormLabel>{lang === "TH" ? "อีเมล" : "Email"}</FormLabel>
                             <Input
@@ -365,23 +382,6 @@ export function RegisterPage() {
                                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                                 placeholder="0812345678"
                             />
-                        </FormControl>
-
-                        <FormControl isRequired>
-                            <FormLabel>{lang === "TH" ? "ผู้ใช้งาน" : "User type"}</FormLabel>
-                            <Select
-                                // placeholder={lang === "TH" ? "เลือกประเภทผู้ใช้งาน" : "Select User Type"}
-                                value={form.role || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, role: e.target.value })
-                                }
-                            >
-                                {roles.map((role) => (
-                                    <option key={role.value} value={role.value}>
-                                        {lang === "TH" ? role.labelTH : role.labelEN}
-                                    </option>
-                                ))}
-                            </Select>
                         </FormControl>
 
                         <FormControl isRequired>
