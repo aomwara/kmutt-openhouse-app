@@ -19,11 +19,8 @@ export const authOptions: NextAuthOptions = {
         if (!credentials) return null;
         const { emailOrUsername, password } = credentials;
         if(emailOrUsername.startsWith(`KM_`)){
-          console.log("kmuser login")
-          console.log(emailOrUsername)
           // KMUTT user role
           const kmuser = await prisma.admins.findUnique({ where: { username: emailOrUsername } });
-          console.log(kmuser);
            if (!kmuser) return null;
           const isValid = await bcrypt.compare(password, kmuser.password_hash);
           if (!isValid) return null;

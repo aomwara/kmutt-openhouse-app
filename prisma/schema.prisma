@@ -32,12 +32,13 @@ model Students {
 }
 
 model Admins {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
+  id            Int          @id @default(autoincrement())
+  username      String       @unique
   password_hash String
-  email         String   @unique
+  email         String       @unique
   name          String
-  created_at    DateTime @default(now())
+  created_at    DateTime     @default(now())
+  Activities    Activities[]
 }
 
 model Staffs {
@@ -95,22 +96,23 @@ model Activities {
   departmentId Int
   department   Department @relation(fields: [departmentId], references: [id])
 
-  title       String
-  description String
-  date        String
-  round       Int
-  start_time  DateTime
-  end_time    DateTime
-  location    String
-  point       Int
-  form_link   String?
-  image_url   String?
-  stars       Int      @default(0)
-
+  title                         String
+  description                   String
+  date                          String
+  round                         Int
+  start_time                    String
+  end_time                      String
+  location                      String
+  point                         Int
+  form_link                     String?
+  image_url                     String?
+  stars                         Int      @default(0)
   max_participants              Int
   current_register_participants Int      @default(0)
   staffs                        Staffs[]
   created_at                    DateTime @default(now())
+  Admins                        Admins?  @relation(fields: [ownerId], references: [id])
+  ownerId                       Int?
 }
 
 // OAuth2

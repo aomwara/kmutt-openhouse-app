@@ -15,16 +15,19 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         department: {
           select: {
             id: true,
-            name: true,
+            name_en: true,
+            name_th: true,
             faculty: {
               select: {
                 id: true,
-                name: true,
+                name_en: true,
+                name_th: true,
               },
             },
           },
         },
       },
+      where:{ ownerId: req.user.id },
       orderBy: {
         date: "asc",
       },
@@ -32,22 +35,33 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
     const mapped = activities.map((act) => ({
       id: act.id,
+      activity_type: act.activity_type,
       title: act.title,
       description: act.description,
       date: act.date,
+      round: act.round,
+      start_time: act.start_time,
+      end_time: act.end_time,
       location: act.location,
-      created_at: act.created_at,
+      point: act.point,
+      form_link: act.form_link,
+      image_url: act.image_url,
+      stars: act.stars,
       max_participants: act.max_participants,
-      activity_type: act.activity_type,
+      current_register_participants: act.current_register_participants,
+      created_at: act.created_at,
       department: {
         id: act.department.id,
-        name: act.department.name,
+        name_en: act.department.name_en,
+        name_th: act.department.name_th,
       },
       faculty: {
         id: act.department.faculty.id,
-        name: act.department.faculty.name,
+        name_en: act.department.faculty.name_en,
+        name_th: act.department.faculty.name_th,
       },
     }));
+
 
     return res.status(200).json(mapped);
   } catch (error) {

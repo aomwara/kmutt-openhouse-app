@@ -23,7 +23,6 @@ export default withAuth(
       }
     }
 
-    console.log(token?.role)
     if (req.nextUrl.pathname.startsWith("/guest")) {
       if (token?.role !== "guest" && token?.role !== "parent" && token?.role !== "teacher") {
         return NextResponse.redirect(new URL("/login", req.url));

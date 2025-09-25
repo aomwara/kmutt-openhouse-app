@@ -25,9 +25,9 @@ const KMSidebar = () => {
     const router = useRouter()
 
     const menuItems = [
-        { label: "Dashboard", icon: MdDashboard, link: "/_km/dashboard" },
+        { label: "กิจกรรมทั้งหมด", icon: MdDashboard, link: "/_km/dashboard" },
         { label: "เพิ่มกิจกรรม", icon: MdAddBusiness, link: "/_km/activity/add" },
-        { label: "จัดการแบบสอบถาม", icon: MdQuestionAnswer, link: "/_km/activity/add" },
+        // { label: "จัดการแบบสอบถาม", icon: MdQuestionAnswer, link: "/_km/activity/add" },
         { label: "ออกจากระบบ", icon: MdLogout, link: "/login" }
     ]
 

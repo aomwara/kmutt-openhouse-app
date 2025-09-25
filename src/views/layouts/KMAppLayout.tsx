@@ -28,7 +28,7 @@ export default function KMAppLayout({ children, navigation }: KMLayoutProps) {
                             flex="1"
                         >
                             <Text fontSize="lg" fontWeight="bold" mb={4}>
-                                BackOffice / {navigation}
+                                Admin / {navigation}
                             </Text>
                             <Divider mt="-1" mb={6} />
 

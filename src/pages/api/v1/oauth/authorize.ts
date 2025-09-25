@@ -58,7 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "POST") {
-  console.log("auth post", req.body);
   const { email, password, client_id, redirect_uri, state } = req.body;
 
   // ตรวจสอบ student
