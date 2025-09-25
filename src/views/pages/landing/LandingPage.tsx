@@ -88,11 +88,14 @@ const LandingPage = () => {
                                 fontWeight="medium"
                                 justify="center"
                                 flex="1"
+                                lineHeight={"20px"}
+                                align={"center"}
+
                             >
                                 {/* <Link href="#how">วิธีใช้งาน</Link> */}
-                                <Link href="#schedule">กำหนดการ</Link>
-                                <Link href="#booth">บูธแนะนำหลักสูตร</Link>
-                                <Link href="#map">แผนที่</Link>
+                                <Link href="#schedule"><center>กำหนดการ <br />Schedule</center></Link>
+                                <Link href="#booth"><center>บูธแนะนำหลักสูตร <br />Program Information Booth</center></Link>
+                                <Link href="#map"><center>แผนที่ <br />Map</center></Link>
                                 {/* <Link href="#features">ฟีเจอร์</Link>
                             <Link href="#stats">สถิติ</Link>
                             <Link href="#testimonials">เสียงจากผู้ใช้</Link> */}
@@ -225,6 +228,15 @@ const LandingPage = () => {
                             วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
                             ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
                         </Text>
+
+                        <Text px={6} fontSize={{ base: "sm", md: "md" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
+                            October 10-12, 2025, from  08:30 a.m. to 9:00 p.m.
+                            at King {"Mongkut's"} University of Technology Thonburi (KMUTT), Bangmod and Bang khunthian Campuses
+                            Registration: September 29, 2025
+                        </Text>
+
+
+
                         <HStack spacing={4} pt={4}>
                             <Button
                                 as={Link}
@@ -238,7 +250,7 @@ const LandingPage = () => {
                             >
                                 <Flex justify={"center"} align="center">
                                     <IoCalendar style={{ marginRight: "8px" }} />
-                                    <Text>กำหนดการ</Text>
+                                    <Text>กำหนดการ / <Link href="#schedule">Schedule</Link></Text>
                                 </Flex>
 
                             </Button>
