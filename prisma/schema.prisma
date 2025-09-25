@@ -15,20 +15,21 @@ enum Role {
 }
 
 model Students {
-  id            Int          @id @default(autoincrement())
-  citizen_id    String?
-  passport_id   String?
-  first_name    String
-  last_name     String
-  school        String
-  province      String
-  email         String       @unique
-  phone         String
-  password_hash String
-  role          Role         @default(student)
-  created_at    DateTime     @default(now())
-  OAuthCode     OAuthCode[]
-  oAuthToken    oAuthToken[]
+  id                 Int                  @id @default(autoincrement())
+  citizen_id         String?
+  passport_id        String?
+  first_name         String
+  last_name          String
+  school             String
+  province           String
+  email              String               @unique
+  phone              String
+  password_hash      String
+  role               Role                 @default(student)
+  created_at         DateTime             @default(now())
+  OAuthCode          OAuthCode[]
+  oAuthToken         oAuthToken[]
+  RegisterActivities RegisterActivities[]
 }
 
 model Admins {
@@ -106,13 +107,26 @@ model Activities {
   point                         Int
   form_link                     String?
   image_url                     String?
-  stars                         Int      @default(0)
+  stars                         Int                  @default(0)
   max_participants              Int
-  current_register_participants Int      @default(0)
+  current_register_participants Int                  @default(0)
   staffs                        Staffs[]
-  created_at                    DateTime @default(now())
-  Admins                        Admins?  @relation(fields: [ownerId], references: [id])
+  created_at                    DateTime             @default(now())
+  Admins                        Admins?              @relation(fields: [ownerId], references: [id])
   ownerId                       Int?
+  RegisterActivities            RegisterActivities[]
+}
+
+model RegisterActivities {
+  id            Int      @id @default(autoincrement())
+  studentId     Int
+  activityId    Int
+  registered_at DateTime @default(now())
+
+  student  Students   @relation(fields: [studentId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id])
+
+  @@unique([studentId, activityId])
 }
 
 // OAuth2
