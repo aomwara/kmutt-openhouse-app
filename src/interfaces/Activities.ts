@@ -14,6 +14,7 @@ export interface Activity {
   image_url?: string
   round: number
   activity_type: string
+  created_at: string     // วันที่สร้างกิจกรรม
   department: {
     id: number
     name_th: string

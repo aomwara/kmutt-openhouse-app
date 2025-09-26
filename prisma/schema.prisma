@@ -16,6 +16,7 @@ enum Role {
 
 model Students {
   id                 Int                  @id @default(autoincrement())
+  uuid               String               @unique @default(uuid())
   citizen_id         String?
   passport_id        String?
   first_name         String

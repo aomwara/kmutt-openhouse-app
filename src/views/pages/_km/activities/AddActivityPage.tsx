@@ -16,10 +16,12 @@ import {
     Text
 } from "@chakra-ui/react"
 import KMAppLayout from "@/views/layouts/KMAppLayout"
+import { useRouter } from "next/router"
 
 type ActivityType = "workshop" | "regis_activity" | "non_regis_activity"
 
 const AddActivityPage = () => {
+    const router = useRouter()
     const toast = useToast()
 
     const [title, setTitle] = useState("")
@@ -99,6 +101,11 @@ const AddActivityPage = () => {
                 setFormLink("")
                 setImageUrl("")
                 setMaxParticipants(0)
+                // wait 1 second and redirect to /_km/dashboard
+                setTimeout(() => {
+                    router.push("/_km/dashboard")
+                }, 1000)
+
             } else {
                 toast({
                     title: "เกิดข้อผิดพลาด",
@@ -169,7 +176,7 @@ const AddActivityPage = () => {
                     </HStack>
 
                     <FormLabel>สถานที่จัดกิจกรรม</FormLabel>
-                    <Input value={location} onChange={e => setLocation(e.target.value)} />
+                    <Input value={location} placeholder="สถานที่จัดกิจกรรม" onChange={e => setLocation(e.target.value)} />
 
                     <FormLabel>คะแนนของกิจกรรม</FormLabel>
                     <NumberInput min={1} max={3} value={point} defaultValue={1} onChange={(_, val) => setPoint(val)}>

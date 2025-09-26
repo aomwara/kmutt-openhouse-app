@@ -19,7 +19,7 @@ import KMProfileCard from "@/components/ProfileCard/KMProfileCard"
 import KMAppLayout from "@/views/layouts/KMAppLayout"
 import { KMProfile } from "@/interfaces/KMProfile"
 import { Activity } from "@/interfaces/Activities"
-import { EditIcon } from "@chakra-ui/icons"
+import { EditIcon, ViewIcon } from "@chakra-ui/icons"
 import { useRouter } from "next/router"
 
 const ITEMS_PER_PAGE = 5
@@ -55,7 +55,7 @@ const KMDashboardPage = () => {
     }
 
     const handleEdit = (id: number) => {
-        router.push(`/_km/activity/${id}`)
+        router.push(`/_km/activity/view/${id}`)
     }
 
     const activityColors: Record<string, string> = {

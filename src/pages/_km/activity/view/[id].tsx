@@ -1,0 +1,1 @@
+export { ViewActivityPage as default } from "@/views/pages/_km/activities/ViewActivityPage"
