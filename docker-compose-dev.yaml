@@ -1,10 +1,10 @@
 version: "3.9"
 services:
   app:
-    image: kmutt-oph
+    image: kmutt_oph
     container_name: kmutt-openhouse-app-dev
     ports:
-      - "8080:3000"
+      - "8080:80"
     env_file:
       - .env
     environment:
