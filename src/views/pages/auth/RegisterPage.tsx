@@ -147,7 +147,7 @@ export function RegisterPage() {
         }
 
         // ตรวจสอบรหัสผ่าน
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
         if (!form.password || !passwordRegex.test(form.password)) {
             setError("รหัสผ่านต้องมีอย่างน้อย 8 ตัว และประกอบด้วยทั้งตัวอักษรและตัวเลข")
