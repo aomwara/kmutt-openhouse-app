@@ -15,27 +15,27 @@ services:
     depends_on:
        - db
 
-    db:
-      image: mysql:8.0
-      container_name: kmutt-oph-db-dev
-      restart: always
-      volumes:
-       - ./mysql-data:/var/lib/mysql
-      environment:
-       MYSQL_ROOT_PASSWORD: testpassword
-       MYSQL_DATABASE: kmutt-open-house-act
-      expose:
-       - "3306"
-      ports:
-       - "3307:3306"
+  db:
+    image: mysql:8.0
+    container_name: kmutt-oph-db-dev
+    restart: always
+    volumes:
+     - ./mysql-data:/var/lib/mysql
+    environment:
+     MYSQL_ROOT_PASSWORD: testpassword
+     MYSQL_DATABASE: kmutt-open-house-act
+    expose:
+     - "3306"
+    ports:
+     - "3307:3306"
 
-    PMA:
-      depends_on:
-       - db
-      image: phpmyadmin/phpmyadmin
-      container_name: kmutt-oph-pma-dev
-      restart: always
-      ports:
-       - "8090:80"
-      environment:
-        PMA_HOST: db
+  PMA:
+    depends_on:
+     - db
+    image: phpmyadmin/phpmyadmin
+    container_name: kmutt-oph-pma-dev
+    restart: always
+    ports:
+     - "8090:80"
+    environment:
+      PMA_HOST: db
