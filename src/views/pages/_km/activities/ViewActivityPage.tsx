@@ -22,6 +22,7 @@ import {
     ModalFooter,
     FormControl,
     FormLabel,
+    VStack,
 } from "@chakra-ui/react";
 import KMAppLayout from "@/views/layouts/KMAppLayout";
 
@@ -152,6 +153,27 @@ export const ViewActivityPage = () => {
                         </Text>
                     </Box>
 
+                    {/* Participants */}
+                    <Box mt={4}>
+                        <Text fontSize="sm" fontWeight="bold" mb={2}>
+                            รายชื่อนักเรียนที่ลงทะเบียน
+                        </Text>
+                        {activity.registrations?.length === 0 ? (
+                            <Text fontSize="sm" color="gray.500">
+                                ยังไม่มีผู้ลงทะเบียน
+                            </Text>
+                        ) : (
+                            <VStack align="start" spacing={1}>
+                                {activity.registrations?.map((reg) => (
+                                    <Text key={reg.id} fontSize="sm" color="gray.600">
+                                        -  {reg.student.first_name} {reg.student.last_name} ({reg.student.email}) ::{" "}
+                                        {new Date(reg.registered_at).toLocaleString("th-TH")}
+                                    </Text>
+                                ))}
+                            </VStack>
+                        )}
+                    </Box>
+
                     {/* Modal แก้ไข */}
                     <Modal isOpen={isOpen} onClose={onClose} size="lg">
                         <ModalOverlay />
@@ -165,17 +187,19 @@ export const ViewActivityPage = () => {
                                     </FormLabel>
                                     {/* use select */}
                                     <select
+
                                         id="display"
                                         value={form.display ? "true" : "false"}
                                         onChange={(e) =>
                                             setForm({ ...form, display: e.target.value === "true" })
                                         }
-                                        style={{ marginLeft: "10px", padding: "5px", borderRadius: "5px" }}
+                                        style={{ width: "100px", border: "1px solid gray", fontSize: "20px", marginLeft: "10px", padding: "5px", borderRadius: "5px" }}
                                     >
                                         <option value="true">แสดง</option>
                                         <option value="false">ซ่อน</option>
                                     </select>
                                 </FormControl>
+
                                 <FormControl mb={3}>
                                     <FormLabel>ชื่อกิจกรรม</FormLabel>
                                     <Input

@@ -9,65 +9,90 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   const { id } = req.query;
 
   if (req.method === "GET") {
-    try {
-      const act = await prisma.activities.findUnique({
-        where: { id: Number(id), ownerId: req.user.id },
-        include: {
-          department: {
-            select: {
-              id: true,
-              name_en: true,
-              name_th: true,
-              faculty: {
-                select: {
-                  id: true,
-                  name_en: true,
-                  name_th: true,
-                },
+  try {
+    const act = await prisma.activities.findUnique({
+      where: { id: Number(id), ownerId: req.user.id },
+      include: {
+        department: {
+          select: {
+            id: true,
+            name_en: true,
+            name_th: true,
+            faculty: {
+              select: {
+                id: true,
+                name_en: true,
+                name_th: true,
               },
             },
           },
         },
-      });
-
-      if (!act) {
-        return res.status(404).json({ message: "Activity not found" });
-      }
-
-      return res.status(200).json({
-        id: act.id,
-        display: act.display,
-        activity_type: act.activity_type,
-        title: act.title,
-        description: act.description,
-        date: act.date,
-        round: act.round,
-        start_time: act.start_time,
-        end_time: act.end_time,
-        location: act.location,
-        point: act.point,
-        form_link: act.form_link,
-        image_url: act.image_url,
-        stars: act.stars,
-        max_participants: act.max_participants,
-        current_register_participants: act.current_register_participants,
-        created_at: act.created_at,
-        department: {
-          id: act.department.id,
-          name_en: act.department.name_en,
-          name_th: act.department.name_th,
+        RegisterActivities: {
+          include: {
+            student: {
+              select: {
+                id: true,
+                first_name: true,
+                last_name: true,
+                email: true,
+                phone: true,
+              },
+            },
+          },
         },
-        faculty: {
-          id: act.department.faculty.id,
-          name_en: act.department.faculty.name_en,
-          name_th: act.department.faculty.name_th,
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
+      },
+    });
+
+    if (!act) {
+      return res.status(404).json({ message: "Activity not found" });
     }
+
+    return res.status(200).json({
+      id: act.id,
+      display: act.display,
+      activity_type: act.activity_type,
+      title: act.title,
+      description: act.description,
+      date: act.date,
+      round: act.round,
+      start_time: act.start_time,
+      end_time: act.end_time,
+      location: act.location,
+      point: act.point,
+      form_link: act.form_link,
+      image_url: act.image_url,
+      stars: act.stars,
+      max_participants: act.max_participants,
+      current_register_participants: act.current_register_participants,
+      created_at: act.created_at,
+      department: {
+        id: act.department.id,
+        name_en: act.department.name_en,
+        name_th: act.department.name_th,
+      },
+      faculty: {
+        id: act.department.faculty.id,
+        name_en: act.department.faculty.name_en,
+        name_th: act.department.faculty.name_th,
+      },
+      registrations: act.RegisterActivities.map((r) => ({
+        id: r.id,
+        registered_at: r.registered_at,
+        student: {
+          id: r.student.id,
+          first_name: r.student.first_name,
+          last_name: r.student.last_name,
+          email: r.student.email,
+          phone: r.student.phone,
+        },
+      })),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
+}
+
 
   if (req.method === "PUT") {
     try {
