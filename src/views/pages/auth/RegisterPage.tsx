@@ -70,7 +70,7 @@ export const roles = [
     { value: "student", labelTH: "นักเรียน", labelEN: "Student" },
     { value: "teacher", labelTH: "ครู/อาจารย์", labelEN: "Teacher" },
     { value: "parent", labelTH: "ผู้ปกครอง", labelEN: "Parent" },
-    { value: "guest", labelTH: "ผู้เยี่ยมชม", labelEN: "Guest" },
+    { value: "guest", labelTH: "บุคคลทั่วไป", labelEN: "Guest" },
 ]
 
 // ตรวจสอบเลขบัตรประชาชนไทย
@@ -108,13 +108,13 @@ export function RegisterPage() {
             return
         }
 
-        if (!form.school) {
+        if (!form.school && (form.role == "student" || form.role == "teacher")) {
             setError("กรุณากรอกโรงเรียน")
             setIsLoading(false)
             return
         }
 
-        if (!form.province) {
+        if (!form.province && (form.role == "student" || form.role == "teacher")) {
             setError("กรุณาเลือกจังหวัด")
             setIsLoading(false)
             return
@@ -283,7 +283,7 @@ export function RegisterPage() {
                                 />
                             </FormControl>
 
-                            <FormControl isRequired>
+                            <FormControl display={form.role == "student" || form.role == "teacher" ? "block" : "none"} isRequired={form.role == "student" || form.role == "teacher"}>
                                 <FormLabel>{lang === "TH" ? "โรงเรียน" : "School"}</FormLabel>
                                 <Input
                                     type="text"
@@ -295,7 +295,7 @@ export function RegisterPage() {
                                 />
                             </FormControl>
 
-                            <FormControl isRequired>
+                            <FormControl display={form.role == "student" || form.role == "teacher" ? "block" : "none"} isRequired={form.role == "student" || form.role == "teacher"}>
                                 <FormLabel>{lang === "TH" ? "จังหวัด" : "Province"}</FormLabel>
                                 <Select
                                     placeholder={lang === "TH" ? "เลือกจังหวัด" : "Select Province"}

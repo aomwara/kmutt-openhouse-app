@@ -20,8 +20,8 @@ model Students {
   passport_id        String?
   first_name         String
   last_name          String
-  school             String
-  province           String
+  school             String?
+  province           String?
   email              String               @unique
   phone              String
   password_hash      String
