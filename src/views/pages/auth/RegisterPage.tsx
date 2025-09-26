@@ -20,6 +20,7 @@ import {
     Select,
     Switch,
     HStack,
+    useToast,
 } from "@chakra-ui/react"
 import { UserPlus } from "lucide-react"
 
@@ -84,6 +85,7 @@ const isValidCitizenId = (id: string) => {
 }
 
 export function RegisterPage() {
+    const toast = useToast()
     const [form, setForm] = useState<Record<string, string>>({})
     //set default role to student
     if (!form.role) setForm({ ...form, role: "student" })
@@ -169,7 +171,14 @@ export function RegisterPage() {
             })
 
             if (res.ok) {
-                alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้า Login...")
+                toast({
+                    title: "สมัครสมาชิกสำเร็จ! กำลังไปหน้า Login...",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                })
+                // wait 2 seconds and redirect to /login
+                await new Promise((resolve) => setTimeout(resolve, 2000))
                 router.push("/login")
             } else {
                 const data = await res.json()
