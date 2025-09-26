@@ -1,6 +1,7 @@
 export interface Activity {
   id: number
   title: string
+  display: boolean
   description: string
   date: string           // วันกิจกรรม (string หรือ Date)
   start_time: string     // เวลาเริ่ม

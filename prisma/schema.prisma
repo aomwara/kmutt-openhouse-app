@@ -107,6 +107,7 @@ model Activities {
   location                      String
   point                         Int
   form_link                     String?
+  display                       Boolean              @default(true)
   image_url                     String?
   stars                         Int                  @default(0)
   max_participants              Int

@@ -25,34 +25,7 @@ import {
 } from "@chakra-ui/react";
 import KMAppLayout from "@/views/layouts/KMAppLayout";
 
-interface Activity {
-    id: number;
-    activity_type: string;
-    title: string;
-    description: string;
-    date: string;
-    round: number;
-    start_time: string;
-    end_time: string;
-    location: string;
-    point: number;
-    form_link?: string;
-    image_url?: string;
-    stars: number;
-    max_participants: number;
-    current_register_participants: number;
-    created_at: string;
-    department: {
-        id: number;
-        name_en: string;
-        name_th: string;
-    };
-    faculty: {
-        id: number;
-        name_en: string;
-        name_th: string;
-    };
-}
+import { Activity } from "@/interfaces/Activities";
 
 export const ViewActivityPage = () => {
     const router = useRouter();
@@ -121,6 +94,9 @@ export const ViewActivityPage = () => {
                         rounded="xl"
                         shadow="sm"
                     >
+                        <Badge display={!activity.display ? "block" : "none"} colorScheme={activity.display ? "blue" : "red"} p={4} mb={2} w={"full"} fontSize={"md"}>
+                            {activity.display ? "แสดง" : "กิจกรรมนี้ถูกซ่อนอยู่ (ไม่แสดงในหน้ากิจกรรม)"}
+                        </Badge>
                         {/* Title + Edit Button */}
                         <HStack justify="space-between" mb={2}>
                             <Text fontSize="md" fontWeight="bold">
@@ -183,6 +159,23 @@ export const ViewActivityPage = () => {
                             <ModalHeader>แก้ไขกิจกรรม</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
+                                <FormControl mb={3} display="flex" alignItems="center">
+                                    <FormLabel htmlFor="display" mb="0">
+                                        แสดงกิจกรรม
+                                    </FormLabel>
+                                    {/* use select */}
+                                    <select
+                                        id="display"
+                                        value={form.display ? "true" : "false"}
+                                        onChange={(e) =>
+                                            setForm({ ...form, display: e.target.value === "true" })
+                                        }
+                                        style={{ marginLeft: "10px", padding: "5px", borderRadius: "5px" }}
+                                    >
+                                        <option value="true">แสดง</option>
+                                        <option value="false">ซ่อน</option>
+                                    </select>
+                                </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>ชื่อกิจกรรม</FormLabel>
                                     <Input

@@ -36,6 +36,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
       return res.status(200).json({
         id: act.id,
+        display: act.display,
         activity_type: act.activity_type,
         title: act.title,
         description: act.description,
@@ -80,6 +81,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
       const {
         title,
+        display,
         description,
         date,
         round,
@@ -96,6 +98,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         where: { id: Number(id) },
         data: {
           title,
+          display,
           description,
           date,
           round,
@@ -127,6 +130,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
       return res.status(200).json({
         id: updated.id,
+        display: updated.display,
         activity_type: updated.activity_type,
         title: updated.title,
         description: updated.description,
