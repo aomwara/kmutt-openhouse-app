@@ -116,7 +116,6 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                             </Box>
                         </HStack>
                     </Flex>
-
                     {/* Mobile dropdown menu */}
                     {menuOpen && (
                         <Box
@@ -129,29 +128,29 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                             px={6}
                             py={4}
                         >
-                            <VStack align="stretch" spacing={4}>
-                                <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                    กำหนดการ
+                            <VStack align="stretch" spacing={2} fontSize={"md"}>
+                                <Link href="/" onClick={() => setMenuOpen(false)}>
+                                    {"> "}หน้าแรก - Home
                                 </Link>
-                                <Link href="#features" onClick={() => setMenuOpen(false)}>
-                                    ฟีเจอร์
+                                <Link href="/app/dashboard" onClick={() => setMenuOpen(false)}>
+                                    {"> "}แดชบอร์ด - Dashboard
                                 </Link>
-                                <Link href="#stats" onClick={() => setMenuOpen(false)}>
-                                    สถิติ
+                                <Link href="/app/activity-register" onClick={() => setMenuOpen(false)}>
+                                    {"> "}ลงทะเบียนกิจกรรม - Register for Activities
                                 </Link>
-                                <Link href="#testimonials" onClick={() => setMenuOpen(false)}>
-                                    เสียงจากผู้ใช้
-                                </Link>
+
                                 <Button
                                     as={Link}
-                                    href="/student/login"
+                                    href="/login"
                                     w="full"
                                     bg={PRIMARY}
                                     _hover={{ bg: "#d6451f" }}
                                     color="white"
+                                    fontSize={"sm"}
                                     rounded="xl"
+                                    size={"sm"}
                                 >
-                                    เข้าสู่ระบบ
+                                    ออกจากระบบ
                                 </Button>
                             </VStack>
                         </Box>

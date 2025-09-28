@@ -13,11 +13,12 @@ import {
     VStack,
     HStack,
     useBreakpointValue,
-    Button,
     Container,
     useColorModeValue,
 } from "@chakra-ui/react"
 import StudentSidebar from "@/components/Sidebar/StudentSidebar"
+import StudentProfileCard from "@/components/ProfileCard/StudentProfileCard"
+import StudentAppLayout from "@/views/layouts/StudentAppLayout"
 
 const PRIMARY = "#F04E23"
 const SECONDARY = "#FFC233"
@@ -63,70 +64,85 @@ const StudentDashboardPage = () => {
         )
     }
 
+    // return (
+    //     <KMAppLayout navigation="Dashboard">
+    //         <Box>
+    //             <KMProfileCard data={data} />
+    //             <Divider mt="-1" mb={6} />
+    //             <Box
+
     return (
-        <StudentLayout>
-            <Container maxW="7xl" px={4} py={6} mt="-10">
-                <Flex direction={{ base: "column", md: "row" }} gap={6}>
-                    {/* Sidebar */}
-                    {showSidebar && (
-                        <StudentSidebar />
-                    )}
-
-                    {/* Content */}
-                    <Box flex="1" >
-                        {/* Profile Card */}
-                        <Box
-                            mt={{ base: -4, md: 0 }}
-                            bg={cardBg}
-                            p={{ base: 4, md: 6 }}
-                            rounded="2xl"
-                            shadow="lg"
-                            mb={6}
-                            borderLeft={`5px solid ${PRIMARY}`}
-                        >
-                            <Flex align="center" justify="space-between" wrap="wrap">
-                                <HStack spacing={5}>
-                                    <Avatar
-                                        name={data.first_name}
-                                        size={{ base: "md", md: "xl" }}
-                                        bg={PRIMARY}
-                                        color="white"
-                                    >
-                                        <AvatarBadge boxSize={{ base: "1em", md: "1.2em" }} bg="green.400" />
-                                    </Avatar>
-                                    <VStack align="start" spacing={1} lineHeight={{ base: "12px", md: "base" }}>
-                                        <Heading size={{ base: "sm", md: "md" }} color={textColor}>
-                                            {data.first_name} {data.last_name}
-                                        </Heading>
-                                        <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
-                                            {data.school} • {data.province}
-                                        </Text>
-                                        <Text fontSize={{ base: "xs", md: "sm" }} color="gray.500">
-                                            {data.email}
-                                        </Text>
-                                    </VStack>
-                                </HStack>
-                                <Box display={{ base: "none", md: "block" }}>
-                                    <Badge
-
-                                        colorScheme="orange"
-                                        fontSize="sm"
-                                        px={3}
-                                        py={1}
-                                        rounded="full"
-                                        bg={SECONDARY}
-                                        color="gray.800"
-                                    >
-                                        เข้าร่วม 2 จุด
-                                    </Badge>
-                                </Box>
-                            </Flex>
-                        </Box>
-                    </Box>
-                </Flex>
-            </Container>
-        </StudentLayout>
+        <StudentAppLayout navigation="Dashboard">
+            <Box>
+                <StudentProfileCard data={data} />
+            </Box>
+        </StudentAppLayout>
     )
+
+    // return (
+    //     <StudentLayout>
+    //         <Container maxW="7xl" px={4} py={6} mt="-10">
+    //             <Flex direction={{ base: "column", md: "row" }} gap={6}>
+    //                 {/* Sidebar */}
+    //                 {showSidebar && (
+    //                     <StudentSidebar />
+    //                 )}
+
+    //                 {/* Content */}
+    //                 <Box flex="1" >
+    //                     {/* Profile Card */}
+    //                     <Box
+    //                         mt={{ base: -4, md: 0 }}
+    //                         bg={cardBg}
+    //                         p={{ base: 4, md: 6 }}
+    //                         rounded="2xl"
+    //                         shadow="lg"
+    //                         mb={6}
+    //                         borderLeft={`5px solid ${PRIMARY}`}
+    //                     >
+    //                         <Flex align="center" justify="space-between" wrap="wrap">
+    //                             <HStack spacing={5}>
+    //                                 <Avatar
+    //                                     name={data.first_name}
+    //                                     size={{ base: "md", md: "xl" }}
+    //                                     bg={PRIMARY}
+    //                                     color="white"
+    //                                 >
+    //                                     <AvatarBadge boxSize={{ base: "1em", md: "1.2em" }} bg="green.400" />
+    //                                 </Avatar>
+    //                                 <VStack align="start" spacing={1} lineHeight={{ base: "12px", md: "base" }}>
+    //                                     <Heading size={{ base: "sm", md: "md" }} color={textColor}>
+    //                                         {data.first_name} {data.last_name}
+    //                                     </Heading>
+    //                                     <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
+    //                                         {data.school} • {data.province}
+    //                                     </Text>
+    //                                     <Text fontSize={{ base: "xs", md: "sm" }} color="gray.500">
+    //                                         {data.email}
+    //                                     </Text>
+    //                                 </VStack>
+    //                             </HStack>
+    //                             <Box display={{ base: "none", md: "block" }}>
+    //                                 <Badge
+
+    //                                     colorScheme="orange"
+    //                                     fontSize="sm"
+    //                                     px={3}
+    //                                     py={1}
+    //                                     rounded="full"
+    //                                     bg={SECONDARY}
+    //                                     color="gray.800"
+    //                                 >
+    //                                     เข้าร่วม 2 จุด
+    //                                 </Badge>
+    //                             </Box>
+    //                         </Flex>
+    //                     </Box>
+    //                 </Box>
+    //             </Flex>
+    //         </Container>
+    //     </StudentLayout>
+    // )
 }
 
 export { StudentDashboardPage }

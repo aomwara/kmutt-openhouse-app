@@ -6,12 +6,16 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react"
+import { label } from "framer-motion/client"
 import {
     MdDashboard,
     MdQrCode,
     MdPerson,
     MdSettings,
 } from "react-icons/md"
+import { RiProfileFill } from "react-icons/ri";
+
+import { GrWorkshop } from "react-icons/gr";
 
 const StudentSidebar = () => {
     const PRIMARY = "#F04E23"
@@ -21,9 +25,11 @@ const StudentSidebar = () => {
 
     const menuItems = [
         { label: "Dashboard", icon: MdDashboard },
-        { label: "QR Code", icon: MdQrCode },
-        { label: "Profile", icon: MdPerson },
-        { label: "Settings", icon: MdSettings },
+        // { label: "QR Code", icon: MdQrCode },
+        { label: "โปรไฟล์", icon: RiProfileFill },
+        { label: "ลงทะเบียนกิจกรรม", icon: GrWorkshop },
+        // { label: "Profile", icon: MdPerson },
+        // { label: "Settings", icon: MdSettings },
     ]
 
     return (
@@ -32,6 +38,7 @@ const StudentSidebar = () => {
             w="250px"
             p={5}
             rounded="2xl"
+            h="fit-content"
             shadow="md"
             flexShrink={0}
         >

@@ -3,3 +3,12 @@ export interface KMProfile {
     username: string
     email: string
 }
+
+
+export interface StudentProfile {
+    first_name: string
+    last_name: string
+    email: string
+    school: string
+    province: string
+}
