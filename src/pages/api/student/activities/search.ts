@@ -11,7 +11,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   }
 
   try {
-    const { page = "1", limit = "10", search = "", departments = "", dates = "" } = req.query;
+    const { page = "1", limit = "5", search = "", departments = "", dates = "" } = req.query;
 
     const pageNumber = Number(page);
     const pageSize = Number(limit);

@@ -23,6 +23,7 @@ import {
     useToast,
 } from "@chakra-ui/react"
 import { UserPlus } from "lucide-react"
+import Head from "next/head"
 
 // KMUTT Colors
 const PRIMARY = "#F04E23"
@@ -204,6 +205,9 @@ export function RegisterPage() {
             bgGradient={`linear(to-br, ${SECONDARY}50, ${PRIMARY}80)`}
             p={4}
         >
+            <Head>
+                <title>Openhouse - ลงทะเบียน / Register</title>
+            </Head>
             <Box
                 w="full"
                 maxW="lg"

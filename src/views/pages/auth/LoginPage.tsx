@@ -19,6 +19,7 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 import { ArrowBackIcon, LockIcon } from "@chakra-ui/icons"
+import Head from "next/head"
 
 // KMUTT Colors
 const PRIMARY = "#F04E23"
@@ -75,6 +76,9 @@ const LoginPage = () => {
             bgGradient={`linear(to-br, ${SECONDARY}50, ${PRIMARY}80)`}
             p={4}
         >
+            <Head>
+                <title>Openhouse - เข้าสู่ระบบ / Login</title>
+            </Head>
             <VStack spacing={6} w="full" maxW="md">
                 {/* Back Button */}
                 <Link href="/">

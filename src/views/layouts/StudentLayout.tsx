@@ -139,6 +139,9 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                                 <Link href="/app/profile" onClick={() => setMenuOpen(false)}>
                                     {"> "}โปรไฟล์ - Profile
                                 </Link>
+                                <Link href="/app/activity-search" onClick={() => setMenuOpen(false)}>
+                                    {"> "}ค้นหากิจกรรม - Search Activities
+                                </Link>
                                 <Link href="/app/activity-register" onClick={() => setMenuOpen(false)}>
                                     {"> "}ลงทะเบียนกิจกรรม - Register for Activities
                                 </Link>
