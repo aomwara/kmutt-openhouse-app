@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  openhouse_app:
+    image: kmutt_oph
+    container_name: kmutt-openhouse-app-dev
+    ports:
+      - "9090:80"
+    env_file:
+      - .env
+    environment:
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - EXTERNAL_JWT_SECRET=${EXTERNAL_JWT_SECRET}
+    depends_on:
+       - openhouse_db
+
+  openhouse_db:
+    image: mysql:8.0
+    container_name: kmutt-oph-db-prod
+    restart: always
+    volumes:
+     - ./mysql-data-prod:/var/lib/mysql
+    environment:
+     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_PROD}
+     MYSQL_DATABASE: kmutt-openhouse-act-prod
+    expose:
+     - "3306"
+    ports:
+     - "3308:3306"
+
+  PMA:
+    depends_on:
+     - openhouse_db
+    image: phpmyadmin/phpmyadmin
+    container_name: kmutt-oph-pma-prod
+    restart: always
+    ports:
+     - "9091:80"
+    environment:
+      PMA_HOST: openhouse_db
