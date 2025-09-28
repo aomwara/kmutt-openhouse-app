@@ -9,3 +9,6 @@ run-docker:
 
 build:
 	docker build -t kmutt_oph .
+
+build-prod:
+	docker build -t kmutt_oph_prod .
