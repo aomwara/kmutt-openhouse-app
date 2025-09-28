@@ -5,24 +5,26 @@ import StudentAppLayout from "@/views/layouts/StudentAppLayout"
 import {
     Box,
     Flex,
-    Heading,
     Text,
     Spinner,
-    Badge,
     VStack,
+    HStack,
     Input,
     Button,
-    HStack,
+    Badge,
+    Checkbox,
+    CheckboxGroup,
+    Stack,
     useColorModeValue,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
 } from "@chakra-ui/react"
-import StudentProfileCard from "@/components/ProfileCard/StudentProfileCard"
 import { GrWorkshop } from "react-icons/gr"
 import Link from "next/link"
-import Head from "next/head"
 
-const PRIMARY = "#F04E23"
-
-type Activity = {
+interface Activity {
     id: number
     title: string
     description: string
@@ -30,72 +32,96 @@ type Activity = {
     start_time: string
     end_time: string
     location: string
+    point: number
     max_participants: number
     current_register_participants: number
-    point: number
-    round: number
+    stars: number
+    form_link?: string
     activity_type: string
-    faculty: { id: number; name_th: string }
-    department: { id: number; name_th: string }
+    round: number
+    created_at: string
+    department: { id: number; name_th: string; name_en: string }
+    faculty: { id: number; name_th: string; name_en: string }
 }
 
-type Meta = {
-    total: number
-    page: number
-    limit: number
-    totalPages: number
+interface Department {
+    id: number
+    name_th: string
+    name_en: string
 }
 
-type StudentProfile = {
-    first_name: string
-    last_name: string
-    school: string
-    province: string
-    email: string
-    phone: string
-}
-
-const StudentDashboardPage = () => {
-    const [profile, setProfile] = useState<StudentProfile | null>(null)
+const SearchActivityPage = () => {
     const [activities, setActivities] = useState<Activity[]>([]) // ✅ แก้เป็น array ว่าง
+    const [departments, setDepartments] = useState<Department[]>([])
+    const [selectedDepartments, setSelectedDepartments] = useState<number[]>([])
+    const [selectedDates, setSelectedDates] = useState<string[]>([])
+    const [searchText, setSearchText] = useState("")
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
     const [page, setPage] = useState(1)
-    const [meta, setMeta] = useState<Meta | null>(null)
+    const [totalPages, setTotalPages] = useState(1)
+    const limit = 10
 
-    const textColor = useColorModeValue("gray.800", "gray.100")
+    const bgColor = useColorModeValue("white", "gray.700")
+    const textColor = useColorModeValue("gray.700", "gray.400")
+
+    const fetchDepartments = async () => {
+        try {
+            const res = await fetch("/api/student/departments")
+            const data = await res.json()
+            setDepartments(data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchActivities = async () => {
+        setLoading(true)
+        try {
+            const params = new URLSearchParams()
+            params.append("page", page.toString())
+            params.append("limit", limit.toString())
+            if (searchText) params.append("search", searchText)
+            if (selectedDepartments.length > 0) params.append("departments", selectedDepartments.join(","))
+            if (selectedDates.length > 0) params.append("dates", selectedDates.join(","))
+
+            const res = await fetch(`/api/student/activities/search?${params.toString()}`)
+            const data = await res.json()
+            setActivities(data.data)
+            setTotalPages(data.meta.totalPages)
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
-        fetch("/api/student/profile")
-            .then((res) => res.json())
-            .then((d) => setProfile(d))
+        fetchDepartments()
     }, [])
 
     useEffect(() => {
-        const fetchActivities = async () => {
-            setLoading(true)
-            try {
-                const res = await fetch(`/api/student/activities?page=${page}&search=${search}`)
-                const data = await res.json()
-                setActivities(data.data)
-                setMeta(data.meta)
-            } catch (e) {
-                console.error(e)
-            } finally {
-                setLoading(false)
-            }
-        }
         fetchActivities()
-    }, [page, search])
+    }, [page, selectedDepartments, selectedDates, searchText])
 
-    if (!profile) {
-        return (
-            <StudentAppLayout navigation="Dashboard">
-                <Flex justify="center" align="center" minH="60vh">
-                    <Text>กำลังโหลดข้อมูลนักเรียน...</Text>
-                </Flex>
-            </StudentAppLayout>
-        )
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value)
+        setPage(1)
+    }
+
+
+    const handleDeptSelect = (id: number, checked: boolean) => {
+        if (checked) {
+            // เพิ่ม id ถ้ายังไม่มี
+            setSelectedDepartments((prev) => [...prev, id]);
+        } else {
+            // ลบ id ถ้า uncheck
+            setSelectedDepartments((prev) => prev.filter((deptId) => deptId !== id));
+        }
+    };
+
+    const handleDateChange = (values: string[]) => {
+        setSelectedDates(values)
+        setPage(1)
     }
 
     const dateColors: Record<string, string> = {
@@ -117,37 +143,54 @@ const StudentDashboardPage = () => {
     };
 
     return (
-        <StudentAppLayout navigation="Dashboard">
-            <Head >
-                <title>Openhouse / Dashboard</title>
-            </Head>
-            <Box >
-                <StudentProfileCard data={profile} />
+        <StudentAppLayout navigation="ค้นหากิจกรรม">
+            <Box maxW="full" mx="auto" p={0}>
+                {/* Search */}
+                <Input
+                    placeholder="ค้นหาชื่อกิจกรรม"
+                    mb={4}
+                    value={searchText}
+                    onChange={handleSearchChange}
+                    bg={bgColor}
+                />
 
-                {/* Search + Title */}
-                <Flex justify="space-between" align="center" my={4}>
-                    <Heading as="h4" size="md" color={textColor}>
-                        กิจกรรมทั้งหมด
-                    </Heading>
-                    <Input
-                        placeholder="ค้นหากิจกรรม..."
-                        size="sm"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                            setPage(1)
-                        }}
-                        width="250px"
-                    />
-                </Flex>
+                <Menu closeOnSelect={false}>
+                    <MenuButton as={Button}>
+                        เลือกสาขาวิชา ({selectedDepartments.length})
+                    </MenuButton>
+                    <MenuList maxH="200px" overflowY="auto">
+                        {departments.map((d) => (
+                            <MenuItem key={d.id}>
+                                <Checkbox
+                                    isChecked={selectedDepartments.includes(d.id)}
+                                    onChange={(e) => handleDeptSelect(d.id, e.target.checked)}
+                                >
+                                    {d.name_th}
+                                </Checkbox>
+                            </MenuItem>
+                        ))}
+                    </MenuList>
+                </Menu>
 
-                {/* Activity List */}
+                {/* Date Filter */}
+                <Box mb={4}>
+                    <Text fontWeight="bold" mb={2} mt={2}>เลือกวัน:</Text>
+                    <CheckboxGroup value={selectedDates} onChange={handleDateChange}>
+                        <Stack direction="row">
+                            {["10/10/2025", "11/10/2025", "12/10/2025"].map((d) => (
+                                <Checkbox key={d} value={d}>{d}</Checkbox>
+                            ))}
+                        </Stack>
+                    </CheckboxGroup>
+                </Box>
+
+                {/* Activities List */}
                 {loading ? (
-                    <Flex justify="center" py={10}>
+                    <Flex justify="center" align="center" minH="40vh">
                         <Spinner size="xl" />
                     </Flex>
-                ) : activities.length === 0 ? ( // ✅ ไม่พังแล้ว
-                    <Text color="gray.500">ไม่พบกิจกรรม</Text>
+                ) : activities?.length === 0 ? (
+                    <Text>ไม่พบกิจกรรม</Text>
                 ) : (
                     <VStack spacing={4} align="stretch">
                         {activities.map((act) => (
@@ -222,30 +265,24 @@ const StudentDashboardPage = () => {
                 )}
 
                 {/* Pagination */}
-                {meta && meta.totalPages > 1 && (
-                    <HStack justify="center" mt={6} spacing={2}>
-                        <Button
-                            size="sm"
-                            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                            isDisabled={page === 1}
-                        >
-                            ก่อนหน้า
-                        </Button>
-                        <Text>
-                            หน้า {page} จาก {meta.totalPages}
-                        </Text>
-                        <Button
-                            size="sm"
-                            onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
-                            isDisabled={page === meta.totalPages}
-                        >
-                            ถัดไป
-                        </Button>
-                    </HStack>
-                )}
+                <HStack justify="center" mt={4} spacing={2}>
+                    <Button
+                        onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                        isDisabled={page === 1}
+                    >
+                        ก่อนหน้า
+                    </Button>
+                    <Text>{page} / {totalPages}</Text>
+                    <Button
+                        onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                        isDisabled={page === totalPages}
+                    >
+                        ถัดไป
+                    </Button>
+                </HStack>
             </Box>
         </StudentAppLayout>
     )
 }
 
-export { StudentDashboardPage }
+export { SearchActivityPage }

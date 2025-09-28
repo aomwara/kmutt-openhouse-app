@@ -1,0 +1,1 @@
+export { SearchActivityPage as default } from "@/views/pages/app/SearchActivity"
