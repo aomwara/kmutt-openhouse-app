@@ -106,14 +106,12 @@ const StudentProfilePage = () => {
 
     }
 
-
-
     return (
-        <StudentAppLayout navigation="Edit Profile">
+        <StudentAppLayout navigation="แก้ไขข้อมูล">
             <Head>
                 <title>Openhouse / Profile</title>
             </Head>
-            <Box maxW="full" mx="auto" p={6} bg={bgColor} rounded="xl" shadow="md">
+            <Box maxW="full" mx="auto" bg={bgColor} rounded="xl" >
                 <Stack spacing={4}>
                     {/* Citizen ID */}
                     <Text fontWeight="bold" fontSize="sm">หมายเลขประจำตัวประชาชน</Text>

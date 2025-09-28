@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react"
 import { GrWorkshop } from "react-icons/gr"
 import Link from "next/link"
+import Head from "next/head"
 
 interface Activity {
     id: number
@@ -144,6 +145,9 @@ const SearchActivityPage = () => {
 
     return (
         <StudentAppLayout navigation="ค้นหากิจกรรม">
+            <Head>
+                <title>Openhouse / Activity search</title>
+            </Head>
             <Box maxW="full" mx="auto" p={0}>
                 {/* Search */}
                 <Input
@@ -156,7 +160,7 @@ const SearchActivityPage = () => {
 
                 <Menu closeOnSelect={false}>
                     <MenuButton as={Button}>
-                        เลือกสาขาวิชา ({selectedDepartments.length})
+                        เลือก คณะ/ภาควิชา/หน่วยงาน ({selectedDepartments.length})
                     </MenuButton>
                     <MenuList maxH="200px" overflowY="auto">
                         {departments.map((d) => (

@@ -57,7 +57,7 @@ type StudentProfile = {
 
 const StudentDashboardPage = () => {
     const [profile, setProfile] = useState<StudentProfile | null>(null)
-    const [activities, setActivities] = useState<Activity[]>([]) // ✅ แก้เป็น array ว่าง
+    const [activities, setActivities] = useState<Activity[]>([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1)

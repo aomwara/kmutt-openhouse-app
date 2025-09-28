@@ -78,6 +78,25 @@ const KMDashboardPage = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
     const currentActivities = filteredActivities.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
+
+    const dateColors: Record<string, string> = {
+        "10/10/2025": "yellow",
+        "10-10-2025": "yellow",
+        "2025-10-10": "yellow",
+        "11/10/2025": "green",
+        "11-10-2025": "green",
+        "2025-10-11": "green",
+        "12/10/2025": "blue",
+        "12-10-2025": "blue",
+        "2025-10-12": "blue",
+    }
+
+    const activityTypeLabel: Record<string, string> = {
+        workshop: "Workshop",
+        regis_activity: "กิจกรรมที่ต้องลงทะเบียน",
+        non_regis_activity: "กิจกรรมทั่วไป",
+    };
+
     return (
         <KMAppLayout navigation="Dashboard">
             <Box>
@@ -163,17 +182,23 @@ const KMDashboardPage = () => {
                                     </Text>
 
                                     {/* Date & Time */}
-                                    <Text fontSize="xs" color="gray.500">
-                                        📅 {act.date} | ⏰ {act.start_time} - {act.end_time}
-                                    </Text>
+                                    <HStack spacing={2} mb={1} align="center">
+
+                                        <Badge colorScheme={dateColors[act.date] || "gray"} fontSize="1rem" fontWeight="bold">
+                                            วันที่: {act.date} (รอบ {act.round})
+                                        </Badge>
+                                        <Badge colorScheme="orange" fontSize="1rem" fontWeight="bold">
+                                            เวลา: {act.start_time} - {act.end_time}
+                                        </Badge>
+                                    </HStack>
 
                                     {/* Points & Max Participants */}
                                     <HStack mt={2} spacing={4}>
-                                        <Text fontSize="xs" color="gray.500">
+                                        {/* <Text fontSize="xs" color="gray.500">
                                             ⭐ Points: {act.point}
-                                        </Text>
+                                        </Text> */}
                                         <Text fontSize="xs" color="gray.500">
-                                            👥 Max: {act.max_participants} | Registered: {act.current_register_participants}
+                                            👥 Max: {act.max_participants}
                                         </Text>
                                     </HStack>
                                 </Box>
