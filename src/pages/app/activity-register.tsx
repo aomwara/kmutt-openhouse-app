@@ -1,0 +1,1 @@
+export { RegisterActivityPage as default } from "@/views/pages/app/RegisterActivity"

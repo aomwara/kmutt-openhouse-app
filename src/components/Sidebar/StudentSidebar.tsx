@@ -12,22 +12,27 @@ import {
     MdQrCode,
     MdPerson,
     MdSettings,
+    MdSearch,
 } from "react-icons/md"
 import { RiProfileFill } from "react-icons/ri";
 
-import { GrWorkshop } from "react-icons/gr";
+import { GrSearch, GrWorkshop } from "react-icons/gr";
+import { useRouter } from "next/router";
 
 const StudentSidebar = () => {
     const PRIMARY = "#F04E23"
     const bgColor = useColorModeValue("white", "gray.700")
     const hoverBg = useColorModeValue("gray.200", "gray.700")
     const textColor = useColorModeValue("gray.800", "gray.100")
+    const router = useRouter()
 
     const menuItems = [
-        { label: "Dashboard", icon: MdDashboard },
+        { label: "Dashboard", icon: MdDashboard, link: "/app/dashboard" },
         // { label: "QR Code", icon: MdQrCode },
-        { label: "โปรไฟล์", icon: RiProfileFill },
-        { label: "ลงทะเบียนกิจกรรม", icon: GrWorkshop },
+        { label: "โปรไฟล์", icon: RiProfileFill, link: "/app/profile" },
+        // { label: "ค้นหากิจกรรม", icon: MdSearch },
+        { label: "ค้นหากิจกรรม", icon: GrSearch, link: "/app/activity-search" },
+        { label: "กิจกรรมที่ลงทะเบียน", icon: GrWorkshop, link: "/app/activity-register" },
         // { label: "Profile", icon: MdPerson },
         // { label: "Settings", icon: MdSettings },
     ]
@@ -45,6 +50,9 @@ const StudentSidebar = () => {
             <VStack align="stretch" spacing={3}>
                 {menuItems.map((item) => (
                     <Button
+                        onClick={(() => {
+                            router.push(item.link)
+                        })}
                         key={item.label}
                         variant="ghost"
                         justifyContent="start"

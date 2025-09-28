@@ -42,6 +42,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
             <Box
                 position="absolute"
                 inset={0}
+                height={"100vh"}
                 zIndex={1}
                 pointerEvents="none"
             >
@@ -134,6 +135,9 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                                 </Link>
                                 <Link href="/app/dashboard" onClick={() => setMenuOpen(false)}>
                                     {"> "}แดชบอร์ด - Dashboard
+                                </Link>
+                                <Link href="/app/profile" onClick={() => setMenuOpen(false)}>
+                                    {"> "}โปรไฟล์ - Profile
                                 </Link>
                                 <Link href="/app/activity-register" onClick={() => setMenuOpen(false)}>
                                     {"> "}ลงทะเบียนกิจกรรม - Register for Activities

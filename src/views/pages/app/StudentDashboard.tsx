@@ -1,32 +1,49 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import StudentLayout from "@/views/layouts/StudentLayout"
+import StudentAppLayout from "@/views/layouts/StudentAppLayout"
 import {
     Box,
     Flex,
     Heading,
     Text,
-    Avatar,
-    AvatarBadge,
+    Spinner,
     Badge,
     VStack,
+    Input,
+    Button,
     HStack,
-    useBreakpointValue,
-    Container,
     useColorModeValue,
 } from "@chakra-ui/react"
-import StudentSidebar from "@/components/Sidebar/StudentSidebar"
 import StudentProfileCard from "@/components/ProfileCard/StudentProfileCard"
-import StudentAppLayout from "@/views/layouts/StudentAppLayout"
+import { GrWorkshop } from "react-icons/gr"
+import Link from "next/link"
+import Head from "next/head"
 
 const PRIMARY = "#F04E23"
-const SECONDARY = "#FFC233"
 
-type CheckIn = {
-    facultyName: string
-    checkInPoint: string
-    timestamp: string
+type Activity = {
+    id: number
+    title: string
+    description: string
+    date: string
+    start_time: string
+    end_time: string
+    location: string
+    max_participants: number
+    current_register_participants: number
+    point: number
+    round: number
+    activity_type: string
+    faculty: { id: number; name_th: string }
+    department: { id: number; name_th: string }
+}
+
+type Meta = {
+    total: number
+    page: number
+    limit: number
+    totalPages: number
 }
 
 type StudentProfile = {
@@ -36,113 +53,208 @@ type StudentProfile = {
     province: string
     email: string
     phone: string
-    checkIns: CheckIn[]
 }
 
 const StudentDashboardPage = () => {
-    const [data, setData] = useState<StudentProfile | null>(null)
-    const showSidebar = useBreakpointValue({ base: false, md: true })
+    const [profile, setProfile] = useState<StudentProfile | null>(null)
+    const [activities, setActivities] = useState<Activity[]>([]) // ✅ แก้เป็น array ว่าง
+    const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState("")
+    const [page, setPage] = useState(1)
+    const [meta, setMeta] = useState<Meta | null>(null)
 
-    const bgColor = useColorModeValue("gray.50", "gray.800")
-    const cardBg = useColorModeValue("white", "gray.700")
-    const sidebarBg = useColorModeValue("gray.100", "gray.900")
     const textColor = useColorModeValue("gray.800", "gray.100")
 
     useEffect(() => {
         fetch("/api/student/profile")
             .then((res) => res.json())
-            .then((d) => setData(d))
+            .then((d) => setProfile(d))
     }, [])
 
-    if (!data) {
+    useEffect(() => {
+        const fetchActivities = async () => {
+            setLoading(true)
+            try {
+                const res = await fetch(`/api/student/activities?page=${page}&search=${search}`)
+                const data = await res.json()
+                setActivities(data.data)
+                setMeta(data.meta)
+            } catch (e) {
+                console.error(e)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchActivities()
+    }, [page, search])
+
+    if (!profile) {
         return (
-            <StudentLayout>
+            <StudentAppLayout navigation="Dashboard">
                 <Flex justify="center" align="center" minH="60vh">
                     <Text>กำลังโหลดข้อมูลนักเรียน...</Text>
                 </Flex>
-            </StudentLayout>
+            </StudentAppLayout>
         )
     }
 
-    // return (
-    //     <KMAppLayout navigation="Dashboard">
-    //         <Box>
-    //             <KMProfileCard data={data} />
-    //             <Divider mt="-1" mb={6} />
-    //             <Box
+    const dateColors: Record<string, string> = {
+        "10/10/2025": "yellow",
+        "10-10-2025": "yellow",
+        "2025-10-10": "yellow",
+        "11/10/2025": "green",
+        "11-10-2025": "green",
+        "2025-10-11": "green",
+        "12/10/2025": "blue",
+        "12-10-2025": "blue",
+        "2025-10-12": "blue",
+    }
+
+    const activityTypeLabel: Record<string, string> = {
+        workshop: "Workshop",
+        regis_activity: "กิจกรรมที่ต้องลงทะเบียน",
+        non_regis_activity: "กิจกรรมทั่วไป",
+    };
 
     return (
         <StudentAppLayout navigation="Dashboard">
-            <Box>
-                <StudentProfileCard data={data} />
+            <Head >
+                <title>Openhouse / Dashboard</title>
+            </Head>
+            <Box >
+                <StudentProfileCard data={profile} />
+
+                {/* Search + Title */}
+                <Flex justify="space-between" align="center" my={4}>
+                    <Heading as="h4" size="md" color={textColor}>
+                        กิจกรรมทั้งหมด
+                    </Heading>
+                    <Input
+                        placeholder="ค้นหากิจกรรม..."
+                        size="sm"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                            setPage(1)
+                        }}
+                        width="250px"
+                    />
+                </Flex>
+
+                {/* Activity List */}
+                {loading ? (
+                    <Flex justify="center" py={10}>
+                        <Spinner size="xl" />
+                    </Flex>
+                ) : activities.length === 0 ? ( // ✅ ไม่พังแล้ว
+                    <Text color="gray.500">ไม่พบกิจกรรม</Text>
+                ) : (
+                    <VStack spacing={4} align="stretch">
+                        {activities.map((act) => (
+                            <Box
+                                key={act.id}
+                                p={4}
+                                bg="white"
+                                _dark={{ bg: "gray.700" }}
+                                rounded="xl"
+                                shadow="sm"
+                            >
+                                <HStack justify="space-between" mb={2}>
+                                    <Flex align="center" gap={2}>
+                                        <GrWorkshop />
+                                        <Link href={`/app/activity/${act.id}`}>
+                                            <Text fontSize="md" noOfLines={2} fontWeight="bold">
+                                                {act.title}
+                                            </Text>
+                                        </Link>
+                                    </Flex>
+
+                                    <Badge
+                                        colorScheme={
+                                            act.activity_type === "workshop"
+                                                ? "blue"
+                                                : act.activity_type === "regis_activity"
+                                                    ? "green"
+                                                    : act.activity_type === "non_regis_activity"
+                                                        ? "orange"
+                                                        : "gray"
+                                        }
+                                        textTransform="capitalize"
+                                        fontSize="1rem"
+                                    >
+                                        {activityTypeLabel[act.activity_type] || "ไม่ระบุ"}
+                                    </Badge>
+                                </HStack>
+
+                                <Text noOfLines={3} fontSize="sm" color="gray.600" _dark={{ color: "gray.300" }} mb={2}>
+                                    {act.description}
+                                </Text>
+
+                                {/* วันที่ & เวลา */}
+                                <HStack spacing={2} mb={1} align="center">
+                                    <Text fontSize="sm" fontWeight="bold" color="teal.600">
+                                        วันที่:
+                                    </Text>
+                                    <Badge
+                                        colorScheme={dateColors[act.date] || "gray"}
+                                        fontSize="0.8rem"
+                                        fontWeight="semibold"
+                                    >
+                                        {act.date}
+                                    </Badge>
+                                    <Text fontSize="sm" fontWeight="bold" color="teal.600">
+                                        เวลา:
+                                    </Text>
+                                    <Text fontSize="sm" color="teal.800" fontWeight="semibold">
+                                        {act.start_time} - {act.end_time}
+                                    </Text>
+                                </HStack>
+
+                                <Text fontSize="xs" color="gray.500">
+                                    สถานที่: {act.location} | คณะ: {act.faculty?.name_th} - ภาควิชา:{" "}
+                                    {act.department?.name_th}
+                                </Text>
+
+                                <HStack mt={1} spacing={1}>
+                                    <Text fontSize="sm" fontWeight="bold" color="orange.600">
+                                        {act.activity_type === "non_regis_activity" && act.max_participants === 999 ? "ไม่จำกัดจำนวนผู้เข้าร่วม" : "ลงทะเบียนแล้ว:"}
+                                    </Text>
+                                    <Text fontSize="sm" fontWeight="semibold" color="orange.800">
+                                        {act.activity_type === "non_regis_activity" && act.max_participants === 999
+                                            ? ""
+                                            : act.current_register_participants + "/" + act.max_participants + " คน"}
+                                    </Text>
+                                </HStack>
+                            </Box>
+                        ))}
+                    </VStack>
+                )}
+
+                {/* Pagination */}
+                {meta && meta.totalPages > 1 && (
+                    <HStack justify="center" mt={6} spacing={2}>
+                        <Button
+                            size="sm"
+                            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                            isDisabled={page === 1}
+                        >
+                            ก่อนหน้า
+                        </Button>
+                        <Text>
+                            หน้า {page} จาก {meta.totalPages}
+                        </Text>
+                        <Button
+                            size="sm"
+                            onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
+                            isDisabled={page === meta.totalPages}
+                        >
+                            ถัดไป
+                        </Button>
+                    </HStack>
+                )}
             </Box>
         </StudentAppLayout>
     )
-
-    // return (
-    //     <StudentLayout>
-    //         <Container maxW="7xl" px={4} py={6} mt="-10">
-    //             <Flex direction={{ base: "column", md: "row" }} gap={6}>
-    //                 {/* Sidebar */}
-    //                 {showSidebar && (
-    //                     <StudentSidebar />
-    //                 )}
-
-    //                 {/* Content */}
-    //                 <Box flex="1" >
-    //                     {/* Profile Card */}
-    //                     <Box
-    //                         mt={{ base: -4, md: 0 }}
-    //                         bg={cardBg}
-    //                         p={{ base: 4, md: 6 }}
-    //                         rounded="2xl"
-    //                         shadow="lg"
-    //                         mb={6}
-    //                         borderLeft={`5px solid ${PRIMARY}`}
-    //                     >
-    //                         <Flex align="center" justify="space-between" wrap="wrap">
-    //                             <HStack spacing={5}>
-    //                                 <Avatar
-    //                                     name={data.first_name}
-    //                                     size={{ base: "md", md: "xl" }}
-    //                                     bg={PRIMARY}
-    //                                     color="white"
-    //                                 >
-    //                                     <AvatarBadge boxSize={{ base: "1em", md: "1.2em" }} bg="green.400" />
-    //                                 </Avatar>
-    //                                 <VStack align="start" spacing={1} lineHeight={{ base: "12px", md: "base" }}>
-    //                                     <Heading size={{ base: "sm", md: "md" }} color={textColor}>
-    //                                         {data.first_name} {data.last_name}
-    //                                     </Heading>
-    //                                     <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
-    //                                         {data.school} • {data.province}
-    //                                     </Text>
-    //                                     <Text fontSize={{ base: "xs", md: "sm" }} color="gray.500">
-    //                                         {data.email}
-    //                                     </Text>
-    //                                 </VStack>
-    //                             </HStack>
-    //                             <Box display={{ base: "none", md: "block" }}>
-    //                                 <Badge
-
-    //                                     colorScheme="orange"
-    //                                     fontSize="sm"
-    //                                     px={3}
-    //                                     py={1}
-    //                                     rounded="full"
-    //                                     bg={SECONDARY}
-    //                                     color="gray.800"
-    //                                 >
-    //                                     เข้าร่วม 2 จุด
-    //                                 </Badge>
-    //                             </Box>
-    //                         </Flex>
-    //                     </Box>
-    //                 </Box>
-    //             </Flex>
-    //         </Container>
-    //     </StudentLayout>
-    // )
 }
 
 export { StudentDashboardPage }

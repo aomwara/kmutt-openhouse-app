@@ -1,0 +1,1 @@
+export { StudentProfilePage as default } from "@/views/pages/app/StudentProfile"
