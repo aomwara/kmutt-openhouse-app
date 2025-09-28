@@ -20,7 +20,7 @@ import { LandingSections } from "./LandingSection";
 import { ScheduleSection } from "./ScheduleSection";
 import BoothSection from "./BoothSection";
 import MapSection from "./MapSection";
-import { IoCalendar } from "react-icons/io5";
+import { IoCalendar, IoLogIn } from "react-icons/io5";
 import BannerSection from "./BannerSection";
 import Head from "next/head";
 import Image from "next/image";
@@ -112,8 +112,6 @@ const LandingPage = () => {
                                     variant="ghost"
                                 />
 
-                                {/* Desktop login */}
-                                {/* <Box display={{ base: "none", md: "block" }}>
                                 <Button
                                     as={Link}
                                     href="/login"
@@ -121,9 +119,13 @@ const LandingPage = () => {
                                     _hover={{ bg: "#d6451f" }}
                                     color="white"
                                     rounded="xl"
+                                    display={{ base: "none", md: "inline-flex" }}
                                 >
                                     เข้าสู่ระบบ
                                 </Button>
+                                {/* Desktop login */}
+                                {/* <Box display={{ base: "none", md: "block" }}>
+                                
                             </Box> */}
 
 
@@ -177,18 +179,18 @@ const LandingPage = () => {
                                 </Link>
                                 <Link href="#testimonials" onClick={() => setMenuOpen(false)}>
                                     เสียงจากผู้ใช้
-                                </Link>
-                                <Button
-                                    as={Link}
-                                    href="/student/login"
-                                    w="full"
-                                    bg={PRIMARY}
-                                    _hover={{ bg: "#d6451f" }}
-                                    color="white"
-                                    rounded="xl"
-                                >
-                                    เข้าสู่ระบบ
-                                </Button> */}
+                                </Link>*/}
+                                    <Button
+                                        as={Link}
+                                        href="/student/login"
+                                        w="full"
+                                        bg={PRIMARY}
+                                        _hover={{ bg: "#d6451f" }}
+                                        color="white"
+                                        rounded="xl"
+                                    >
+                                        เข้าสู่ระบบ
+                                    </Button>
                                 </VStack>
                             </Box>
                         )}
@@ -227,21 +229,39 @@ const LandingPage = () => {
                         <Text px={6} fontSize={{ base: "md", md: "lg" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
                             วันที่ 10 – 12 ตุลาคม 2568 เวลา 8:30 น. – 21:00 น. <br />
                             ณ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.) บางมด และบางขุนเทียน
-                            <br />ลงทะเบียน: 29 กันยายน 2568
+
                         </Text>
 
                         <Text px={6} fontSize={{ base: "sm", md: "md" }} lineHeight={{ base: "25px", md: "32px" }} color={textColor}>
                             October 10-12, 2025, from  08:30 a.m. to 9:00 p.m.
                             at King {"Mongkut's"} University of Technology Thonburi (KMUTT), Bangmod and Bang khunthian Campuses
-                            <br />Registration: September 29, 2025
+
                         </Text>
 
 
 
-                        <HStack spacing={4} pt={4}>
+                        <HStack spacing={4} pt={4} flexWrap="wrap" justify="center">
                             <Button
                                 as={Link}
                                 href="#schedule"
+                                size={{ base: "md", md: "lg" }}
+                                variant="outline"
+                                borderColor={PRIMARY}
+                                color={PRIMARY}
+                                _hover={{ bg: `${SECONDARY}30` }}
+                                rounded="xl"
+                                px={8}
+                            >
+                                <Flex justify={"center"} align="center">
+                                    <IoCalendar style={{ marginRight: "8px" }} />
+                                    <Text>กำหนดการ / Schedule</Text>
+                                </Flex>
+
+                            </Button>
+
+                            <Button
+                                as={Link}
+                                href="/register"
                                 size={{ base: "md", md: "lg" }}
                                 bg={PRIMARY}
                                 _hover={{ bg: "#d6451f" }}
@@ -250,8 +270,8 @@ const LandingPage = () => {
                                 px={8}
                             >
                                 <Flex justify={"center"} align="center">
-                                    <IoCalendar style={{ marginRight: "8px" }} />
-                                    <Text>กำหนดการ / <Link href="#schedule">Schedule</Link></Text>
+                                    <IoLogIn style={{ marginRight: "8px" }} />
+                                    <Text>ลงทะเบียน / Register</Text>
                                 </Flex>
 
                             </Button>
