@@ -252,17 +252,20 @@ const SearchActivityPage = () => {
                                     สถานที่: {act.location} | {act.faculty?.name_th} - {" "}
                                     {act.department?.name_th}
                                 </Text>
+                                {act.activity_type === "non_regis_activity" && act.max_participants !== 999 ? (<Text fontWeight="bold" color="orange.600" fontSize="sm" >จำกัดจำนวนผู้เข้าร่วม: {act.max_participants} คน</Text>) :
+                                    <HStack mt={1} spacing={1}>
+                                        <Text fontSize="sm" fontWeight="bold" color="orange.600">
+                                            {act.activity_type === "non_regis_activity" && act.max_participants === 999 ? "ไม่จำกัดจำนวนผู้เข้าร่วม" : "ลงทะเบียนแล้ว:"}
+                                        </Text>
+                                        <Text fontSize="sm" fontWeight="semibold" color="orange.800">
+                                            {act.activity_type === "non_regis_activity" && act.max_participants === 999
+                                                ? ""
+                                                : act.current_register_participants + "/" + act.max_participants + " คน"}
+                                        </Text>
+                                    </HStack>
+                                }
 
-                                <HStack mt={1} spacing={1}>
-                                    <Text fontSize="sm" fontWeight="bold" color="orange.600">
-                                        {act.activity_type === "non_regis_activity" && act.max_participants === 999 ? "ไม่จำกัดจำนวนผู้เข้าร่วม" : "ลงทะเบียนแล้ว:"}
-                                    </Text>
-                                    <Text fontSize="sm" fontWeight="semibold" color="orange.800">
-                                        {act.activity_type === "non_regis_activity" && act.max_participants === 999
-                                            ? ""
-                                            : act.current_register_participants + "/" + act.max_participants + " คน"}
-                                    </Text>
-                                </HStack>
+
                             </Box>
                         ))}
                     </VStack>
