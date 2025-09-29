@@ -143,7 +143,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                                     {"> "}ค้นหากิจกรรม - Search Activities
                                 </Link>
                                 <Link href="/app/activity-register" onClick={() => setMenuOpen(false)}>
-                                    {"> "}ลงทะเบียนกิจกรรม - Register for Activities
+                                    {"> "}กิจกรรมที่ลงทะเบียน - Registered Activities
                                 </Link>
 
                                 <Button
