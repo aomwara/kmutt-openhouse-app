@@ -15,6 +15,7 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 import { useRouter } from "next/router"
+import Head from "next/head"
 
 interface Activity {
     id: number
@@ -78,6 +79,9 @@ const RegisterActivityPage = () => {
 
     return (
         <StudentAppLayout navigation="กิจกรรมที่ลงทะเบียน">
+            <Head>
+                <title>Openhouse / กิจกรรมที่ลงทะเบียน</title>
+            </Head>
             <Box mx="auto" py={0}>
                 {loading ? (
                     <Flex justify="center" align="center" minH="40vh">

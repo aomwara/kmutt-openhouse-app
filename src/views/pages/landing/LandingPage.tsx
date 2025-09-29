@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { Menu, X, Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LandingSections } from "./LandingSection";
 import { ScheduleSection } from "./ScheduleSection";
 import BoothSection from "./BoothSection";
@@ -26,6 +26,7 @@ import Head from "next/head";
 import Image from "next/image";
 import ContactSection from "./ContactSection";
 import StatSection from "./StatSection";
+import { useSession } from "next-auth/react";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -38,6 +39,7 @@ const LandingPage = () => {
     const textColor = useColorModeValue("gray.800", "gray.100");
     const navBg = useColorModeValue("whiteAlpha.85", "gray.800");
     const borderColor = useColorModeValue("orange.100", "gray.700");
+    const { status } = useSession();
 
     return (
         <>
@@ -113,8 +115,17 @@ const LandingPage = () => {
                                     onClick={toggleColorMode}
                                     variant="ghost"
                                 />
-
-                                <Button
+                                {status === "authenticated" ? <Button
+                                    as={Link}
+                                    href="/app/dashboard"
+                                    bg={PRIMARY}
+                                    _hover={{ bg: "#d6451f" }}
+                                    color="white"
+                                    rounded="xl"
+                                    display={{ base: "none", md: "inline-flex" }}
+                                >
+                                    ไปที่แดชบอร์ด
+                                </Button> : <Button
                                     as={Link}
                                     href="/login"
                                     bg={PRIMARY}
@@ -124,7 +135,8 @@ const LandingPage = () => {
                                     display={{ base: "none", md: "inline-flex" }}
                                 >
                                     เข้าสู่ระบบ
-                                </Button>
+                                </Button>}
+
                                 {/* Desktop login */}
                                 {/* <Box display={{ base: "none", md: "block" }}>
                                 
@@ -182,9 +194,19 @@ const LandingPage = () => {
                                 <Link href="#testimonials" onClick={() => setMenuOpen(false)}>
                                     เสียงจากผู้ใช้
                                 </Link>*/}
-                                    <Button
+                                    {status === "authenticated" ? <Button
                                         as={Link}
-                                        href="/student/login"
+                                        href="/app/dashboard"
+                                        w="full"
+                                        bg={PRIMARY}
+                                        _hover={{ bg: "#d6451f" }}
+                                        color="white"
+                                        rounded="xl"
+                                    >
+                                        ไปที่แดชบอร์ด
+                                    </Button> : <Button
+                                        as={Link}
+                                        href="/login"
                                         w="full"
                                         bg={PRIMARY}
                                         _hover={{ bg: "#d6451f" }}
@@ -192,7 +214,8 @@ const LandingPage = () => {
                                         rounded="xl"
                                     >
                                         เข้าสู่ระบบ
-                                    </Button>
+                                    </Button>}
+
                                 </VStack>
                             </Box>
                         )}
