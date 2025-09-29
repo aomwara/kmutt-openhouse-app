@@ -19,6 +19,9 @@ import StudentProfileCard from "@/components/ProfileCard/StudentProfileCard"
 import { GrWorkshop } from "react-icons/gr"
 import Link from "next/link"
 import Head from "next/head"
+import ContactSection from "../landing/ContactSection"
+import MiniContactSection from "../landing/MiniContactSection"
+import { Contact } from "lucide-react"
 
 const PRIMARY = "#F04E23"
 
@@ -123,6 +126,7 @@ const StudentDashboardPage = () => {
             </Head>
             <Box >
                 <StudentProfileCard data={profile} />
+                {/* <MiniContactSection /> */}
 
                 {/* Search + Title */}
                 <Flex justify="space-between" align="center" my={4}>
@@ -244,6 +248,10 @@ const StudentDashboardPage = () => {
                     </HStack>
                 )}
             </Box>
+            <Box mt={3}>
+                <MiniContactSection />
+            </Box>
+
         </StudentAppLayout>
     )
 }

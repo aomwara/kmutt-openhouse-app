@@ -24,6 +24,7 @@ import { IoCalendar, IoLogIn } from "react-icons/io5";
 import BannerSection from "./BannerSection";
 import Head from "next/head";
 import Image from "next/image";
+import ContactSection from "./ContactSection";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -297,6 +298,7 @@ const LandingPage = () => {
                 <BoothSection />
 
                 <MapSection />
+                <ContactSection />
                 {/* ===== OTHER SECTIONS ===== */}
                 <LandingSections />
 
