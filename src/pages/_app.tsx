@@ -13,12 +13,14 @@ NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
+        <GoogleAnalytics trackPageViews gaMeasurementId="G-Q8X1DN1GW9" />
         <Component {...pageProps} />
       </ChakraProvider>
     </SessionProvider>
