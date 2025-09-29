@@ -46,8 +46,8 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         activity: {
           date: activity.date,
           AND: [
-            { start_time: { lte: activity.end_time } },
-            { end_time: { gte: activity.start_time } },
+            { start_time: { lt: activity.end_time } },
+            { end_time: { gt: activity.start_time } },
           ],
         },
       },
