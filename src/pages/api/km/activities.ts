@@ -9,6 +9,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     try {
       const activities = await prisma.activities.findMany({
         include: {
+          _count: { select: { RegisterActivities: true } },
           department: {
             select: {
               id: true,
@@ -45,7 +46,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         image_url: act.image_url,
         stars: act.stars,
         max_participants: act.max_participants,
-        current_register_participants: act.current_register_participants,
+        current_register_participants: act._count.RegisterActivities,
         created_at: act.created_at,
         department: {
           id: act.department.id,

@@ -24,6 +24,16 @@ import {
     FormLabel,
     VStack,
 } from "@chakra-ui/react";
+
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    TableContainer,
+} from "@chakra-ui/react"
 import KMAppLayout from "@/views/layouts/KMAppLayout";
 
 import { Activity } from "@/interfaces/Activities";
@@ -163,14 +173,32 @@ export const ViewActivityPage = () => {
                                 ยังไม่มีผู้ลงทะเบียน
                             </Text>
                         ) : (
-                            <VStack align="start" spacing={1}>
-                                {activity.registrations?.map((reg) => (
-                                    <Text key={reg.id} fontSize="sm" color="gray.600">
-                                        -  {reg.student.first_name} {reg.student.last_name} ({reg.student.email}) ::{" "}
-                                        {new Date(reg.registered_at).toLocaleString("th-TH")}
-                                    </Text>
-                                ))}
-                            </VStack>
+                            <TableContainer>
+                                <Table variant="striped" size="sm">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>ชื่อ-สกุล</Th>
+                                            <Th>Email</Th>
+                                            <Th>เบอร์โทร</Th>
+                                            <Th>เวลาลงทะเบียน</Th>
+                                            <Th>CheckIn</Th>
+                                            {/* <Th></Th> */}
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {activity.registrations?.map((reg) => (
+                                            <Tr key={reg.id}>
+                                                <Td>{reg.student.first_name} {reg.student.last_name}</Td>
+                                                <Td>{reg.student.email}</Td>
+                                                <Td>{reg.student.phone}</Td>
+                                                <Td>{new Date(reg.registered_at).toLocaleString("th-TH")}</Td>
+                                                <Td><Button colorScheme="gray" size={"xs"}>✓</Button></Td>
+                                                {/* <td><Button colorScheme="red" size={"xs"}>x</Button></td> */}
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
                         )}
                     </Box>
 

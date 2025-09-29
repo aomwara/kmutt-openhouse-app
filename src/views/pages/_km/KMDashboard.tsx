@@ -149,7 +149,7 @@ const KMDashboardPage = () => {
                                     <HStack justify="space-between" mb={2}>
                                         {/* Title */}
                                         <Text fontSize="md" fontWeight="bold">
-                                            {act.title}
+                                            #[ID00{act.id}]  {act.title}
                                         </Text>
 
                                         <HStack spacing={2}>
@@ -197,9 +197,13 @@ const KMDashboardPage = () => {
                                         {/* <Text fontSize="xs" color="gray.500">
                                             ⭐ Points: {act.point}
                                         </Text> */}
-                                        <Text fontSize="xs" color="gray.500">
-                                            👥 Max: {act.max_participants}
-                                        </Text>
+                                        {act.activity_type !== "non_regis_activity" && (
+                                            <Text fontSize="md" color="orange.500" fontWeight="bold">
+                                                {act.current_register_participants == act.max_participants ? "✅ เต็มแล้ว" : `${act.current_register_participants} / ${act.max_participants} คน`}
+                                            </Text>
+                                        )}
+
+
                                     </HStack>
                                 </Box>
                             ))

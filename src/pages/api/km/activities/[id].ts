@@ -27,6 +27,9 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             },
           },
         },
+        _count: {
+          select: { RegisterActivities: true }, // จะได้จำนวนคนลงทะเบียน
+        },
         RegisterActivities: {
           include: {
             student: {
@@ -63,7 +66,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       image_url: act.image_url,
       stars: act.stars,
       max_participants: act.max_participants,
-      current_register_participants: act.current_register_participants,
+      current_register_participants: act._count.RegisterActivities,
       created_at: act.created_at,
       department: {
         id: act.department.id,
