@@ -25,6 +25,7 @@ import BannerSection from "./BannerSection";
 import Head from "next/head";
 import Image from "next/image";
 import ContactSection from "./ContactSection";
+import StatSection from "./StatSection";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -299,6 +300,7 @@ const LandingPage = () => {
 
                 <MapSection />
                 <ContactSection />
+                <StatSection />
                 {/* ===== OTHER SECTIONS ===== */}
                 <LandingSections />
 
