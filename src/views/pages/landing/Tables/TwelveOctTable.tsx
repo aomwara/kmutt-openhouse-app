@@ -47,7 +47,7 @@ const TweleveOctTable = () => {
                                 </Tr>
                                 <Tr>
                                     <Td>10:30 น. - 12:00 น.</Td>
-                                    <Td>เสวนา Journey of Discovery : Lessons from Inspiration เส้นทางแห่งการค้นพบบทเรียนจากแรงบันดาลใจ โดย บริษัท Partnership</Td>
+                                    <Td>เสวนา Journey of Discovery: Pathways to Success เส้นทางสู่อาชีพและความสำเร็จ โดย บริษัท Partnership</Td>
                                     <Td>Auditorium ชั้น 3 อาคาร LX</Td>
                                 </Tr>
                                 <Tr>
@@ -399,11 +399,11 @@ const TweleveOctTable = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                <Tr>
+                                {/* <Tr>
                                     <Td>9:00 น. - 16:00 น.</Td>
                                     <Td>Open House คณะวิทยาศาสตร์/ Sci Tour</Td>
                                     <Td>Science Learning Space ชั้น 1 อาคาร N7</Td>
-                                </Tr>
+                                </Tr> */}
                                 <Tr>
                                     <Td>08:30 น. - 16:00 น.</Td>
                                     <Td>โครงการประกวด “โครงงานวิทยาศาสตร์สิ่งประดิษฐ์นวัตกรรม”</Td>
@@ -493,6 +493,59 @@ const TweleveOctTable = () => {
                     </TableContainer>
                 </AccordionPanel>
             </AccordionItem>
+
+            {/* มจธ ราชบุรี */}
+            < AccordionItem >
+                <AccordionButton>
+                    <Box flex="1" textAlign="left" fontWeight="bold">
+                        มจธ. ราชบุรี
+                    </Box>
+                    <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel>
+                    <TableContainer>
+                        <Table sx={{ td: { lineHeight: "22px" }, th: { lineHeight: "22px" } }} size="sm">
+                            <Thead>
+                                <Tr>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} >กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>10:00 น. - 12:00 น.</Td>
+                                    <Td>
+                                        Basketball Robot Challenge
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 1</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 น. - 12:00 น.</Td>
+                                    <Td>
+                                        Coding for Solar Tracking System
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 2 ห้อง SoLA 209</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 น. - 15:00 น.</Td>
+                                    <Td>
+                                        Basketball Robot Challenge
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 1</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 น. - 15:00 น.</Td>
+                                    <Td>
+                                        Coding for Solar Tracking System
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 2 ห้อง SoLA 209</Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                </AccordionPanel>
+            </AccordionItem >
         </Accordion >
     );
 };

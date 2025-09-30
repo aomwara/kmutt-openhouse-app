@@ -483,11 +483,55 @@ const TenOctTable = () => {
                 </AccordionPanel>
             </AccordionItem >
 
-            {/* โครงการมีเดีย */}
+            {/* โครงการร่วมบริหารหลักสูตรมีเดียอาตส์และเทคโนโลยีมีเดีย */}
+            <AccordionItem>
+                <h2>
+                    <AccordionButton>
+                        <Box flex="1" textAlign="left" fontWeight="bold">
+                            โครงการร่วมบริหารหลักสูตรมีเดียอาตส์และเทคโนโลยีมีเดีย
+                        </Box>
+                        <AccordionIcon />
+                    </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                    <TableContainer>
+                        <Table size="sm" variant="simple">
+                            <Thead>
+                                <Tr>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>เวลา</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"60%"}>กิจกรรม</Th>
+                                    <Th fontSize={"sm"} color={"kmutt.100"} width={"20%"}>สถานที่</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td>9:00 น. - 15:00 น.</Td>
+                                    <Td lineHeight={"22px"}>
+                                        Creative Media Open House
+                                        <br />- Workshop Python
+                                        <br />- Workshop Blender 3D
+                                        <br />- Workshop Paint Your Pouch
+                                        <br />Alumni Talk
+                                        <br />- “เมื่อกราฟิกเจอวิทยาศาสตร์: อาชีพที่เชื่อมโลกดีไซน์กับการแพทย์” โดย ศิษย์เก่ามีเดียทางการแพทย์และวิทยาศาสตร์
+                                        <br />- “Journey to PROGRAMMER“ โดย ศิษย์เก่าเทคโนโลยีมีเดีย
+                                    </Td>
+                                    <Td>
+                                        อาคาร A1 เทคโนโลยีและศิลปประยุกต์
+                                        <br />มหาวิทยาลัยเทคโนโลยี มจธ. บางขุนเทียน
+                                    </Td>
+                                </Tr>
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                </AccordionPanel>
+            </AccordionItem>
+
+
+            {/* มจธ ราชบุรี */}
             < AccordionItem >
                 <AccordionButton>
                     <Box flex="1" textAlign="left" fontWeight="bold">
-                        โครงการร่วมบริหารหลักสูตรมีเดียอาตส์และเทคโนโลยีมีเดีย
+                        มจธ. ราชบุรี
                     </Box>
                     <AccordionIcon />
                 </AccordionButton>
@@ -503,12 +547,32 @@ const TenOctTable = () => {
                             </Thead>
                             <Tbody>
                                 <Tr>
-                                    <Td>9:00 น. – 15:00 น.</Td>
+                                    <Td>10:00 น. - 12:00 น.</Td>
                                     <Td>
-                                        Creative Media Open House: Workshop Unity · Drawing · Paint Your Pouch
-                                        Alumni Talk: Tanpopoe Talk, พี่นนท์
+                                        Basketball Robot Challenge
                                     </Td>
-                                    <Td>อาคาร A1 เทคโนโลยีและศิลปประยุกต์ มจธ. บางขุนเทียน</Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 1</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>10:00 น. - 12:00 น.</Td>
+                                    <Td>
+                                        Coding for Solar Tracking System
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 2 ห้อง SoLA 209</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 น. - 15:00 น.</Td>
+                                    <Td>
+                                        Basketball Robot Challenge
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 1</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>13:00 น. - 15:00 น.</Td>
+                                    <Td>
+                                        Coding for Solar Tracking System
+                                    </Td>
+                                    <Td>N15 คณะศิลปศาสตร์: ชั้น 2 ห้อง SoLA 209</Td>
                                 </Tr>
                             </Tbody>
                         </Table>
