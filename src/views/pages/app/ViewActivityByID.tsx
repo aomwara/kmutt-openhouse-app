@@ -230,9 +230,8 @@ const ViewActivityByID = () => {
                             color="yellow.800"
                             fontSize={"sm"}
                         >
-                            หากลงทะเบียนเข้าร่วมกิจกรรมของ <Text as="span" fontWeight="bold">คณะสถาปัตยกรรมศาสตร์และการออกแบบ</Text>
-                            {" "}โปรดลงทะเบียนรถเพื่อเดินทางจาก <Text as="span" fontWeight="bold">มจธ.บางมด</Text> ไป <Text as="span" fontWeight="bold">มจธ.บางขุนเทียน</Text> ด้วย
-                            Link: <a href="https://forms.office.com/r/iemtQmb05i" target="_blank" style={{ textDecoration: "underline", color: "#3182ce" }}>
+                            If you would like to use the transportation service for  school of Architecture and Design, Bang Khun Thian, please register through this link
+                            : <a href="https://forms.office.com/r/iemtQmb05i" target="_blank" style={{ textDecoration: "underline", color: "#3182ce" }}>
                                 https://forms.office.com/r/iemtQmb05i
                             </a>
                         </Box>
