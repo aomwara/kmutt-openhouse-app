@@ -219,7 +219,7 @@ const ViewActivityByID = () => {
 
                     ) : ""}
 
-                    {/* {activity.department.name_th === "คณะสถาปัตยกรรมศาสตร์และการออกแบบ" ? (
+                    {activity.department.name_th === "คณะสถาปัตยกรรมศาสตร์และการออกแบบ" ? (
                         <Box
                             bg="yellow.100"           // สีพื้นหลังอ่อน ๆ
                             border="1px"               // เส้นขอบ
@@ -230,13 +230,13 @@ const ViewActivityByID = () => {
                             color="yellow.800"
                             fontSize={"sm"}
                         >
-                            If you would like to use the transportation service for  school of Architecture and Design, Bang Khun Thian, please register through this link
+                            If you would like to use the transportation service for  school of Architecture and Design, Bang Khun Thian, please register through this link:
                             : <a href="https://forms.office.com/r/iemtQmb05i" target="_blank" style={{ textDecoration: "underline", color: "#3182ce" }}>
                                 https://forms.office.com/r/iemtQmb05i
                             </a>
                         </Box>
 
-                    ) : ""} */}
+                    ) : ""}
 
                     <Divider />
 
