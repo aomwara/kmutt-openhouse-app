@@ -158,7 +158,7 @@ const ViewActivityByID = () => {
                     <Heading size={{ base: "md", md: "lg" }} lineHeight={{ base: "10", md: "50px" }}>{activity.title}</Heading>
 
                     {/* Description */}
-                    <Text fontSize="md" lineHeight={{ base: "8", md: "7" }} color={textColor} noOfLines={4}>
+                    <Text fontSize="md" lineHeight={{ base: "8", md: "7" }} color={textColor}>
                         {activity.description}
                     </Text>
 
