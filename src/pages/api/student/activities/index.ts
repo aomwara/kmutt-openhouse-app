@@ -28,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         { department: { name_en: { contains: search } } },
         { department: { faculty: { name_th: { contains: search } } } },
         { department: { faculty: { name_en: { contains: search } } } },
+        { display: true }
       ]
     }
 

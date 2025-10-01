@@ -219,6 +219,26 @@ const ViewActivityByID = () => {
 
                     ) : ""}
 
+                    {activity.department.name_th === "คณะสถาปัตยกรรมศาสตร์และการออกแบบ" ? (
+                        <Box
+                            bg="yellow.100"           // สีพื้นหลังอ่อน ๆ
+                            border="1px"               // เส้นขอบ
+                            borderColor="yellow.400"   // สีเส้นขอบ
+                            p={4}                      // ช่องว่างรอบ ๆ
+                            rounded="md"               // มุมโค้ง
+                            fontWeight="semibold"      // ตัวหนาเล็กน้อย
+                            color="yellow.800"
+                            fontSize={"sm"}
+                        >
+                            หากลงทะเบียนเข้าร่วมกิจกรรมของ <Text as="span" fontWeight="bold">คณะสถาปัตยกรรมศาสตร์และการออกแบบ</Text>
+                            {" "}โปรดลงทะเบียนรถเพื่อเดินทางจาก <Text as="span" fontWeight="bold">มจธ.บางมด</Text> ไป <Text as="span" fontWeight="bold">มจธ.บางขุนเทียน</Text> ด้วย
+                            Link: <a href="https://forms.office.com/r/iemtQmb05i" target="_blank" style={{ textDecoration: "underline", color: "#3182ce" }}>
+                                https://forms.office.com/r/iemtQmb05i
+                            </a>
+                        </Box>
+
+                    ) : ""}
+
                     <Divider />
 
                     {/* ปุ่มลงทะเบียน / ยกเลิก */}
@@ -233,8 +253,8 @@ const ViewActivityByID = () => {
                         </Button>
                     )}
                 </VStack>
-            </Box>
-        </StudentAppLayout>
+            </Box >
+        </StudentAppLayout >
     )
 }
 

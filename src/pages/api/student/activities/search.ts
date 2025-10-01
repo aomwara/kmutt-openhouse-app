@@ -34,6 +34,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         { department: { name_en: { contains: search as string,  } } },
         { department: { faculty: { name_th: { contains: search as string,  } } } },
         { department: { faculty: { name_en: { contains: search as string,  } } } },
+        { display: true }
       ];
     }
 

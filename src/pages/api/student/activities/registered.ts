@@ -14,7 +14,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         const studentId = req.user.id;
 
         const registrations = await prisma.registerActivities.findMany({
-            where: { studentId },
+            where: { studentId, activity: { display: true } },
             include: {
                 activity: {
                     include: {
