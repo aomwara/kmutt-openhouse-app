@@ -219,7 +219,7 @@ const ViewActivityByID = () => {
 
                     ) : ""}
 
-                    {activity.department.name_th === "คณะสถาปัตยกรรมศาสตร์และการออกแบบ" ? (
+                    {/* {activity.department.name_th === "คณะสถาปัตยกรรมศาสตร์และการออกแบบ" ? (
                         <Box
                             bg="yellow.100"           // สีพื้นหลังอ่อน ๆ
                             border="1px"               // เส้นขอบ
@@ -236,7 +236,7 @@ const ViewActivityByID = () => {
                             </a>
                         </Box>
 
-                    ) : ""}
+                    ) : ""} */}
 
                     <Divider />
 
