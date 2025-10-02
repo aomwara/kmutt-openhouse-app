@@ -129,6 +129,7 @@ const ReportPage = () => {
                                         {d}
                                     </option>
                                 ))}
+                                <option value={"all"}>ทุกวัน</option>
                             </Select>
                         </Box>
                     </VStack>
