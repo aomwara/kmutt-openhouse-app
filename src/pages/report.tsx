@@ -37,6 +37,8 @@ type ActivityReport = {
     end_time: string;
     location: string;
     activity_type: string;
+    max_participants: number;
+    point: number;
     participants: StudentCensored[];
 };
 
@@ -161,6 +163,10 @@ const ReportPage = () => {
                             <Badge mt={2} colorScheme="purple">
                                 {act.location}
                             </Badge>
+                            <br />
+                            <Text fontSize={"md"}>
+                                จำนวนผู้ลงทะเบียน: {act.participants.length} / {act.max_participants} | คะแนน: {act.point}
+                            </Text>
                         </CardHeader>
                         <Divider />
                         <CardBody>

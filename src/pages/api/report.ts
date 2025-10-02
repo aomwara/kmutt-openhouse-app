@@ -29,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       where: {
         date: date as string,
         departmentId: Number(departmentId),
+        display: true,
       },
       orderBy: [{ date: "asc" }, { start_time: "asc" }],
       include: {
@@ -48,6 +49,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       end_time: act.end_time,
       location: act.location,
       activity_type:act.activity_type,
+      max_participants: act.max_participants,
+      point: act.point,
       participants: act.RegisterActivities.map((reg) => ({
         id: reg.student.id,
         name: censorText(reg.student.first_name) + " " + censorText(reg.student.last_name),
