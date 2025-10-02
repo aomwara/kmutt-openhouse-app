@@ -157,7 +157,7 @@ const ReportPage = () => {
                                 {act.title}
                             </Heading>
                             <Text fontSize="sm" color="gray.600">
-                                วันที่ {new Date(act.date).toLocaleDateString("th-TH")} เวลา{" "}
+                                วันที่ {act.date} เวลา{" "}
                                 {act.start_time} - {act.end_time}
                             </Text>
                             <Badge mt={2} colorScheme="purple">
