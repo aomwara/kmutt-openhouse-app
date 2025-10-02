@@ -19,7 +19,10 @@ import {
     CardBody,
     Divider,
     Badge,
+    Button,
+    HStack,
 } from "@chakra-ui/react";
+import * as XLSX from "xlsx";
 
 // ----------------- Types -----------------
 type StudentCensored = {
@@ -87,6 +90,46 @@ const ReportPage = () => {
         };
         fetchReport();
     }, [departmentId, date]);
+
+    // ----------------- Export CSV per activity -----------------
+    const exportCSV = (act: ActivityReport) => {
+        // รายละเอียดกิจกรรม
+        const details = [
+            { Topic: "ชื่อกิจกรรม", value: act.title },
+            { Topic: "ประเภทกิจกรรม", value: act.activity_type },
+            { Topic: "รหัสกิจกรรม", value: act.id },
+            { Topic: "ภาควิชา", value: departments.find((d) => d.id === Number(departmentId))?.name_th || "" },
+            { Topic: "วันที่", value: act.date },
+            { Topic: "เวลา", value: `${act.start_time} - ${act.end_time}` },
+            { Topic: "สถานที่", value: act.location },
+            { Topic: "จำนวนผู้ลงทะเบียน", value: `${act.participants.length}/${act.max_participants}` },
+            { Topic: "คะแนน", value: act.point },
+        ];
+
+        // ผู้เข้าร่วม
+        const participants = act.participants.map((p, index) => ({
+            no: index + 1,
+            name: p.name,
+            email: p.email,
+            phone: p.phone,
+        }));
+
+        // แปลงเป็น sheet
+        const ws = XLSX.utils.book_new();
+
+        // sheet รายละเอียดกิจกรรม
+        const wsDetails = XLSX.utils.json_to_sheet(details);
+        XLSX.utils.book_append_sheet(ws, wsDetails, "Activity Info");
+
+        // sheet ผู้เข้าร่วม
+        const wsParticipants = XLSX.utils.json_to_sheet(
+            participants.length > 0 ? participants : [{ ชื่อ: "-", Email: "-", เบอร์: "-" }]
+        );
+        XLSX.utils.book_append_sheet(ws, wsParticipants, "Participants");
+
+        // export ไฟล์
+        XLSX.writeFile(ws, `[${act.id}]-${act.title}-${act.date}-S${act.start_time}-E${act.end_time}.xlsx`);
+    };
 
     return (
         <Box p={8} maxW="1000px" mx="auto">
@@ -158,8 +201,7 @@ const ReportPage = () => {
                                 {act.title}
                             </Heading>
                             <Text fontSize="sm" color="gray.600">
-                                วันที่ {act.date} เวลา{" "}
-                                {act.start_time} - {act.end_time}
+                                วันที่ {act.date} เวลา {act.start_time} - {act.end_time}
                             </Text>
                             <Badge mt={2} colorScheme="purple">
                                 {act.location}
@@ -171,33 +213,42 @@ const ReportPage = () => {
                         </CardHeader>
                         <Divider />
                         <CardBody>
-                            {act.activity_type !== "non_regis_activity" ? (<>
-
-                                <Table variant="striped" size="sm" colorScheme="teal">
-                                    <Thead>
-                                        <Tr>
-                                            <Th>ชื่อ</Th>
-                                            <Th>Email</Th>
-                                            <Th>เบอร์</Th>
-                                        </Tr>
-                                    </Thead>
-                                    <Tbody>
-                                        {act.participants.map((p) => (
-                                            <Tr key={p.id}>
-                                                <Td>{p.name}</Td>
-                                                <Td>{p.email}</Td>
-                                                <Td>{p.phone}</Td>
+                            {act.activity_type !== "non_regis_activity" ? (
+                                <>
+                                    <Table variant="striped" size="sm" colorScheme="teal">
+                                        <Thead>
+                                            <Tr>
+                                                <Th>ชื่อ</Th>
+                                                <Th>Email</Th>
+                                                <Th>เบอร์</Th>
                                             </Tr>
-                                        ))}
-                                    </Tbody>
-                                </Table>
-                                {act.participants.length === 0 && (
-                                    <Text mt={4} color="gray.500">
-                                        ไม่มีผู้เข้าร่วม
-                                    </Text>
-                                )}
-                            </>) : "กิจกรรมนี้ไม่ต้องลงทะเบียนเข้าร่วม"}
+                                        </Thead>
+                                        <Tbody>
+                                            {act.participants.map((p) => (
+                                                <Tr key={p.id}>
+                                                    <Td>{p.name}</Td>
+                                                    <Td>{p.email}</Td>
+                                                    <Td>{p.phone}</Td>
+                                                </Tr>
+                                            ))}
+                                        </Tbody>
+                                    </Table>
+                                    {act.participants.length === 0 && (
+                                        <Text mt={4} color="gray.500">
+                                            ไม่มีผู้เข้าร่วม
+                                        </Text>
+                                    )}
+                                </>
+                            ) : (
+                                "กิจกรรมนี้ไม่ต้องลงทะเบียนเข้าร่วม"
+                            )}
 
+                            {/* ปุ่ม Export CSV */}
+                            <HStack mt={4} spacing={4} justify="flex-end">
+                                <Button colorScheme="green" onClick={() => exportCSV(act)}>
+                                    Export Excel
+                                </Button>
+                            </HStack>
                         </CardBody>
                     </Card>
                 ))}
