@@ -53,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const data = activities.map((act) => ({
       id: act.id,
+      desc: act.description,
       title: act.title,
       date: act.date,
       start_time: act.start_time,
@@ -63,6 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       point: act.point,
       participants: act.RegisterActivities.map((reg) => ({
         id: reg.student.id,
+        registered_at: reg.registered_at,
         name:
           censorText(reg.student.first_name) +
           " " +

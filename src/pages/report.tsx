@@ -26,6 +26,7 @@ import * as XLSX from "xlsx";
 
 // ----------------- Types -----------------
 type StudentCensored = {
+    registered_at: string;
     id: number;
     name: string;
     email: string;
@@ -35,6 +36,7 @@ type StudentCensored = {
 type ActivityReport = {
     id: number;
     title: string;
+    desc: string;
     date: string;
     start_time: string;
     end_time: string;
@@ -96,6 +98,7 @@ const ReportPage = () => {
         // รายละเอียดกิจกรรม
         const details = [
             { Topic: "ชื่อกิจกรรม", value: act.title },
+            { Topic: "รายละเอียดกิจกรรม", value: act.desc },
             { Topic: "ประเภทกิจกรรม", value: act.activity_type },
             { Topic: "รหัสกิจกรรม", value: act.id },
             { Topic: "ภาควิชา", value: departments.find((d) => d.id === Number(departmentId))?.name_th || "" },
@@ -104,6 +107,7 @@ const ReportPage = () => {
             { Topic: "สถานที่", value: act.location },
             { Topic: "จำนวนผู้ลงทะเบียน", value: `${act.participants.length}/${act.max_participants}` },
             { Topic: "คะแนน", value: act.point },
+            { Topic: "วันที่ออกรายงาน", value: new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }) },
         ];
 
         // ผู้เข้าร่วม
@@ -112,6 +116,7 @@ const ReportPage = () => {
             name: p.name,
             email: p.email,
             phone: p.phone,
+            registered_at: p.registered_at,
         }));
 
         // แปลงเป็น sheet
