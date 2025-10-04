@@ -52,8 +52,7 @@ const TenOctTable = () => {
                                 <Tr>
                                     <Td>10:30 น. - 12:00 น.</Td>
                                     <Td>
-                                        “เสวนา Journey of Discovery: Lessons from Inspiration”<br />
-                                        เส้นทางแห่งการค้นพบ: บทเรียนจากแรงบันดาลใจ<br />
+                                        “เสวนา Journey of Discovery: เวทีฮีลใจวัยรุ่น”<br />
                                         โดย รศ. ดร.กุลธิดา ธรรมวิภัชน์
                                         คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี
                                     </Td>

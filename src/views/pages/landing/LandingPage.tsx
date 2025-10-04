@@ -27,6 +27,7 @@ import Image from "next/image";
 import ContactSection from "./ContactSection";
 import StatSection from "./StatSection";
 import { useSession } from "next-auth/react";
+import FAQSection from "./FAQSection";
 
 const PRIMARY = "#F04E23"; // KMUTT Orange Red
 const SECONDARY = "#FFC233"; // KMUTT Yellow
@@ -324,6 +325,7 @@ const LandingPage = () => {
                 <MapSection />
                 <ContactSection />
                 <StatSection />
+                <FAQSection />
                 {/* ===== OTHER SECTIONS ===== */}
                 <LandingSections />
 

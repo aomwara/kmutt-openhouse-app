@@ -67,7 +67,7 @@ const TweleveOctTable = () => {
                                 </Tr>
                                 <Tr>
                                     <Td>18:30 น. - 21:00 น.</Td>
-                                    <Td>ฟรีคอนเสิร์ต จาก BEC-TERO</Td>
+                                    <Td>ฟรีคอนเสิร์ต ศิลปินสุดมันส์ เสิร์ฟความสุขจัดเต็ม</Td>
                                     <Td>KMUTT STADIUM</Td>
                                 </Tr>
                                 <Tr>
