@@ -6,10 +6,11 @@ import { withAuth, AuthenticatedRequest } from "@/libs/authGuard";
 const prisma = new PrismaClient();
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+  const admin_id = req.user;
   try {
     if (req.method === "GET") {
       // ดึง staff ทั้งหมด
-      const staffs = await prisma.staffs.findMany({
+      const staffs = await prisma.staffs.findMany({where:{create_by: admin_id.id},
         orderBy: { created_at: "desc" },
       });
       return res.status(200).json(staffs);
@@ -32,6 +33,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
           password_hash: hashedPassword,
           name,
           email,
+          create_by: Number(admin_id!.id),
         },
       });
 

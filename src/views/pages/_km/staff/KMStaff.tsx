@@ -201,7 +201,7 @@ const KMStaff = () => {
                                         colorScheme="teal"
                                         onClick={() => handleOpenAssign(staff)}
                                     >
-                                        Assign Activities {staff.id}
+                                        Assign Activities
                                     </Button>
                                 </Td>
                             </Tr>
@@ -212,7 +212,7 @@ const KMStaff = () => {
 
             {/* Modal Assign */}
             {/* Modal Assign */}
-            <Modal isOpen={isOpen} onClose={onClose} size="lg">
+            <Modal isOpen={isOpen} onClose={onClose} size="5xl">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
@@ -225,21 +225,22 @@ const KMStaff = () => {
                             const isChecked = selectedActivities.includes(id); // now it's safe
 
                             return (
-                                <Checkbox
-                                    key={id}
-                                    isChecked={isChecked}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSelectedActivities((prev) => [...prev, id]);
-                                        } else {
-                                            setSelectedActivities((prev) =>
-                                                prev.filter((x) => x !== id)
-                                            );
-                                        }
-                                    }}
-                                >
-                                    {act.title} ({new Date(act.date).toLocaleDateString()} {act.start_time})
-                                </Checkbox>
+                                <Box key={id}>
+                                    <Checkbox
+                                        isChecked={isChecked}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSelectedActivities((prev) => [...prev, id]);
+                                            } else {
+                                                setSelectedActivities((prev) =>
+                                                    prev.filter((x) => x !== id)
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {act.title} ({new Date(act.date).toLocaleDateString()} {act.start_time})
+                                    </Checkbox>
+                                </Box>
                             );
                         })}
                     </ModalBody>

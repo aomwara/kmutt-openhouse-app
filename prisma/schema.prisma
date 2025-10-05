@@ -41,6 +41,7 @@ model Admins {
   name          String
   created_at    DateTime     @default(now())
   Activities    Activities[]
+  Staffs        Staffs[]
 }
 
 model Staffs {
@@ -50,6 +51,8 @@ model Staffs {
   name          String
   email         String         @unique
   created_at    DateTime       @default(now())
+  create_by     Int
+  created_by    Admins         @relation(fields: [create_by], references: [id])
   StaffMapping  StaffMapping[]
 }
 
