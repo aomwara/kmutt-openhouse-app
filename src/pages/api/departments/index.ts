@@ -1,8 +1,8 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { withAuth, AuthenticatedRequest } from "@/libs/authGuard";
 import { PrismaClient } from "@prisma/client";
 
-async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
     const prisma = new PrismaClient();
     const departments = await prisma.department.findMany({
       select: {
@@ -15,4 +15,4 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     return res.status(200).json(departments);
 }
 
-export default withAuth(handler, ["kmuser","student"]);
+export default handler;
