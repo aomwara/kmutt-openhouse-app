@@ -1,0 +1,1 @@
+export { KMStaff as default } from "@/views/pages/_km/staff/KMStaff"

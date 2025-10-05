@@ -25,6 +25,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 
+import * as XLSX from "xlsx";
 import {
     Table,
     Thead,
@@ -88,6 +89,54 @@ export const ViewActivityPage = () => {
         }
     };
 
+
+
+    const exportExcel = () => {
+        if (!activity?.registrations) return;
+
+        const wb = XLSX.utils.book_new();
+
+        // --- ข้อมูลกิจกรรม ---
+        const activityInfo = [
+            { Key: "ชื่อกิจกรรม", Value: activity.title },
+            { Key: "รายละเอียด", Value: activity.description },
+            { Key: "วันที่", Value: activity.date },
+            { Key: "เวลาเริ่ม", Value: activity.start_time },
+            { Key: "เวลาสิ้นสุด", Value: activity.end_time },
+            { Key: "สถานที่", Value: activity.location },
+            { Key: "คะแนน", Value: activity.point },
+            { Key: "จำนวนผู้ลงทะเบียนสูงสุด", Value: activity.max_participants },
+        ];
+
+        // แปลง activityInfo เป็น sheet (row เดียวแต่ 2 คอลัมน์: Key / Value)
+        const wsActivity = XLSX.utils.json_to_sheet(activityInfo, { header: ["Key", "Value"] });
+
+        // --- ข้อมูลนักเรียน ---
+        const studentRows = activity.registrations.map((reg) => ({
+            "ชื่อ-สกุล": `${reg.student.first_name} ${reg.student.last_name}`,
+            Email: reg.student.email,
+            เบอร์โทร: reg.student.phone,
+            "เวลาลงทะเบียน": new Date(reg.registered_at).toLocaleString("th-TH"),
+        }));
+
+        // เพิ่ม row ว่างก่อนนักเรียนเพื่อแยก
+        XLSX.utils.sheet_add_aoa(wsActivity, [[""]], { origin: -1 });
+
+        // เพิ่ม header นักเรียน
+        XLSX.utils.sheet_add_aoa(
+            wsActivity,
+            [["ชื่อ-สกุล", "Email", "เบอร์โทร", "เวลาลงทะเบียน"]],
+            { origin: -1 }
+        );
+
+        // เพิ่มข้อมูลนักเรียน
+        XLSX.utils.sheet_add_json(wsActivity, studentRows, { skipHeader: true, origin: -1 });
+
+        XLSX.utils.book_append_sheet(wb, wsActivity, "Registrations");
+        XLSX.writeFile(wb, `${activity.title}-registrations.xlsx`);
+    };
+
+
     return (
         <KMAppLayout navigation="View Activity">
             {loading ? (
@@ -118,9 +167,9 @@ export const ViewActivityPage = () => {
                                     แก้ไข
                                 </Button>
 
-                                <Button ml={2} size="sm" colorScheme="red" onClick={() => { }}>
+                                {/* <Button ml={2} size="sm" colorScheme="red" onClick={() => { }}>
                                     ลบ
-                                </Button>
+                                </Button> */}
                             </Box>
                         </HStack>
 
@@ -165,9 +214,14 @@ export const ViewActivityPage = () => {
 
                     {/* Participants */}
                     <Box mt={4}>
-                        <Text fontSize="sm" fontWeight="bold" mb={2}>
-                            รายชื่อนักเรียนที่ลงทะเบียน
-                        </Text>
+                        <HStack justify="space-between" mb={2}>
+                            <Text fontSize="sm" fontWeight="bold">
+                                รายชื่อนักเรียนที่ลงทะเบียน
+                            </Text>
+                            <Button size="sm" colorScheme="green" onClick={exportExcel}>
+                                Export Excel
+                            </Button>
+                        </HStack>
                         {activity.registrations?.length === 0 ? (
                             <Text fontSize="sm" color="gray.500">
                                 ยังไม่มีผู้ลงทะเบียน

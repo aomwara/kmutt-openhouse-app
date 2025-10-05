@@ -44,15 +44,13 @@ model Admins {
 }
 
 model Staffs {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
   password_hash String
   name          String
-  email         String   @unique
-  created_at    DateTime @default(now())
-
-  activity_id Int
-  activity    Activities @relation(fields: [activity_id], references: [id])
+  email         String         @unique
+  created_at    DateTime       @default(now())
+  StaffMapping  StaffMapping[]
 }
 
 // University Structure
@@ -98,8 +96,8 @@ model Activities {
   departmentId Int
   department   Department @relation(fields: [departmentId], references: [id])
 
-  title                         String
-  description                   String
+  title                         String               @db.VarChar(1000)
+  description                   String               @db.VarChar(10000)
   date                          String
   round                         Int
   start_time                    String
@@ -112,11 +110,11 @@ model Activities {
   stars                         Int                  @default(0)
   max_participants              Int
   current_register_participants Int                  @default(0)
-  staffs                        Staffs[]
   created_at                    DateTime             @default(now())
   Admins                        Admins?              @relation(fields: [ownerId], references: [id])
   ownerId                       Int?
   RegisterActivities            RegisterActivities[]
+  StaffMapping                  StaffMapping[]
 }
 
 model RegisterActivities {
@@ -129,6 +127,18 @@ model RegisterActivities {
   activity Activities @relation(fields: [activityId], references: [id])
 
   @@unique([studentId, activityId])
+}
+
+model StaffMapping {
+  id         Int      @id @default(autoincrement())
+  staffId    Int
+  activityId Int
+  created_at DateTime @default(now())
+
+  staff    Staffs     @relation(fields: [staffId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id])
+
+  @@unique([staffId, activityId])
 }
 
 // OAuth2

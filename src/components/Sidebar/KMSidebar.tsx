@@ -27,6 +27,8 @@ const KMSidebar = () => {
     const menuItems = [
         { label: "กิจกรรมทั้งหมด", icon: MdDashboard, link: "/_km/dashboard" },
         { label: "เพิ่มกิจกรรม", icon: MdAddBusiness, link: "/_km/activity/add" },
+        // จัดการ staff
+        { label: "จัดการ Staff", icon: MdPerson, link: "/_km/staff" },
         // { label: "จัดการแบบสอบถาม", icon: MdQuestionAnswer, link: "/_km/activity/add" },
         { label: "ออกจากระบบ", icon: MdLogout, link: "/login" }
     ]
