@@ -1,1 +1,1 @@
-export { AdminDashboard as default } from '@/views/pages/admin/AdminDashboard';
+export { StaffDashboard as default } from "@/views/pages/staff/StaffDashboard";

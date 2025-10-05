@@ -5,6 +5,13 @@ export interface KMProfile {
 }
 
 
+export interface StaffProfile {
+    name: string
+    username: string
+    email: string
+}
+
+
 export interface StudentProfile {
     first_name: string
     last_name: string

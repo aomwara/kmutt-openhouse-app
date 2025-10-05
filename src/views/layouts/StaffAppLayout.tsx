@@ -1,0 +1,44 @@
+import { Box, Container, Divider, Flex, Text, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+import StaffLayout from "./StaffLayout";
+import { ReactNode } from "react"
+
+import StaffSidebar from "@/components/Sidebar/StaffSidebar";
+type StaffLayoutProps = {
+    children: ReactNode;
+    navigation?: string
+}
+
+export default function StaffAppLayout({ children, navigation }: StaffLayoutProps) {
+    const showSidebar = useBreakpointValue({ base: false, md: true })
+    const cardBg = useColorModeValue("white", "gray.700")
+    const textColor = useColorModeValue("gray.800", "gray.100")
+
+    return (
+        <StaffLayout>
+            <Container maxW="7xl" px={4} py={6} mt="-10">
+                <Flex direction={{ base: "column", md: "row" }} gap={6}>
+                    {/* Sidebar */}
+                    {showSidebar && <StaffSidebar />}
+
+                    <Flex direction="column" flex="1" gap={6}>
+                        <Box
+                            bg={cardBg}
+                            p={6}
+                            rounded="2xl"
+                            shadow="lg"
+                            flex="1"
+                        >
+                            <Text fontSize="lg" fontWeight="bold" mb={4}>
+                                Admin / {navigation}
+                            </Text>
+                            <Divider mt="-1" mb={6} />
+
+                            {children}
+                        </Box>
+                    </Flex>
+                </Flex>
+            </Container>
+        </StaffLayout>
+    )
+}
+
