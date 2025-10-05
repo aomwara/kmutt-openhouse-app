@@ -41,7 +41,7 @@ const StaffProfileCard = ({ data }: { data: StaffProfile }) => {
                             {data.name}
                         </Heading>
                         <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
-                            {data.username} • KMUTT Account
+                            {data.username} • Staff Account
                         </Text>
                         <Text fontSize={{ base: "xs", md: "sm" }} color="gray.500">
                             {data.email}

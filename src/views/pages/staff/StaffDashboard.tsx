@@ -40,7 +40,7 @@ const StaffDashboard = () => {
         return (
             <StaffLayout>
                 <Flex justify="center" align="center" minH="60vh">
-                    <Text>กำลังโหลดข้อมูล KMUTT Account...</Text>
+                    <Text>กำลังโหลดข้อมูล Staff Account...</Text>
                 </Flex>
             </StaffLayout>
         )
