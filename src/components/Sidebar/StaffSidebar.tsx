@@ -26,6 +26,7 @@ const StaffSidebar = () => {
 
     const menuItems = [
         { label: "กิจกรรมทั้งหมด", icon: MdDashboard, link: "/staff/dashboard" },
+        { label: "สแกน QR Code", icon: MdQrCode, link: "/staff/scan" },
         { label: "ออกจากระบบ", icon: MdLogout, link: "/login" }
     ]
 

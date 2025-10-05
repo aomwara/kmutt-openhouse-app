@@ -1,0 +1,1 @@
+export { ScanQR as default } from "@/views/pages/staff/ScanQR"
