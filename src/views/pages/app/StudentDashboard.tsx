@@ -56,6 +56,7 @@ type StudentProfile = {
     province: string
     email: string
     phone: string
+    uid: string
 }
 
 const StudentDashboardPage = () => {

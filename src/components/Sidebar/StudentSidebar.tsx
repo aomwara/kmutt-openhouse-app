@@ -15,6 +15,7 @@ import {
     MdSearch,
 } from "react-icons/md"
 import { RiProfileFill } from "react-icons/ri";
+import { GiJourney } from "react-icons/gi";
 
 import { GrSearch, GrWorkshop } from "react-icons/gr";
 import { useRouter } from "next/router";
@@ -30,6 +31,8 @@ const StudentSidebar = () => {
         { label: "Dashboard", icon: MdDashboard, link: "/app/dashboard" },
         // { label: "QR Code", icon: MdQrCode },
         { label: "โปรไฟล์", icon: RiProfileFill, link: "/app/profile" },
+        { label: "My Passport", icon: MdQrCode, link: "/app/my-passport" },
+        { label: "My Journey", icon: GiJourney, link: "/app/my-journey" },
         // { label: "ค้นหากิจกรรม", icon: MdSearch },
         { label: "ค้นหากิจกรรม", icon: GrSearch, link: "/app/activity-search" },
         { label: "กิจกรรมที่ลงทะเบียน", icon: GrWorkshop, link: "/app/activity-register" },

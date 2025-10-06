@@ -1,0 +1,1 @@
+export { MyJourneyPage as default } from "@/views/pages/app/MyJourneyPage"

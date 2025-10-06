@@ -23,6 +23,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
           school: true,
           province: true,
           created_at: true,
+          uuid: true,
         },
       });
 

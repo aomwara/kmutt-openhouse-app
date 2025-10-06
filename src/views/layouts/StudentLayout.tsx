@@ -11,6 +11,7 @@ import {
     IconButton,
     Container,
     useColorMode,
+    Badge,
     useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
@@ -138,6 +139,12 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                                 </Link>
                                 <Link href="/app/profile" onClick={() => setMenuOpen(false)}>
                                     {"> "}โปรไฟล์ - Profile
+                                </Link>
+                                <Link href="/app/my-passport" onClick={() => setMenuOpen(false)}>
+                                    {"> "}พาสปอร์ตของฉัน - My Passport <Badge colorScheme="orange">ใช้ในวันงาน</Badge>
+                                </Link>
+                                <Link href="/app/my-journey" onClick={() => setMenuOpen(false)}>
+                                    {"> "}กิจกรรมที่ฉันเข้าร่วม - My Journey <Badge colorScheme="orange">ใช้ในวันงาน</Badge>
                                 </Link>
                                 <Link href="/app/activity-search" onClick={() => setMenuOpen(false)}>
                                     {"> "}ค้นหากิจกรรม - Search Activities

@@ -1,0 +1,1 @@
+export { MyPassportPage as default } from "@/views/pages/app/MyPassportPage"
