@@ -13,13 +13,18 @@ import {
     Button,
     IconButton,
     Input,
+    Tabs,
+    Tab,
+    TabList,
+    TabPanels,
+    TabPanel,
 } from "@chakra-ui/react"
 import KMLayout from "@/views/layouts/KMLayout"
 import KMProfileCard from "@/components/ProfileCard/KMProfileCard"
 import KMAppLayout from "@/views/layouts/KMAppLayout"
 import { KMProfile } from "@/interfaces/KMProfile"
 import { Activity } from "@/interfaces/Activities"
-import { EditIcon, ViewIcon } from "@chakra-ui/icons"
+import { EditIcon } from "@chakra-ui/icons"
 import { useRouter } from "next/router"
 
 const ITEMS_PER_PAGE = 5
@@ -31,8 +36,14 @@ const KMDashboardPage = () => {
 
     const [data, setData] = useState<KMProfile | null>(null)
     const [activities, setActivities] = useState<Activity[]>([])
-    const [currentPage, setCurrentPage] = useState(1)
     const [searchKeyword, setSearchKeyword] = useState("")
+
+    // state เก็บ current page ของแต่ละวัน
+    const [pageByDate, setPageByDate] = useState<Record<string, number>>({
+        "10/10/2025": 1,
+        "11/10/2025": 1,
+        "12/10/2025": 1,
+    })
 
     useEffect(() => {
         fetch("/api/km/profile")
@@ -64,7 +75,15 @@ const KMDashboardPage = () => {
         non_regis_activity: "orange",
     }
 
-    // --- Filter activities by search keyword ---
+    const dateColors: Record<string, string> = {
+        "10/10/2025": "yellow",
+        "11/10/2025": "green",
+        "12/10/2025": "blue",
+    }
+
+    const availableDates = ["10/10/2025", "11/10/2025", "12/10/2025"]
+
+    // ฟิลเตอร์ตาม keyword ก่อน
     const filteredActivities = activities.filter((act) => {
         const keyword = searchKeyword.toLowerCase()
         return (
@@ -73,29 +92,13 @@ const KMDashboardPage = () => {
         )
     })
 
-    // --- Pagination logic ---
-    const totalPages = Math.ceil(filteredActivities.length / ITEMS_PER_PAGE)
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const currentActivities = filteredActivities.slice(startIndex, startIndex + ITEMS_PER_PAGE)
-
-
-    const dateColors: Record<string, string> = {
-        "10/10/2025": "yellow",
-        "10-10-2025": "yellow",
-        "2025-10-10": "yellow",
-        "11/10/2025": "green",
-        "11-10-2025": "green",
-        "2025-10-11": "green",
-        "12/10/2025": "blue",
-        "12-10-2025": "blue",
-        "2025-10-12": "blue",
-    }
-
-    const activityTypeLabel: Record<string, string> = {
-        workshop: "Workshop",
-        regis_activity: "กิจกรรมที่ต้องลงทะเบียน",
-        non_regis_activity: "กิจกรรมทั่วไป",
-    };
+    // แยกกิจกรรมตามวัน + sort ตามเวลา
+    const activitiesByDate = availableDates.reduce((acc, date) => {
+        acc[date] = filteredActivities
+            .filter((act) => act.date === date)
+            .sort((a, b) => a.start_time.localeCompare(b.start_time))
+        return acc
+    }, {} as Record<string, Activity[]>)
 
     return (
         <KMAppLayout navigation="Dashboard">
@@ -104,7 +107,7 @@ const KMDashboardPage = () => {
                 <Divider mt="-1" mb={6} />
 
                 <Box>
-                    {/* Header: กิจกรรมทั้งหมด + Add Button */}
+                    {/* Header */}
                     <HStack justify="space-between" mb={2}>
                         <Text fontSize="md" fontWeight="bold" color={textColor}>
                             กิจกรรมทั้งหมด
@@ -127,124 +130,185 @@ const KMDashboardPage = () => {
                         value={searchKeyword}
                         onChange={(e) => {
                             setSearchKeyword(e.target.value)
-                            setCurrentPage(1) // รีเซ็ต page กลับหน้าแรก
+                            // reset pagination ทุกวัน
+                            setPageByDate({
+                                "2025-10-10": 1,
+                                "2025-10-11": 1,
+                                "2025-10-12": 1,
+                            })
                         }}
                     />
 
-                    <VStack align="stretch" spacing={4}>
-                        {currentActivities.length === 0 ? (
-                            <Text fontSize="sm" color="gray.500">
-                                ไม่พบกิจกรรมที่ตรงกับคำค้น
-                            </Text>
-                        ) : (
-                            currentActivities.map((act) => (
-                                <Box
-                                    key={act.id}
-                                    p={4}
-                                    bg={cardBg}
-                                    rounded="xl"
-                                    shadow="sm"
-                                    position="relative"
-                                >
-                                    <HStack justify="space-between" mb={2}>
-                                        {/* Title */}
-                                        <Text fontSize="md" fontWeight="bold">
-                                            #[ID00{act.id}]  {act.title}
-                                        </Text>
-
-                                        <HStack spacing={2}>
-                                            {/* Activity Type */}
-                                            <Badge
-                                                colorScheme={activityColors[act.activity_type] || "gray"}
-                                                textTransform="capitalize"
-                                            >
-                                                {act.activity_type.replace("_", " ")}
-                                            </Badge>
-
-                                            {/* Edit Button */}
-                                            <IconButton
-                                                aria-label="Edit activity"
-                                                icon={<EditIcon />}
-                                                size="sm"
-                                                onClick={() => handleEdit(act.id)}
-                                            />
-                                        </HStack>
-                                    </HStack>
-
-                                    {/* Description */}
-                                    <Text fontSize="sm" color={textColor} noOfLines={3}>
-                                        {act.description}
-                                    </Text>
-
-                                    {/* Location + Faculty + Department */}
-                                    <Text fontSize="xs" mt={2} color="gray.500">
-                                        📍 {act.location} | 🏫 {act.faculty?.name_th} - {act.department?.name_th}
-                                    </Text>
-
-                                    {/* Date & Time */}
-                                    <HStack spacing={2} mb={1} align="center">
-
-                                        <Badge colorScheme={dateColors[act.date] || "gray"} fontSize="1rem" fontWeight="bold">
-                                            วันที่: {act.date} (รอบ {act.round})
-                                        </Badge>
-                                        <Badge colorScheme="orange" fontSize="1rem" fontWeight="bold">
-                                            เวลา: {act.start_time} - {act.end_time}
-                                        </Badge>
-                                    </HStack>
-
-                                    {/* Points & Max Participants */}
-                                    <HStack mt={2} spacing={4}>
-                                        {/* <Text fontSize="xs" color="gray.500">
-                                            ⭐ Points: {act.point}
-                                        </Text> */}
-                                        {act.activity_type !== "non_regis_activity" && (
-                                            <Text fontSize="md" color="orange.500" fontWeight="bold">
-                                                {act.current_register_participants == act.max_participants ? "✅ เต็มแล้ว" : `${act.current_register_participants} / ${act.max_participants} คน`}
-                                            </Text>
-                                        )}
-
-
-                                    </HStack>
-                                </Box>
-                            ))
-                        )}
-                    </VStack>
-
-                    {/* Pagination controls */}
-                    {totalPages > 1 && (
-                        <HStack justify="center" spacing={2} mt={6}>
-                            <Button
-                                size="sm"
-                                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                                isDisabled={currentPage === 1}
-                            >
-                                ก่อนหน้า
-                            </Button>
-
-                            {[...Array(totalPages)].map((_, i) => (
-                                <Button
-                                    key={i}
-                                    size="sm"
-                                    variant={currentPage === i + 1 ? "solid" : "outline"}
-                                    colorScheme="blue"
-                                    onClick={() => setCurrentPage(i + 1)}
-                                >
-                                    {i + 1}
-                                </Button>
+                    {/* Tabs by date */}
+                    <Tabs variant="enclosed" colorScheme="blue">
+                        <TabList>
+                            {availableDates.map((date) => (
+                                <Tab key={date}>{date}</Tab>
                             ))}
+                        </TabList>
 
-                            <Button
-                                size="sm"
-                                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                                isDisabled={currentPage === totalPages}
-                            >
-                                ถัดไป
-                            </Button>
-                        </HStack>
-                    )}
+                        <TabPanels>
+                            {availableDates.map((date) => {
+                                const currentPage = pageByDate[date] || 1
+                                const totalPages = Math.ceil(
+                                    activitiesByDate[date].length / ITEMS_PER_PAGE
+                                )
+                                const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+                                const currentActivities = activitiesByDate[date].slice(
+                                    startIndex,
+                                    startIndex + ITEMS_PER_PAGE
+                                )
+
+                                return (
+                                    <TabPanel key={date}>
+                                        <VStack align="stretch" spacing={4}>
+                                            {currentActivities.length === 0 ? (
+                                                <Text fontSize="sm" color="gray.500">
+                                                    ไม่พบกิจกรรมที่ตรงกับคำค้น
+                                                </Text>
+                                            ) : (
+                                                currentActivities.map((act) => (
+                                                    <Box
+                                                        key={act.id}
+                                                        p={4}
+                                                        bg={cardBg}
+                                                        cursor={"pointer"}
+                                                        rounded="xl"
+                                                        onClick={() => handleEdit(act.id)}
+                                                        shadow="sm"
+                                                        border={act.display ? "none" : "2px solid red"}
+                                                    //blur
+                                                    //blur and disable color
+                                                    // style={act.display ? {} : { opacity: 0.5 }}
+                                                    >
+
+                                                        {!act.display && (
+                                                            <Badge w={"full"} rounded={"md"} p={2} colorScheme="red">กิจกรรมนี้ไม่ได้แสดงให้นักเรียนเห็น</Badge>
+                                                        )}
+                                                        <HStack justify="space-between" mb={2}>
+
+                                                            <Text fontSize="md" fontWeight="bold">
+                                                                #{act.id} {act.title}
+                                                            </Text>
+                                                            <HStack spacing={2}>
+                                                                <Badge
+                                                                    colorScheme={
+                                                                        activityColors[act.activity_type] || "gray"
+                                                                    }
+                                                                >
+                                                                    {act.activity_type.replace("_", " ")}
+                                                                </Badge>
+                                                                <IconButton
+                                                                    aria-label="Edit activity"
+                                                                    icon={<EditIcon />}
+                                                                    size="sm"
+                                                                    onClick={() => handleEdit(act.id)}
+                                                                />
+                                                            </HStack>
+                                                        </HStack>
+
+                                                        <Text fontSize="sm" color={textColor} noOfLines={3}>
+                                                            {act.description}
+                                                        </Text>
+
+                                                        <Text fontSize="xs" mt={2} color="gray.500">
+                                                            📍 {act.location} | 🏫{" "}
+                                                            {act.faculty?.name_th} - {act.department?.name_th}
+                                                        </Text>
+
+                                                        <HStack spacing={2} mb={1} align="center">
+                                                            <Badge
+                                                                colorScheme={dateColors[act.date] || "gray"}
+                                                                fontSize="1rem"
+                                                                fontWeight="bold"
+                                                            >
+                                                                วันที่: {act.date} (รอบ {act.round})
+                                                            </Badge>
+                                                            <Badge
+                                                                colorScheme="orange"
+                                                                fontSize="1rem"
+                                                                fontWeight="bold"
+                                                            >
+                                                                เวลา: {act.start_time} - {act.end_time}
+                                                            </Badge>
+                                                        </HStack>
+
+                                                        {act.activity_type !== "non_regis_activity" && (
+                                                            <Text
+                                                                fontSize="md"
+                                                                color="orange.500"
+                                                                fontWeight="bold"
+                                                            >
+                                                                {act.current_register_participants ===
+                                                                    act.max_participants
+                                                                    ? "✅ เต็มแล้ว"
+                                                                    : `${act.current_register_participants} / ${act.max_participants} คน`}
+                                                            </Text>
+                                                        )}
+                                                    </Box>
+                                                ))
+                                            )}
+                                        </VStack>
+
+                                        {/* Pagination */}
+                                        {
+                                            totalPages > 1 && (
+                                                <HStack justify="center" spacing={2} mt={6}>
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setPageByDate((prev) => ({
+                                                                ...prev,
+                                                                [date]: Math.max(1, currentPage - 1),
+                                                            }))
+                                                        }
+                                                        isDisabled={currentPage === 1}
+                                                    >
+                                                        ก่อนหน้า
+                                                    </Button>
+
+                                                    {[...Array(totalPages)].map((_, i) => (
+                                                        <Button
+                                                            key={i}
+                                                            size="sm"
+                                                            variant={
+                                                                currentPage === i + 1 ? "solid" : "outline"
+                                                            }
+                                                            colorScheme="blue"
+                                                            onClick={() =>
+                                                                setPageByDate((prev) => ({
+                                                                    ...prev,
+                                                                    [date]: i + 1,
+                                                                }))
+                                                            }
+                                                        >
+                                                            {i + 1}
+                                                        </Button>
+                                                    ))}
+
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setPageByDate((prev) => ({
+                                                                ...prev,
+                                                                [date]: Math.min(totalPages, currentPage + 1),
+                                                            }))
+                                                        }
+                                                        isDisabled={currentPage === totalPages}
+                                                    >
+                                                        ถัดไป
+                                                    </Button>
+                                                </HStack>
+                                            )
+                                        }
+                                    </TabPanel>
+                                )
+                            })}
+                        </TabPanels>
+                    </Tabs>
                 </Box>
             </Box>
-        </KMAppLayout>
+        </KMAppLayout >
     )
 }
 

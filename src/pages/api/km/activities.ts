@@ -41,6 +41,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         start_time: act.start_time,
         end_time: act.end_time,
         location: act.location,
+        display: act.display,
         point: act.point,
         form_link: act.form_link,
         image_url: act.image_url,
