@@ -25,6 +25,14 @@ import {
     VStack,
 } from "@chakra-ui/react";
 
+import {
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+} from "@chakra-ui/react"
+
 import * as XLSX from "xlsx";
 import {
     Table,
@@ -138,7 +146,7 @@ export const ViewActivityPage = () => {
 
 
     return (
-        <KMAppLayout navigation="View Activity">
+        <KMAppLayout navigation={`Activity / ${id}`}>
             {loading ? (
                 <HStack justify="center" py={10}>
                     <Spinner size="xl" />
@@ -160,7 +168,7 @@ export const ViewActivityPage = () => {
                         {/* Title + Edit Button */}
                         <HStack justify="space-between" mb={2}>
                             <Text fontSize="md" fontWeight="bold">
-                                {activity.title}
+                                #{activity.id} - {activity.title}
                             </Text>
                             <Box>
                                 <Button size="sm" colorScheme="yellow" onClick={onOpen}>
@@ -214,46 +222,76 @@ export const ViewActivityPage = () => {
 
                     {/* Participants */}
                     <Box mt={4}>
-                        <HStack justify="space-between" mb={2}>
-                            <Text fontSize="sm" fontWeight="bold">
-                                รายชื่อนักเรียนที่ลงทะเบียน
-                            </Text>
-                            <Button size="sm" colorScheme="green" onClick={exportExcel}>
-                                Export Excel
-                            </Button>
-                        </HStack>
-                        {activity.registrations?.length === 0 ? (
-                            <Text fontSize="sm" color="gray.500">
-                                ยังไม่มีผู้ลงทะเบียน
-                            </Text>
-                        ) : (
-                            <TableContainer>
-                                <Table variant="striped" size="sm">
-                                    <Thead>
-                                        <Tr>
-                                            <Th>ชื่อ-สกุล</Th>
-                                            <Th>Email</Th>
-                                            <Th>เบอร์โทร</Th>
-                                            <Th>เวลาลงทะเบียน</Th>
-                                            <Th>CheckIn</Th>
-                                            {/* <Th></Th> */}
-                                        </Tr>
-                                    </Thead>
-                                    <Tbody>
-                                        {activity.registrations?.map((reg) => (
-                                            <Tr key={reg.id}>
-                                                <Td>{reg.student.first_name} {reg.student.last_name}</Td>
-                                                <Td>{reg.student.email}</Td>
-                                                <Td>{reg.student.phone}</Td>
-                                                <Td>{new Date(reg.registered_at).toLocaleString("th-TH")}</Td>
-                                                <Td><Button colorScheme="gray" size={"xs"}>✓</Button></Td>
-                                                {/* <td><Button colorScheme="red" size={"xs"}>x</Button></td> */}
-                                            </Tr>
-                                        ))}
-                                    </Tbody>
-                                </Table>
-                            </TableContainer>
-                        )}
+                        <Box mt={4}>
+                            <Tabs variant="enclosed" colorScheme="blue">
+                                <TabList>
+                                    <Tab>รายชื่อผู้ลงทะเบียน</Tab>
+                                    <Tab>E-Stamp</Tab>
+                                    <Tab>ผลแบบสอบถาม</Tab>
+                                </TabList>
+
+                                <TabPanels>
+                                    {/* Participants Tab */}
+                                    <TabPanel>
+                                        <HStack justify="space-between" mb={2}>
+                                            <Text fontSize="sm" fontWeight="bold">
+                                                รายชื่อนักเรียนที่ลงทะเบียน
+                                            </Text>
+                                            <Button size="sm" colorScheme="green" onClick={exportExcel}>
+                                                Export Excel
+                                            </Button>
+                                        </HStack>
+
+                                        {activity.registrations?.length === 0 ? (
+                                            <Text fontSize="sm" color="gray.500">
+                                                ยังไม่มีผู้ลงทะเบียน
+                                            </Text>
+                                        ) : (
+                                            <TableContainer>
+                                                <Table variant="striped" size="sm">
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th>ชื่อ-สกุล</Th>
+                                                            <Th>Email</Th>
+                                                            <Th>เบอร์โทร</Th>
+                                                            <Th>เวลาลงทะเบียน</Th>
+                                                        </Tr>
+                                                    </Thead>
+                                                    <Tbody>
+                                                        {activity.registrations?.map((reg) => (
+                                                            <Tr key={reg.id}>
+                                                                <Td>
+                                                                    {reg.student.first_name} {reg.student.last_name}
+                                                                </Td>
+                                                                <Td>{reg.student.email}</Td>
+                                                                <Td>{reg.student.phone}</Td>
+                                                                <Td>
+                                                                    {new Date(reg.registered_at).toLocaleString("th-TH")}
+                                                                </Td>
+                                                            </Tr>
+                                                        ))}
+                                                    </Tbody>
+                                                </Table>
+                                            </TableContainer>
+                                        )}
+                                    </TabPanel>
+
+                                    {/* E-Stamp Tab */}
+                                    <TabPanel>
+                                        <Text fontSize="sm" color="gray.500">
+                                            (ยังไม่ได้ใส่ข้อมูล E-Stamp)
+                                        </Text>
+                                    </TabPanel>
+
+                                    {/* Survey Result Tab */}
+                                    <TabPanel>
+                                        <Text fontSize="sm" color="gray.500">
+                                            (ยังไม่ได้ใส่ข้อมูลผลแบบสอบถาม)
+                                        </Text>
+                                    </TabPanel>
+                                </TabPanels>
+                            </Tabs>
+                        </Box>
                     </Box>
 
                     {/* Modal แก้ไข */}
