@@ -16,6 +16,7 @@
     "@fontsource/ibm-plex-sans-thai": "^5.2.6",
     "@fontsource/poppins": "^5.2.6",
     "@prisma/client": "^6.15.0",
+    "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "framer-motion": "^12.23.12",
     "jsonwebtoken": "^9.0.2",

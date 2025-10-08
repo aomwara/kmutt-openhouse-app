@@ -31,6 +31,7 @@ model Students {
   OAuthCode          OAuthCode[]
   oAuthToken         oAuthToken[]
   RegisterActivities RegisterActivities[]
+  EStamp             EStamp[]
 }
 
 model Admins {
@@ -54,6 +55,7 @@ model Staffs {
   create_by     Int
   created_by    Admins         @relation(fields: [create_by], references: [id])
   StaffMapping  StaffMapping[]
+  EStamp        EStamp[]
 }
 
 // University Structure
@@ -118,6 +120,7 @@ model Activities {
   ownerId                       Int?
   RegisterActivities            RegisterActivities[]
   StaffMapping                  StaffMapping[]
+  EStamp                        EStamp[]
 }
 
 model RegisterActivities {
@@ -142,6 +145,21 @@ model StaffMapping {
   activity Activities @relation(fields: [activityId], references: [id])
 
   @@unique([staffId, activityId])
+}
+
+model EStamp {
+  id         Int      @id @default(autoincrement())
+  studentId  Int
+  activityId Int
+  stampBy    Int
+  issued_at  DateTime @default(now())
+  rating     Int?
+  feedback   String?  @db.VarChar(1000)
+
+  //relations student and activity and staff
+  student  Students   @relation(fields: [studentId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id])
+  staff    Staffs     @relation(fields: [stampBy], references: [id])
 }
 
 // OAuth2

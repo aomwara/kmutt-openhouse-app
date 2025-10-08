@@ -12,13 +12,15 @@ import {
     Badge,
     Button,
     Spinner,
+    Icon,
 } from "@chakra-ui/react"
+import { QrCode } from "lucide-react"
 
 import StaffAppLayout from "@/views/layouts/StaffAppLayout"
 import StaffProfileCard from "@/components/ProfileCard/StaffProfileCard"
 import StaffLayout from "@/views/layouts/StaffLayout"
 import { StaffProfile } from "@/interfaces/KMProfile"
-import * as XLSX from "xlsx"
+import { useRouter } from "next/router"
 
 type Activity = {
     id: number
@@ -43,20 +45,23 @@ type Activity = {
 }
 
 const StaffDashboard = () => {
+    const router = useRouter()
     const cardBg = useColorModeValue("white", "gray.700")
+    const highlightBg = useColorModeValue("orange.50", "orange.900")
+    const cardBorder = useColorModeValue("orange.400", "orange.500")
     const textColor = useColorModeValue("gray.800", "gray.100")
     const [profile, setProfile] = useState<StaffProfile | null>(null)
     const [activities, setActivities] = useState<Activity[]>([])
     const [loading, setLoading] = useState(true)
 
-    // โหลดข้อมูล profile
+    // โหลด profile
     useEffect(() => {
         fetch("/api/staff/profile")
             .then((res) => res.json())
             .then((d) => setProfile(d))
     }, [])
 
-    // โหลดกิจกรรมที่ดูแล
+    // โหลดกิจกรรม
     useEffect(() => {
         const fetchActivities = async () => {
             setLoading(true)
@@ -70,36 +75,15 @@ const StaffDashboard = () => {
         fetchActivities()
     }, [])
 
-    const exportExcel = (activity: Activity) => {
-        if (!activity.registrations) return
+    const scan = (activity: Activity) => {
+        router.push(`/staff/scan/${activity.id}`)
+    }
 
-        // ข้อมูลกิจกรรมบนหัวตาราง
-        const headerRows = [
-            ["ชื่อกิจกรรม", activity.title],
-            ["รายละเอียด", activity.description],
-            ["วันที่", activity.date],
-            ["เวลาเริ่ม", activity.start_time],
-            ["เวลาสิ้นสุด", activity.end_time],
-            ["สถานที่", activity.location],
-            [],
-        ]
-
-        // ข้อมูลนักเรียน
-        const studentRows = activity.registrations.map((reg) => [
-            `${reg.student.first_name} ${reg.student.last_name}`,
-            reg.student.email,
-            reg.student.phone,
-            new Date(reg.registered_at).toLocaleString("th-TH"),
-        ])
-
-        const ws = XLSX.utils.aoa_to_sheet([
-            ...headerRows,
-            ["ชื่อ-สกุล", "Email", "เบอร์โทร", "เวลาลงทะเบียน"],
-            ...studentRows,
-        ])
-        const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Registrations")
-        XLSX.writeFile(wb, `${activity.title}-registrations.xlsx`)
+    const isOngoing = (act: Activity) => {
+        const now = new Date()
+        const start = new Date(`${act.date}T${act.start_time}`)
+        const end = new Date(`${act.date}T${act.end_time}`)
+        return now >= start && now <= end
     }
 
     if (!profile) {
@@ -130,29 +114,53 @@ const StaffDashboard = () => {
                     <Text>คุณยังไม่มีกิจกรรมที่ดูแล</Text>
                 ) : (
                     <VStack spacing={4} align="stretch">
-                        {activities.map((act) => (
-                            <Box key={act.id} p={4} bg={cardBg} rounded="xl" shadow="sm">
-                                <HStack justify="space-between" mb={2}>
-                                    <Text fontSize="md" fontWeight="bold">
-                                        {act.title}
+                        {activities.map((act) => {
+                            const ongoing = isOngoing(act)
+                            return (
+                                <Box
+                                    key={act.id}
+                                    p={5}
+                                    bg={ongoing ? highlightBg : cardBg}
+                                    borderRadius="2xl"
+                                    shadow={ongoing ? "xl" : "sm"}
+                                    border={ongoing ? `2px solid ${cardBorder}` : undefined}
+                                    transition="all 0.3s"
+                                >
+                                    <HStack justify="space-between" mb={2}>
+                                        <HStack spacing={2}>
+                                            {ongoing && <Icon as={QrCode} color="orange.500" />}
+                                            <Text fontSize="md" fontWeight="bold">
+                                                {act.title}
+                                            </Text>
+                                        </HStack>
+
+                                        <Button
+                                            size="md"
+                                            colorScheme="orange"
+                                            borderRadius="full"
+                                            onClick={() => scan(act)}
+                                        >
+                                            SCAN
+                                        </Button>
+                                    </HStack>
+
+                                    <Text color="gray.600" mb={2}>{act.description}</Text>
+
+                                    <HStack spacing={3} wrap="wrap" mb={1}>
+                                        <Badge colorScheme="green">วันที่: {act.date}</Badge>
+                                        <Badge colorScheme="blue">
+                                            เวลา: {act.start_time} - {act.end_time}
+                                        </Badge>
+                                        <Badge colorScheme="purple">สถานที่: {act.location}</Badge>
+                                        {ongoing && <Badge colorScheme="orange">กำลังดำเนินอยู่</Badge>}
+                                    </HStack>
+
+                                    <Text fontSize="sm" color="gray.500">
+                                        คะแนน: {act.point} | ผู้ลงทะเบียน: {act.registrations.length} / {act.max_participants}
                                     </Text>
-                                    <Button size="sm" colorScheme="orange" onClick={() => exportExcel(act)}>
-                                        Export Excel
-                                    </Button>
-                                </HStack>
-                                <Text color="gray.600">{act.description}</Text>
-                                <HStack mt={2} spacing={4}>
-                                    <Badge colorScheme="green">วันที่: {act.date}</Badge>
-                                    <Badge colorScheme="blue">
-                                        เวลา: {act.start_time} - {act.end_time}
-                                    </Badge>
-                                    <Badge colorScheme="purple">สถานที่: {act.location}</Badge>
-                                </HStack>
-                                <Text mt={2} fontSize="sm" color="gray.500">
-                                    คะแนน: {act.point} | จำนวนผู้ลงทะเบียน: {act.registrations.length} / {act.max_participants}
-                                </Text>
-                            </Box>
-                        ))}
+                                </Box>
+                            )
+                        })}
                     </VStack>
                 )}
             </Box>
