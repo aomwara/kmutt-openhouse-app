@@ -1,0 +1,1 @@
+export { PublicSurvey as default } from "@/views/pages/PublicSurvey"
