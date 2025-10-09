@@ -16,9 +16,12 @@ import {
     Button,
     Container,
     useColorModeValue,
+    Icon,
 } from "@chakra-ui/react"
 import StudentSidebar from "@/components/Sidebar/StudentSidebar"
 import { ScheduleSection } from "../landing/ScheduleSection"
+import { FaClipboardList } from "react-icons/fa"
+import { useRouter } from "next/router"
 
 const PRIMARY = "#F04E23"
 const SECONDARY = "#FFC233"
@@ -40,6 +43,7 @@ type StudentProfile = {
 }
 
 const GuestDashboardPage = () => {
+    const router = useRouter();
     const [data, setData] = useState<StudentProfile | null>(null)
     const showSidebar = useBreakpointValue({ base: false, md: true })
 
@@ -110,6 +114,8 @@ const GuestDashboardPage = () => {
 
                             </Flex>
                         </Box>
+
+
                         <Box
                             mt={-2}
                             // bg={cardBg}
@@ -118,7 +124,36 @@ const GuestDashboardPage = () => {
                             shadow="lg"
                             bg={cardBg}
                         // borderLeft={`5px solid ${SECONDARY}`}
-                        >  <ScheduleSection /> </Box>
+                        >
+                            <Box
+                                onClick={() => router.push("/survey")}
+                                bgGradient="linear(to-r, orange.400, orange.500)"
+                                _hover={{
+                                    bgGradient: "linear(to-r, orange.500, orange.600)",
+                                    transform: "scale(1.05)",
+                                    boxShadow: "lg",
+                                }}
+                                transition="all 0.2s"
+                                w="100%"
+                                h="fit-content"
+                                p={6}
+                                rounded="2xl"
+                                shadow="md"
+                                cursor={"pointer"}
+                                flexShrink={0}
+                                textDecoration="none"
+                            >
+                                <Flex direction="column" align="center" justify="center" textAlign="center">
+                                    <Icon as={FaClipboardList} boxSize={8} color="white" mb={3} />
+                                    <Text fontWeight="bold" fontSize="lg" color="white">
+                                        ร่วมทำแบบสอบถาม
+                                    </Text>
+                                    <Text fontSize="sm" color="whiteAlpha.900" mt={-2}>
+                                        Open House 2025
+                                    </Text>
+                                </Flex>
+                            </Box>
+                            <ScheduleSection /> </Box>
 
                     </Box>
                 </Flex>

@@ -3,8 +3,10 @@ import {
     VStack,
     Button,
     HStack,
+    Flex,
     Text,
     useColorModeValue,
+    Link,
 } from "@chakra-ui/react"
 import { label } from "framer-motion/client"
 import {
@@ -16,6 +18,9 @@ import {
 } from "react-icons/md"
 import { RiProfileFill } from "react-icons/ri";
 import { GiJourney } from "react-icons/gi";
+
+import { Icon } from "@chakra-ui/react"
+import { FaClipboardList } from "react-icons/fa"
 
 import { GrSearch, GrWorkshop } from "react-icons/gr";
 import { useRouter } from "next/router";
@@ -41,36 +46,66 @@ const StudentSidebar = () => {
     ]
 
     return (
-        <Box
-            bg={bgColor}
-            w="250px"
-            p={5}
-            rounded="2xl"
-            h="fit-content"
-            shadow="md"
-            flexShrink={0}
-        >
-            <VStack align="stretch" spacing={3}>
-                {menuItems.map((item) => (
-                    <Button
-                        onClick={(() => {
-                            router.push(item.link)
-                        })}
-                        key={item.label}
-                        variant="ghost"
-                        justifyContent="start"
-                        _hover={{ bg: hoverBg }}
-                        leftIcon={<item.icon />}
-                        color={textColor}
-                        fontWeight="medium"
-                        size="md"
-                        rounded="lg"
-                    >
-                        {item.label}
-                    </Button>
-                ))}
-            </VStack>
-        </Box>
+        <Flex flexDir={"column"} gap={5}>
+            <Box
+                bg={bgColor}
+                w="250px"
+                p={5}
+                rounded="2xl"
+                h="fit-content"
+                shadow="md"
+                flexShrink={0}
+            >
+                <VStack align="stretch" spacing={3}>
+                    {menuItems.map((item) => (
+                        <Button
+                            onClick={(() => {
+                                router.push(item.link)
+                            })}
+                            key={item.label}
+                            variant="ghost"
+                            justifyContent="start"
+                            _hover={{ bg: hoverBg }}
+                            leftIcon={<item.icon />}
+                            color={textColor}
+                            fontWeight="medium"
+                            size="md"
+                            rounded="lg"
+                        >
+                            {item.label}
+                        </Button>
+                    ))}
+                </VStack>
+            </Box>
+            {/* <Box
+                onClick={() => router.push("/survey")}
+                bgGradient="linear(to-r, orange.400, orange.500)"
+                _hover={{
+                    bgGradient: "linear(to-r, orange.500, orange.600)",
+                    transform: "scale(1.05)",
+                    boxShadow: "lg",
+                }}
+                transition="all 0.2s"
+                w="260px"
+                h="fit-content"
+                p={6}
+                rounded="2xl"
+                shadow="md"
+                cursor={"pointer"}
+                flexShrink={0}
+                textDecoration="none"
+            >
+                <Flex direction="column" align="center" justify="center" textAlign="center">
+                    <Icon as={FaClipboardList} boxSize={8} color="white" mb={3} />
+                    <Text fontWeight="bold" fontSize="lg" color="white">
+                        ร่วมทำแบบสอบถาม
+                    </Text>
+                    <Text fontSize="sm" color="whiteAlpha.900" mt={-2}>
+                        Open House 2025
+                    </Text>
+                </Flex>
+            </Box> */}
+        </Flex>
     )
 }
 

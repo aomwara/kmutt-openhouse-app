@@ -34,36 +34,38 @@ const KMSidebar = () => {
     ]
 
     return (
-        <Box
-            bg={bgColor}
-            w="250px"
-            h="fit-content"
-            p={5}
-            rounded="2xl"
-            shadow="md"
-            flexShrink={0}
-        >
-            <VStack align="stretch" spacing={3}>
-                {menuItems.map((item) => (
-                    <Button
-                        onClick={(() => {
-                            router.push(item.link)
-                        })}
-                        key={item.label}
-                        variant="ghost"
-                        justifyContent="start"
-                        _hover={{ bg: hoverBg }}
-                        leftIcon={<item.icon />}
-                        color={textColor}
-                        fontWeight="medium"
-                        size="md"
-                        rounded="lg"
-                    >
-                        {item.label}
-                    </Button>
-                ))}
-            </VStack>
-        </Box>
+        <>
+            <Box
+                bg={bgColor}
+                w="250px"
+                h="fit-content"
+                p={5}
+                rounded="2xl"
+                shadow="md"
+                flexShrink={0}
+            >
+                <VStack align="stretch" spacing={3}>
+                    {menuItems.map((item) => (
+                        <Button
+                            onClick={(() => {
+                                router.push(item.link)
+                            })}
+                            key={item.label}
+                            variant="ghost"
+                            justifyContent="start"
+                            _hover={{ bg: hoverBg }}
+                            leftIcon={<item.icon />}
+                            color={textColor}
+                            fontWeight="medium"
+                            size="md"
+                            rounded="lg"
+                        >
+                            {item.label}
+                        </Button>
+                    ))}
+                </VStack>
+            </Box>
+        </>
     )
 }
 

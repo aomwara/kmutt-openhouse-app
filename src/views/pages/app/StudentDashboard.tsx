@@ -14,6 +14,8 @@ import {
     Button,
     HStack,
     useColorModeValue,
+    Icon,
+    SimpleGrid,
 } from "@chakra-ui/react"
 import StudentProfileCard from "@/components/ProfileCard/StudentProfileCard"
 import { GrWorkshop } from "react-icons/gr"
@@ -22,6 +24,9 @@ import Head from "next/head"
 import ContactSection from "../landing/ContactSection"
 import MiniContactSection from "../landing/MiniContactSection"
 import { Contact } from "lucide-react"
+import { FaClipboardList, FaQrcode } from "react-icons/fa"
+import { useRouter } from "next/router"
+import { GiJourney } from "react-icons/gi"
 
 const PRIMARY = "#F04E23"
 
@@ -60,6 +65,7 @@ type StudentProfile = {
 }
 
 const StudentDashboardPage = () => {
+    const router = useRouter()
     const [profile, setProfile] = useState<StudentProfile | null>(null)
     const [activities, setActivities] = useState<Activity[]>([])
     const [loading, setLoading] = useState(true)
@@ -127,6 +133,91 @@ const StudentDashboardPage = () => {
             </Head>
             <Box >
                 <StudentProfileCard data={profile} />
+                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5} mt={5}>
+                    <Box
+                        onClick={() => router.push("/app/my-passport")}
+                        bgGradient="linear(to-r, orange.400, orange.500)"
+                        _hover={{
+                            bgGradient: "linear(to-r, orange.500, orange.600)",
+                            transform: "scale(1.05)",
+                            boxShadow: "lg",
+                        }}
+                        transition="all 0.2s"
+                        w="100%"
+                        h="fit-content"
+                        p={6}
+                        rounded="2xl"
+                        shadow="md"
+                        cursor={"pointer"}
+                        flexShrink={0}
+                        textDecoration="none"
+                    >
+                        <Flex direction="column" align="center" justify="center" textAlign="center">
+                            <Icon as={FaQrcode} boxSize={8} color="white" mb={3} />
+                            <Text fontWeight="bold" fontSize="lg" color="white">
+                                My Passport
+                            </Text>
+
+                        </Flex>
+                    </Box>
+
+                    <Box
+                        onClick={() => router.push("/app/my-journey")}
+                        bgGradient="linear(to-r, orange.400, orange.500)"
+                        _hover={{
+                            bgGradient: "linear(to-r, orange.500, orange.600)",
+                            transform: "scale(1.05)",
+                            boxShadow: "lg",
+                        }}
+                        transition="all 0.2s"
+                        w="100%"
+                        h="fit-content"
+                        p={6}
+                        rounded="2xl"
+                        shadow="md"
+                        cursor={"pointer"}
+                        flexShrink={0}
+                        textDecoration="none"
+                    >
+                        <Flex direction="column" align="center" justify="center" textAlign="center">
+                            {/* <Icon as={FaQrcode} boxSize={8} color="white" mb={3} /> */}
+                            <Icon as={GiJourney} boxSize={8} color="white" mb={3} />
+                            <Text fontWeight="bold" fontSize="lg" color="white">
+                                กิจกรรมที่ฉันเข้าร่วม
+                            </Text>
+
+                        </Flex>
+                    </Box>
+
+                    <Box
+                        onClick={() => router.push("/survey")}
+                        bgGradient="linear(to-r, orange.400, orange.500)"
+                        _hover={{
+                            bgGradient: "linear(to-r, orange.500, orange.600)",
+                            transform: "scale(1.05)",
+                            boxShadow: "lg",
+                        }}
+                        transition="all 0.2s"
+                        w="100%"
+                        h="fit-content"
+                        p={6}
+                        rounded="2xl"
+                        shadow="md"
+                        cursor={"pointer"}
+                        flexShrink={0}
+                        textDecoration="none"
+                    >
+                        <Flex direction="column" align="center" justify="center" textAlign="center">
+                            {/* <Icon as={FaQrcode} boxSize={8} color="white" mb={3} /> */}
+                            <Icon as={FaClipboardList} boxSize={8} color="white" mb={3} />
+                            <Text fontWeight="bold" fontSize="lg" color="white">
+                                ร่วมทำแบบสอบถาม
+                            </Text>
+
+                        </Flex>
+                    </Box>
+
+                </SimpleGrid>
                 {/* <MiniContactSection /> */}
 
                 {/* Search + Title */}
