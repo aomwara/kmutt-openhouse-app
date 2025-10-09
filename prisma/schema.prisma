@@ -32,6 +32,7 @@ model Students {
   oAuthToken         oAuthToken[]
   RegisterActivities RegisterActivities[]
   EStamp             EStamp[]
+  TakePicture        TakePicture[]
 }
 
 model PasswordResetToken {
@@ -39,6 +40,15 @@ model PasswordResetToken {
   email     String   @unique
   token     String
   expiresAt DateTime
+}
+
+model TakePicture {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  image_url String
+  taken_at  DateTime @default(now())
+
+  student Students @relation(fields: [studentId], references: [id])
 }
 
 model Admins {
