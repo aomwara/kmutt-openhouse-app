@@ -70,7 +70,7 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
                         <HStack spacing={3} flex="1">
                             {/* <Box w={8} h={8} rounded="xl" bg={PRIMARY} /> */}
                             <Image src="/images/logo.jpg" style={{ borderRadius: "12px" }} alt="KMUTT Logo" width={32} height={32} />
-                            <Link href="/" aria-label="KMUTT Open House">
+                            <Link href="/staff/dashboard" aria-label="KMUTT Open House">
                                 <Text fontWeight="bold" display={{ base: "block", md: "none" }} lineHeight={{ base: "20px" }} fontSize={{ base: "sm", md: "md" }} color={PRIMARY}>
                                     KMUTT <br /> Open House
                                 </Text>
@@ -130,28 +130,25 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
                             py={4}
                         >
                             <VStack align="stretch" spacing={4}>
-                                <Link href="#schedule" onClick={() => setMenuOpen(false)}>
-                                    กำหนดการ
+                                <Link href="/" onClick={() => setMenuOpen(false)}>
+                                    {"> "}หน้าแรก - Home
                                 </Link>
-                                <Link href="#features" onClick={() => setMenuOpen(false)}>
-                                    ฟีเจอร์
+                                <Link href="/staff/dashboard" onClick={() => setMenuOpen(false)}>
+                                    {"> "}Dashboard - แดชบอร์ด
                                 </Link>
-                                <Link href="#stats" onClick={() => setMenuOpen(false)}>
-                                    สถิติ
-                                </Link>
-                                <Link href="#testimonials" onClick={() => setMenuOpen(false)}>
-                                    เสียงจากผู้ใช้
-                                </Link>
+
                                 <Button
                                     as={Link}
-                                    href="/student/login"
+                                    href="/login"
                                     w="full"
                                     bg={PRIMARY}
                                     _hover={{ bg: "#d6451f" }}
                                     color="white"
+                                    fontSize={"sm"}
                                     rounded="xl"
+                                    size={"sm"}
                                 >
-                                    เข้าสู่ระบบ
+                                    ออกจากระบบ
                                 </Button>
                             </VStack>
                         </Box>
