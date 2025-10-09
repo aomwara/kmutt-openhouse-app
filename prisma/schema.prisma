@@ -169,6 +169,21 @@ model EStamp {
   staff    Staffs     @relation(fields: [stampBy], references: [id])
 }
 
+model PublicSurvey {
+  id                     Int      @id @default(autoincrement())
+  participantType        String
+  educationLevel         String?
+  interestLevel          String?
+  preferredFaculty       Json? // เก็บหลายคณะเป็น JSON
+  infoChannels           Json? // ช่องทางข่าวสารหลายค่า
+  factors                Json? // ปัจจัยหลายค่า
+  creditTransferInterest Int?
+  teachingMode           String?
+  confusionRanking       Json? // 3 อันดับพระจอม
+  interestKMUTT          String?
+  createdAt              DateTime @default(now())
+}
+
 // OAuth2
 model OAuthClient {
   id            Int         @id @default(autoincrement())
