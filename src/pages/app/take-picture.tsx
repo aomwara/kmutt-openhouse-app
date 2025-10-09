@@ -21,7 +21,7 @@ import {
     useDisclosure,
     IconButton,
 } from "@chakra-ui/react"
-import { DeleteIcon } from "@chakra-ui/icons"
+import { DeleteIcon, RepeatIcon } from "@chakra-ui/icons"
 import Webcam from "react-webcam"
 import imageCompression from "browser-image-compression"
 import StudentAppLayout from "@/views/layouts/StudentAppLayout"
@@ -41,7 +41,9 @@ const TakePicturePage = () => {
     const [logs, setLogs] = useState<UploadLog[]>([])
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [facingMode, setFacingMode] = useState<"user" | "environment">("user")
 
+    // ดึง logs จาก server
     const fetchLogs = async () => {
         try {
             const res = await fetch("/api/student/get-picture")
@@ -56,11 +58,18 @@ const TakePicturePage = () => {
         fetchLogs()
     }, [])
 
+    // ถ่ายรูป
     const capture = () => {
         const imgSrc = webcamRef.current?.getScreenshot()
         if (imgSrc) setImage(imgSrc)
     }
 
+    // สลับกล้อง
+    const toggleCamera = () => {
+        setFacingMode(prev => (prev === "user" ? "environment" : "user"))
+    }
+
+    // อัปโหลดรูป
     const handleUpload = async () => {
         if (!image) return
         setUploading(true)
@@ -70,6 +79,7 @@ const TakePicturePage = () => {
 
             const compressedFile = await imageCompression(file, {
                 maxSizeMB: 0.5,
+                maxWidthOrHeight: 1920,
                 useWebWorker: true,
             })
 
@@ -123,6 +133,8 @@ const TakePicturePage = () => {
             <Head>
                 <title>Openhouse / ถ่ายรูปกิจกรรม</title>
             </Head>
+
+            {/* Header */}
             <Box
                 w="full"
                 bgGradient="linear(to-r, orange.400, orange.600)"
@@ -142,7 +154,6 @@ const TakePicturePage = () => {
 
             <Center>
                 <VStack spacing={6} w="full" mt={2} align="stretch">
-
                     {/* Camera */}
                     <Box borderRadius="2xl" overflow="hidden">
                         {!image ? (
@@ -152,7 +163,7 @@ const TakePicturePage = () => {
                                 screenshotFormat="image/jpeg"
                                 width="100%"
                                 height={360}
-                                videoConstraints={{ facingMode: "user" }}
+                                videoConstraints={{ facingMode }}
                                 style={{ borderRadius: 16 }}
                             />
                         ) : (
@@ -171,6 +182,11 @@ const TakePicturePage = () => {
 
                     {/* Action Buttons */}
                     <HStack spacing={3} justify="center">
+                        {/* สลับกล้อง */}
+                        <Button size="sm" leftIcon={<RepeatIcon />} onClick={toggleCamera}>
+                            {/* กล้อง: {facingMode === "user" ? "หน้า" : "หลัง"} */}
+                        </Button>
+
                         {!image ? (
                             <Button colorScheme="orange" size="lg" flex={1} onClick={capture}>
                                 ถ่ายรูป

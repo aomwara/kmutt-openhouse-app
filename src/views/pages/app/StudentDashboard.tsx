@@ -154,7 +154,7 @@ const StudentDashboardPage = () => {
                     >
                         <Flex direction="column" align="center" justify="center" textAlign="center">
                             <Icon as={FaQrcode} boxSize={8} color="white" mb={3} />
-                            <Text fontWeight="bold" fontSize="lg" color="white">
+                            <Text fontWeight="bold" fontSize="lg" color="white" lineHeight="30px">
                                 My Passport
                             </Text>
 
@@ -182,7 +182,7 @@ const StudentDashboardPage = () => {
                         <Flex direction="column" align="center" justify="center" textAlign="center">
                             {/* <Icon as={FaQrcode} boxSize={8} color="white" mb={3} /> */}
                             <Icon as={GiJourney} boxSize={8} color="white" mb={3} />
-                            <Text fontWeight="bold" fontSize="lg" color="white">
+                            <Text fontWeight="bold" fontSize="lg" color="white" lineHeight="30px">
                                 กิจกรรมที่ฉันเข้าร่วม
                             </Text>
 
@@ -210,7 +210,7 @@ const StudentDashboardPage = () => {
                         <Flex direction="column" align="center" justify="center" textAlign="center">
                             {/* <Icon as={FaQrcode} boxSize={8} color="white" mb={3} /> */}
                             <Icon as={FaCameraRetro} boxSize={8} color="white" mb={3} />
-                            <Text fontWeight="bold" fontSize="lg" color="white">
+                            <Text fontWeight="bold" fontSize="lg" color="white" lineHeight={"30px"}>
                                 ถ่ายรูปกิจกรรม
                             </Text>
 
@@ -238,7 +238,7 @@ const StudentDashboardPage = () => {
                         <Flex direction="column" align="center" justify="center" textAlign="center">
                             {/* <Icon as={FaQrcode} boxSize={8} color="white" mb={3} /> */}
                             <Icon as={FaClipboardList} boxSize={8} color="white" mb={3} />
-                            <Text fontWeight="bold" fontSize="lg" color="white">
+                            <Text fontWeight="bold" fontSize="lg" color="white" lineHeight={"30px"}>
                                 ร่วมทำแบบสอบถาม
                             </Text>
 
@@ -266,119 +266,123 @@ const StudentDashboardPage = () => {
                 </Flex>
 
                 {/* Activity List */}
-                {loading ? (
-                    <Flex justify="center" py={10}>
-                        <Spinner size="xl" />
-                    </Flex>
-                ) : activities.length === 0 ? ( // ✅ ไม่พังแล้ว
-                    <Text color="gray.500">ไม่พบกิจกรรม</Text>
-                ) : (
-                    <VStack spacing={4} align="stretch">
-                        {activities.map((act) => (
-                            <Link href={`/app/activity/${act.id}`} key={act.id}>
-                                <Box
-                                    _hover={{ boxShadow: "md", transform: "scale(1.02)", transition: "all 0.2s" }}
-                                    key={act.id}
-                                    p={4}
-                                    bg="white"
-                                    _dark={{ bg: "gray.700" }}
-                                    rounded="xl"
-                                    shadow="sm"
-                                >
-                                    <HStack justify="space-between" mb={2}>
-                                        <Flex align="center" gap={2}>
-                                            <GrWorkshop />
+                {
+                    loading ? (
+                        <Flex justify="center" py={10}>
+                            <Spinner size="xl" />
+                        </Flex>
+                    ) : activities.length === 0 ? ( // ✅ ไม่พังแล้ว
+                        <Text color="gray.500">ไม่พบกิจกรรม</Text>
+                    ) : (
+                        <VStack spacing={4} align="stretch">
+                            {activities.map((act) => (
+                                <Link href={`/app/activity/${act.id}`} key={act.id}>
+                                    <Box
+                                        _hover={{ boxShadow: "md", transform: "scale(1.02)", transition: "all 0.2s" }}
+                                        key={act.id}
+                                        p={4}
+                                        bg="white"
+                                        _dark={{ bg: "gray.700" }}
+                                        rounded="xl"
+                                        shadow="sm"
+                                    >
+                                        <HStack justify="space-between" mb={2}>
+                                            <Flex align="center" gap={2}>
+                                                <GrWorkshop />
 
-                                            <Text fontSize="md" noOfLines={2} fontWeight="bold">
-                                                {act.title}
-                                            </Text>
+                                                <Text fontSize="md" noOfLines={2} fontWeight="bold">
+                                                    {act.title}
+                                                </Text>
 
-                                        </Flex>
+                                            </Flex>
 
-                                        <Badge
-                                            colorScheme={
-                                                act.activity_type === "workshop"
-                                                    ? "blue"
-                                                    : act.activity_type === "regis_activity"
-                                                        ? "green"
-                                                        : act.activity_type === "non_regis_activity"
-                                                            ? "orange"
-                                                            : "gray"
-                                            }
-                                            textTransform="capitalize"
-                                            fontSize="1rem"
-                                        >
-                                            {activityTypeLabel[act.activity_type] || "ไม่ระบุ"}
-                                        </Badge>
-                                    </HStack>
-
-                                    <Text noOfLines={3} fontSize="sm" color="gray.600" _dark={{ color: "gray.300" }} mb={2}>
-                                        {act.description}
-                                    </Text>
-
-                                    {/* วันที่ & เวลา */}
-                                    <HStack spacing={2} mb={1} align="center">
-
-                                        <Badge colorScheme={dateColors[act.date] || "gray"} fontSize="1rem" fontWeight="bold">
-                                            วันที่: {act.date} (รอบ {act.round})
-                                        </Badge>
-                                        <Badge colorScheme="orange" fontSize="1rem" fontWeight="bold">
-                                            เวลา: {act.start_time} - {act.end_time}
-                                        </Badge>
-                                    </HStack>
-
-                                    <Text fontSize="xs" color="gray.500">
-                                        สถานที่: {act.location} | {act.faculty?.name_th} - {" "}
-                                        {act.department?.name_th}
-                                    </Text>
-
-                                    {act.activity_type === "non_regis_activity" && act.max_participants !== 999 ? (<Text fontWeight="bold" color="orange.600" fontSize="sm" >จำกัดจำนวนผู้เข้าร่วม: {act.max_participants} คน - ลงทะเบียนหน้างาน</Text>) :
-                                        <HStack mt={1} spacing={1}>
-                                            <Text fontSize="sm" fontWeight="bold" color="orange.600">
-                                                {act.activity_type === "non_regis_activity" && act.max_participants === 999 ? "ไม่จำกัดจำนวนผู้เข้าร่วม" : "ลงทะเบียนแล้ว:"}
-                                            </Text>
-                                            <Text fontSize="sm" fontWeight="semibold" color="orange.800">
-                                                {act.activity_type === "non_regis_activity" && act.max_participants === 999
-                                                    ? ""
-                                                    : act.current_register_participants + "/" + act.max_participants + " คน"}
-                                            </Text>
+                                            <Badge
+                                                colorScheme={
+                                                    act.activity_type === "workshop"
+                                                        ? "blue"
+                                                        : act.activity_type === "regis_activity"
+                                                            ? "green"
+                                                            : act.activity_type === "non_regis_activity"
+                                                                ? "orange"
+                                                                : "gray"
+                                                }
+                                                textTransform="capitalize"
+                                                fontSize="1rem"
+                                            >
+                                                {activityTypeLabel[act.activity_type] || "ไม่ระบุ"}
+                                            </Badge>
                                         </HStack>
-                                    }
-                                </Box>
-                            </Link>
-                        ))}
-                    </VStack>
 
-                )}
+                                        <Text noOfLines={3} fontSize="sm" color="gray.600" _dark={{ color: "gray.300" }} mb={2}>
+                                            {act.description}
+                                        </Text>
+
+                                        {/* วันที่ & เวลา */}
+                                        <HStack spacing={2} mb={1} align="center">
+
+                                            <Badge colorScheme={dateColors[act.date] || "gray"} fontSize="1rem" fontWeight="bold">
+                                                วันที่: {act.date} (รอบ {act.round})
+                                            </Badge>
+                                            <Badge colorScheme="orange" fontSize="1rem" fontWeight="bold">
+                                                เวลา: {act.start_time} - {act.end_time}
+                                            </Badge>
+                                        </HStack>
+
+                                        <Text fontSize="xs" color="gray.500">
+                                            สถานที่: {act.location} | {act.faculty?.name_th} - {" "}
+                                            {act.department?.name_th}
+                                        </Text>
+
+                                        {act.activity_type === "non_regis_activity" && act.max_participants !== 999 ? (<Text fontWeight="bold" color="orange.600" fontSize="sm" >จำกัดจำนวนผู้เข้าร่วม: {act.max_participants} คน - ลงทะเบียนหน้างาน</Text>) :
+                                            <HStack mt={1} spacing={1}>
+                                                <Text fontSize="sm" fontWeight="bold" color="orange.600">
+                                                    {act.activity_type === "non_regis_activity" && act.max_participants === 999 ? "ไม่จำกัดจำนวนผู้เข้าร่วม" : "ลงทะเบียนแล้ว:"}
+                                                </Text>
+                                                <Text fontSize="sm" fontWeight="semibold" color="orange.800">
+                                                    {act.activity_type === "non_regis_activity" && act.max_participants === 999
+                                                        ? ""
+                                                        : act.current_register_participants + "/" + act.max_participants + " คน"}
+                                                </Text>
+                                            </HStack>
+                                        }
+                                    </Box>
+                                </Link>
+                            ))}
+                        </VStack>
+
+                    )
+                }
 
                 {/* Pagination */}
-                {meta && meta.totalPages > 1 && (
-                    <HStack justify="center" mt={6} spacing={2}>
-                        <Button
-                            size="sm"
-                            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                            isDisabled={page === 1}
-                        >
-                            ก่อนหน้า
-                        </Button>
-                        <Text>
-                            หน้า {page} จาก {meta.totalPages}
-                        </Text>
-                        <Button
-                            size="sm"
-                            onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
-                            isDisabled={page === meta.totalPages}
-                        >
-                            ถัดไป
-                        </Button>
-                    </HStack>
-                )}
-            </Box>
+                {
+                    meta && meta.totalPages > 1 && (
+                        <HStack justify="center" mt={6} spacing={2}>
+                            <Button
+                                size="sm"
+                                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                                isDisabled={page === 1}
+                            >
+                                ก่อนหน้า
+                            </Button>
+                            <Text>
+                                หน้า {page} จาก {meta.totalPages}
+                            </Text>
+                            <Button
+                                size="sm"
+                                onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
+                                isDisabled={page === meta.totalPages}
+                            >
+                                ถัดไป
+                            </Button>
+                        </HStack>
+                    )
+                }
+            </Box >
             <Box mt={3}>
                 <MiniContactSection />
             </Box>
 
-        </StudentAppLayout>
+        </StudentAppLayout >
     )
 }
 
