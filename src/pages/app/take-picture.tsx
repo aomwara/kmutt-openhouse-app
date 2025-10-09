@@ -78,11 +78,11 @@ const TakePicturePage = () => {
             const file = new File([blob], `photo-${Date.now()}.jpg`, { type: "image/jpeg" })
 
             const compressedFile = await imageCompression(file, {
-                maxSizeMB: 0.5,
-                maxWidthOrHeight: 1920,
+                maxSizeMB: 1, // เพิ่มเป็น 1MB เพื่อให้คุณภาพสูงขึ้น
+                maxWidthOrHeight: 2560, // เพิ่ม resolution เพื่อไม่บีบมากเกินไป
+                initialQuality: 0.9, // ตั้งค่าเริ่มต้นคุณภาพสูง
                 useWebWorker: true,
             })
-
             const reader = new FileReader()
             reader.readAsDataURL(compressedFile)
             reader.onloadend = async () => {
