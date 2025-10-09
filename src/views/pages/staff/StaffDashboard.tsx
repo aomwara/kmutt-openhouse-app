@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import {
     Flex,
     Text,
@@ -13,6 +13,11 @@ import {
     Button,
     Spinner,
     Icon,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
 } from "@chakra-ui/react"
 import { QrCode } from "lucide-react"
 
@@ -48,31 +53,44 @@ const StaffDashboard = () => {
     const router = useRouter()
     const cardBg = useColorModeValue("white", "gray.700")
     const highlightBg = useColorModeValue("orange.50", "orange.900")
+    const ongoingGlow = useColorModeValue("0 0 12px rgba(255,140,0,0.4)", "0 0 18px rgba(255,140,0,0.7)")
     const cardBorder = useColorModeValue("orange.400", "orange.500")
-    const textColor = useColorModeValue("gray.800", "gray.100")
     const [profile, setProfile] = useState<StaffProfile | null>(null)
     const [activities, setActivities] = useState<Activity[]>([])
     const [loading, setLoading] = useState(true)
+    const [now, setNow] = useState<Date>(new Date())
 
-    // โหลด profile
+    const eventDates = ["10/10/2025", "11/10/2025", "12/10/2025"]
+
     useEffect(() => {
         fetch("/api/staff/profile")
             .then((res) => res.json())
             .then((d) => setProfile(d))
     }, [])
 
-    // โหลดกิจกรรม
     useEffect(() => {
         const fetchActivities = async () => {
             setLoading(true)
             const res = await fetch("/api/staff/my-activity")
             if (res.ok) {
                 const data = await res.json()
-                setActivities(data)
+                // เรียงกิจกรรมตามเวลา
+                const sorted = data.sort(
+                    (a: Activity, b: Activity) =>
+                        new Date(`${a.date}T${a.start_time}`).getTime() -
+                        new Date(`${b.date}T${b.start_time}`).getTime()
+                )
+                setActivities(sorted)
             }
             setLoading(false)
         }
         fetchActivities()
+    }, [])
+
+    // อัปเดตเวลาปัจจุบันทุก 60 วินาที
+    useEffect(() => {
+        const timer = setInterval(() => setNow(new Date()), 60000)
+        return () => clearInterval(timer)
     }, [])
 
     const scan = (activity: Activity) => {
@@ -80,11 +98,25 @@ const StaffDashboard = () => {
     }
 
     const isOngoing = (act: Activity) => {
-        const now = new Date()
-        const start = new Date(`${act.date}T${act.start_time}`)
-        const end = new Date(`${act.date}T${act.end_time}`)
+        // แปลงวันที่จาก "DD/MM/YYYY" → "YYYY-MM-DD"
+        const [day, month, year] = act.date.split("/")
+        const isoDate = `${year}-${month}-${day}`
+
+        // สร้างเวลาแบบ ISO ที่ JS อ่านได้
+        const start = new Date(`${isoDate}T${act.start_time}:00`)
+        const end = new Date(`${isoDate}T${act.end_time}:00`)
+
         return now >= start && now <= end
     }
+
+    const groupedActivities = useMemo(() => {
+        const groups: Record<string, Activity[]> = {}
+        for (const date of eventDates) groups[date] = []
+        activities.forEach((a) => {
+            if (groups[a.date]) groups[a.date].push(a)
+        })
+        return groups
+    }, [activities])
 
     if (!profile) {
         return (
@@ -110,58 +142,104 @@ const StaffDashboard = () => {
                     <Flex justify="center" py={10}>
                         <Spinner size="xl" />
                     </Flex>
-                ) : activities.length === 0 ? (
-                    <Text>คุณยังไม่มีกิจกรรมที่ดูแล</Text>
                 ) : (
-                    <VStack spacing={4} align="stretch">
-                        {activities.map((act) => {
-                            const ongoing = isOngoing(act)
-                            return (
-                                <Box
-                                    key={act.id}
-                                    p={5}
-                                    bg={ongoing ? highlightBg : cardBg}
-                                    borderRadius="2xl"
-                                    shadow={ongoing ? "xl" : "sm"}
-                                    border={ongoing ? `2px solid ${cardBorder}` : undefined}
-                                    transition="all 0.3s"
-                                >
-                                    <HStack justify="space-between" mb={2}>
-                                        <HStack spacing={2}>
-                                            {ongoing && <Icon as={QrCode} color="orange.500" />}
-                                            <Text fontSize="md" fontWeight="bold">
-                                                {act.title}
-                                            </Text>
-                                        </HStack>
+                    <Tabs colorScheme="orange" variant="soft-rounded">
+                        <TabList>
+                            {eventDates.map((d) => (
+                                <Tab key={d}>
+                                    {new Date(d).toLocaleDateString("th-TH", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })}
+                                </Tab>
+                            ))}
+                        </TabList>
 
-                                        <Button
-                                            size="md"
-                                            colorScheme="orange"
-                                            borderRadius="full"
-                                            onClick={() => scan(act)}
-                                        >
-                                            SCAN
-                                        </Button>
-                                    </HStack>
+                        <TabPanels mt={4}>
+                            {eventDates.map((d) => {
+                                const acts = groupedActivities[d] || []
+                                return (
+                                    <TabPanel key={d}>
+                                        {acts.length === 0 ? (
+                                            <Text>ไม่มีข้อมูลกิจกรรมในวันนี้</Text>
+                                        ) : (
+                                            <VStack spacing={4} align="stretch">
+                                                {acts.map((act) => {
+                                                    const ongoing = isOngoing(act)
+                                                    return (
+                                                        <Box
+                                                            key={act.id}
+                                                            p={5}
+                                                            bg={ongoing ? highlightBg : cardBg}
+                                                            borderRadius="2xl"
+                                                            shadow={ongoing ? "xl" : "sm"}
+                                                            border={
+                                                                ongoing ? `2px solid ${cardBorder}` : undefined
+                                                            }
+                                                            boxShadow={ongoing ? ongoingGlow : undefined}
+                                                            transition="all 0.4s ease"
+                                                        >
+                                                            <HStack justify="space-between" mb={2}>
+                                                                <HStack spacing={2}>
+                                                                    {ongoing && (
+                                                                        <Icon as={QrCode} color="orange.500" />
+                                                                    )}
+                                                                    <Text
+                                                                        fontSize="md"
+                                                                        fontWeight="bold"
+                                                                    >
+                                                                        {act.title}
+                                                                    </Text>
+                                                                </HStack>
 
-                                    <Text color="gray.600" mb={2}>{act.description}</Text>
+                                                                <Button
+                                                                    size="md"
+                                                                    colorScheme="orange"
+                                                                    borderRadius="full"
+                                                                    onClick={() => scan(act)}
+                                                                >
+                                                                    SCAN
+                                                                </Button>
 
-                                    <HStack spacing={3} wrap="wrap" mb={1}>
-                                        <Badge colorScheme="green">วันที่: {act.date}</Badge>
-                                        <Badge colorScheme="blue">
-                                            เวลา: {act.start_time} - {act.end_time}
-                                        </Badge>
-                                        <Badge colorScheme="purple">สถานที่: {act.location}</Badge>
-                                        {ongoing && <Badge colorScheme="orange">กำลังดำเนินอยู่</Badge>}
-                                    </HStack>
+                                                            </HStack>
 
-                                    <Text fontSize="sm" color="gray.500">
-                                        คะแนน: {act.point} | ผู้ลงทะเบียน: {act.registrations.length} / {act.max_participants}
-                                    </Text>
-                                </Box>
-                            )
-                        })}
-                    </VStack>
+                                                            <Text color="gray.600" mb={2}>
+                                                                {act.description}
+                                                            </Text>
+
+                                                            <HStack spacing={3} wrap="wrap" mb={1}>
+                                                                <Badge colorScheme="blue">
+                                                                    เวลา: {act.start_time} - {act.end_time}
+                                                                </Badge>
+                                                                <Badge colorScheme="purple">
+                                                                    สถานที่: {act.location}
+                                                                </Badge>
+                                                                {ongoing && (
+                                                                    <Badge colorScheme="orange">
+                                                                        กำลังดำเนินอยู่
+                                                                    </Badge>
+                                                                )}
+                                                            </HStack>
+
+                                                            <Text
+                                                                fontSize="sm"
+                                                                color="gray.500"
+                                                            >
+                                                                คะแนน: {act.point} | ผู้ลงทะเบียน:{" "}
+                                                                {act.registrations.length} /{" "}
+                                                                {act.max_participants}
+                                                            </Text>
+                                                        </Box>
+                                                    )
+                                                })}
+                                            </VStack>
+                                        )}
+                                    </TabPanel>
+                                )
+                            })}
+                        </TabPanels>
+                    </Tabs>
                 )}
             </Box>
         </StaffAppLayout>

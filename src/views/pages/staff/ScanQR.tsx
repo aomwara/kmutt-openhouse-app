@@ -29,6 +29,18 @@ import QrReader from "react-qr-reader"
 import StaffAppLayout from "@/views/layouts/StaffAppLayout"
 import axios from "axios"
 
+import {
+
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    TableContainer,
+
+} from "@chakra-ui/react"
+
 type ScanLog = {
     id: number
     student: {
@@ -56,13 +68,42 @@ const ScanQRPage = () => {
     const [logs, setLogs] = useState<ScanLog[]>([])
     const [activeTab, setActiveTab] = useState(0)
 
-    const [activity, setActivity] = useState<{
+    // Type สำหรับ student
+    type Student = {
+        id: number
+        first_name: string
+        last_name: string
+        email: string
+        phone?: string
+    }
+
+    // Type สำหรับแต่ละ registration
+    type RegisterActivity = {
+        id: number
+        studentId: number
+        activityId: number
+        registered_at: string
+        student: Student
+        stamped: boolean // เพิ่ม field stamped
+    }
+
+    // Type สำหรับ activity
+    type Activity = {
+        id: number
         title: string
         location?: string
         start_time?: string
         end_time?: string
         description?: string
-    } | null>(null)
+        RegisterActivities: RegisterActivity[]
+    }
+
+    // ตัวอย่าง state
+    const [activity, setActivity] = useState<Activity | null>(null)
+
+
+
+    // const [activity, setActivity] = useState<ActivityState | null>(null)
 
     const scanLock = useRef(false) // ✅ ป้องกันยิงซ้ำ
 
@@ -187,8 +228,8 @@ const ScanQRPage = () => {
                                     )}
                                     {(activity.start_time || activity.end_time) && (
                                         <Text color="gray.600" mb={1}>
-                                            🕒 {new Date(activity.start_time || "").toLocaleString("th-TH")}{" "}
-                                            - {new Date(activity.end_time || "").toLocaleString("th-TH")}
+                                            {activity.start_time && `🕒 เริ่ม ${activity.start_time} `}
+                                            {activity.end_time && `- สิ้นสุด ${activity.end_time}`}
                                         </Text>
                                     )}
                                     {activity.description && (
@@ -200,6 +241,40 @@ const ScanQRPage = () => {
                                 <Box>
                                     <Button colorScheme="orange" w={"full"} onClick={(() => { setActiveTab(1) })}>เริ่มสแกน</Button>
                                 </Box>
+                                <Box mt={5}>
+                                    <Box mt={5}>
+                                        {activity?.RegisterActivities?.length ? (
+                                            <TableContainer>
+                                                <Table variant="simple" size="sm">
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th>ลำดับ</Th>
+                                                            <Th>ชื่อ-นามสกุล</Th>
+                                                            <Th>Email</Th>
+                                                            <Th>Phone</Th>
+                                                            <Th>วันที่ลงทะเบียน</Th>
+                                                        </Tr>
+                                                    </Thead>
+                                                    <Tbody>
+                                                        {activity.RegisterActivities.map((r, index) => (
+                                                            <Tr key={r.id} bg={r.stamped ? "green.50" : undefined}>
+                                                                <Td>{index + 1}</Td>
+                                                                <Td>{r.student.first_name} {r.student.last_name}</Td>
+                                                                <Td>{r.student.email}</Td>
+                                                                <Td>{r.student.phone || "-"}</Td>
+                                                                <Td>{new Date(r.registered_at).toLocaleString("th-TH")}</Td>
+                                                            </Tr>
+                                                        ))}
+                                                    </Tbody>
+                                                </Table>
+                                            </TableContainer>
+                                        ) : (
+                                            <Text>ไม่มีผู้ลงทะเบียนไว้ก่อนหน้า</Text>
+                                        )}
+                                    </Box>
+                                </Box>
+
+
                             </Box>
                         )}
                     </TabPanel>
@@ -384,7 +459,7 @@ const ScanQRPage = () => {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-        </StaffAppLayout>
+        </StaffAppLayout >
     )
 }
 
