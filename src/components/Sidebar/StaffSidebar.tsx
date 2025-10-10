@@ -26,6 +26,8 @@ const StaffSidebar = () => {
 
     const menuItems = [
         { label: "กิจกรรมทั้งหมด", icon: MdDashboard, link: "/staff/dashboard" },
+        //ตั้งค่ารหัสผ่านให้นักเรียน
+        { label: "ตั้งค่ารหัสผ่านให้นักเรียน", icon: MdSettings, link: "/staff/student-setting" },
         // { label: "สแกน QR Code", icon: MdQrCode, link: "/staff/scan" },
         { label: "ออกจากระบบ", icon: MdLogout, link: "/login" }
     ]

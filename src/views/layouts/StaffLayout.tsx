@@ -136,6 +136,9 @@ export default function StaffLayout({ children }: StaffLayoutProps) {
                                 <Link href="/staff/dashboard" onClick={() => setMenuOpen(false)}>
                                     {"> "}Dashboard - แดชบอร์ด
                                 </Link>
+                                <Link href="/staff/student-setting" onClick={() => setMenuOpen(false)}>
+                                    {"> "}ตั้งค่ารหัสผ่านให้นักเรียน
+                                </Link>
 
                                 <Button
                                     as={Link}
