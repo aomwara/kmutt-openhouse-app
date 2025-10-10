@@ -60,8 +60,18 @@ const TakePicturePage = () => {
 
     // ถ่ายรูป
     const capture = () => {
-        const imgSrc = webcamRef.current?.getScreenshot()
-        if (imgSrc) setImage(imgSrc)
+        const video = webcamRef.current?.video
+        if (!video) return
+
+        const canvas = document.createElement("canvas")
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        const ctx = canvas.getContext("2d")
+        if (!ctx) return
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+        const imgSrc = canvas.toDataURL("image/jpeg", 0.95) // คุณภาพสูง
+        setImage(imgSrc)
     }
 
     // สลับกล้อง
@@ -163,7 +173,11 @@ const TakePicturePage = () => {
                                 screenshotFormat="image/jpeg"
                                 width="100%"
                                 height={360}
-                                videoConstraints={{ facingMode }}
+                                videoConstraints={{
+                                    width: { ideal: 1920 },
+                                    height: { ideal: 1080 },
+                                    facingMode,
+                                }}
                                 style={{ borderRadius: 16 }}
                             />
                         ) : (
