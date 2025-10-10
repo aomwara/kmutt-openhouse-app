@@ -142,6 +142,10 @@ const MyJourneyPage = () => {
                                 <Text fontSize="sm" color="gray.500">
                                     สถานที่: {item.activity.location}
                                 </Text>
+                                <Text fontSize="sm" color="gray.500">
+                                    Point: {item.activity.point}
+                                </Text>
+
                                 <Divider my={2} />
                                 <HStack justify="space-between">
                                     <Text fontSize="sm" color="gray.500">
