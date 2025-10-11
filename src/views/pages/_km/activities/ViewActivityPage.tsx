@@ -1,3 +1,4 @@
+// pages/km/activities/[id].tsx  (หรือไฟล์ที่คุณมี ViewActivityPage)
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
@@ -23,6 +24,13 @@ import {
     FormControl,
     FormLabel,
     VStack,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    TableContainer,
 } from "@chakra-ui/react";
 
 import {
@@ -31,21 +39,49 @@ import {
     TabPanels,
     Tab,
     TabPanel,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 
 import * as XLSX from "xlsx";
-import {
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    TableContainer,
-} from "@chakra-ui/react"
 import KMAppLayout from "@/views/layouts/KMAppLayout";
-
 import { Activity } from "@/interfaces/Activities";
+
+interface Estamp {
+    id: number;
+    studentName: string;
+    email: string;
+    phone: string;
+    stampBy: string;
+    stampedByName?: string;
+    issued_at: string;
+    rating?: number | null;
+    feedback?: string | null;
+}
+
+interface Feedback {
+    id: number;
+    studentName: string;
+    rating?: number | null;
+    feedback?: string | null;
+    issued_at: string;
+}
+
+interface SurveySummary {
+    ratingCounts: Record<string, number>;
+    averageRating?: number | null;
+    ratingCounted?: number;
+    feedbacks: Feedback[];
+}
+
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    CartesianGrid,
+    ResponsiveContainer,
+    LabelList,
+} from "recharts";
 
 export const ViewActivityPage = () => {
     const router = useRouter();
@@ -54,6 +90,11 @@ export const ViewActivityPage = () => {
     const [loading, setLoading] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [form, setForm] = useState<Partial<Activity>>({});
+
+    // Estamp + survey states
+    const [estamps, setEstamps] = useState<Estamp[]>([]);
+    const [surveySummary, setSurveySummary] = useState<SurveySummary | null>(null);
+    const [loadingEstamps, setLoadingEstamps] = useState<boolean>(false);
 
     useEffect(() => {
         if (!id) return;
@@ -76,7 +117,29 @@ export const ViewActivityPage = () => {
         };
 
         fetchActivity();
+        fetchEstamps(); // also fetch estamps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
+
+    const fetchEstamps = async () => {
+        if (!id) return;
+        setLoadingEstamps(true);
+        try {
+            const res = await fetch(`/api/km/activities/${id}/estamps`);
+            if (!res.ok) {
+                setEstamps([]);
+                setSurveySummary(null);
+            } else {
+                const data = await res.json();
+                setEstamps(data.estamps || []);
+                setSurveySummary(data.surveySummary || null);
+            }
+        } catch (err) {
+            console.error("fetchEstamps err", err);
+        } finally {
+            setLoadingEstamps(false);
+        }
+    };
 
     const handleSave = async () => {
         if (!id) return;
@@ -97,8 +160,6 @@ export const ViewActivityPage = () => {
         }
     };
 
-
-
     const exportExcel = () => {
         if (!activity?.registrations) return;
 
@@ -116,10 +177,8 @@ export const ViewActivityPage = () => {
             { Key: "จำนวนผู้ลงทะเบียนสูงสุด", Value: activity.max_participants },
         ];
 
-        // แปลง activityInfo เป็น sheet (row เดียวแต่ 2 คอลัมน์: Key / Value)
         const wsActivity = XLSX.utils.json_to_sheet(activityInfo, { header: ["Key", "Value"] });
 
-        // --- ข้อมูลนักเรียน ---
         const studentRows = activity.registrations.map((reg) => ({
             "ชื่อ-สกุล": `${reg.student.first_name} ${reg.student.last_name}`,
             Email: reg.student.email,
@@ -127,23 +186,13 @@ export const ViewActivityPage = () => {
             "เวลาลงทะเบียน": new Date(reg.registered_at).toLocaleString("th-TH"),
         }));
 
-        // เพิ่ม row ว่างก่อนนักเรียนเพื่อแยก
         XLSX.utils.sheet_add_aoa(wsActivity, [[""]], { origin: -1 });
-
-        // เพิ่ม header นักเรียน
-        XLSX.utils.sheet_add_aoa(
-            wsActivity,
-            [["ชื่อ-สกุล", "Email", "เบอร์โทร", "เวลาลงทะเบียน"]],
-            { origin: -1 }
-        );
-
-        // เพิ่มข้อมูลนักเรียน
+        XLSX.utils.sheet_add_aoa(wsActivity, [["ชื่อ-สกุล", "Email", "เบอร์โทร", "เวลาลงทะเบียน"]], { origin: -1 });
         XLSX.utils.sheet_add_json(wsActivity, studentRows, { skipHeader: true, origin: -1 });
 
         XLSX.utils.book_append_sheet(wb, wsActivity, "Registrations");
         XLSX.writeFile(wb, `${activity.title}-registrations.xlsx`);
     };
-
 
     return (
         <KMAppLayout navigation={`Activity / ${id}`}>
@@ -152,20 +201,16 @@ export const ViewActivityPage = () => {
                     <Spinner size="xl" />
                 </HStack>
             ) : !activity ? (
-                <Text color="red.500" fontSize={"lg"}>Activity not found</Text>
+                <Text color="red.500" fontSize={"lg"}>
+                    Activity not found
+                </Text>
             ) : (
                 <>
-                    <Box
-                        p={4}
-                        bg="white"
-                        _dark={{ bg: "gray.700" }}
-                        rounded="xl"
-                        shadow="sm"
-                    >
+                    <Box p={4} bg="white" _dark={{ bg: "gray.700" }} rounded="xl" shadow="sm">
                         <Badge display={!activity.display ? "block" : "none"} colorScheme={activity.display ? "blue" : "red"} p={4} mb={2} w={"full"} fontSize={"md"}>
                             {activity.display ? "แสดง" : "กิจกรรมนี้ถูกซ่อนอยู่ (ไม่แสดงในหน้ากิจกรรม)"}
                         </Badge>
-                        {/* Title + Edit Button */}
+
                         <HStack justify="space-between" mb={2}>
                             <Text fontSize="md" fontWeight="bold">
                                 #{activity.id} - {activity.title}
@@ -174,21 +219,15 @@ export const ViewActivityPage = () => {
                                 <Button size="sm" colorScheme="yellow" onClick={onOpen}>
                                     แก้ไข
                                 </Button>
-
-                                {/* <Button ml={2} size="sm" colorScheme="red" onClick={() => { }}>
-                                    ลบ
-                                </Button> */}
                             </Box>
                         </HStack>
 
-                        {/* Description */}
                         <Text fontSize="md" color="gray.600" _dark={{ color: "gray.300" }} mb={2}>
                             {activity.description}
                         </Text>
 
                         <Text fontSize="md" color="gray.500" mb={0}>
-                            สถานที่: {activity.location} | คณะ: {activity.faculty?.name_th} -{" "}
-                            ภาควิชา: {activity.department?.name_th}
+                            สถานที่: {activity.location} | คณะ: {activity.faculty?.name_th} - ภาควิชา: {activity.department?.name_th}
                         </Text>
 
                         <Text fontSize="md" color="gray.500" mb={0}>
@@ -200,8 +239,7 @@ export const ViewActivityPage = () => {
                                 คะแนน: {activity.point}
                             </Text>
                             <Text fontSize="md" color="orange.500">
-                                จำนวนผู้ลงทะเบียน: {activity.current_register_participants} /{" "}
-                                {activity.max_participants}
+                                จำนวนผู้ลงทะเบียน: {activity.current_register_participants} / {activity.max_participants}
                             </Text>
                         </HStack>
 
@@ -265,9 +303,7 @@ export const ViewActivityPage = () => {
                                                                 </Td>
                                                                 <Td>{reg.student.email}</Td>
                                                                 <Td>{reg.student.phone}</Td>
-                                                                <Td>
-                                                                    {new Date(reg.registered_at).toLocaleString("th-TH")}
-                                                                </Td>
+                                                                <Td>{new Date(reg.registered_at).toLocaleString("th-TH")}</Td>
                                                             </Tr>
                                                         ))}
                                                     </Tbody>
@@ -278,16 +314,131 @@ export const ViewActivityPage = () => {
 
                                     {/* E-Stamp Tab */}
                                     <TabPanel>
-                                        <Text fontSize="sm" color="gray.500">
-                                            (ยังไม่ได้ใส่ข้อมูล E-Stamp)
-                                        </Text>
+                                        <HStack justify="space-between" mb={2}>
+                                            <Text fontSize="sm" fontWeight="bold">
+                                                E-Stamp (บันทึกการประทับ)
+                                            </Text>
+                                            <Button size="sm" onClick={fetchEstamps}>
+                                                Refresh
+                                            </Button>
+                                        </HStack>
+
+                                        {loadingEstamps ? (
+                                            <Spinner />
+                                        ) : estamps.length === 0 ? (
+                                            <Text fontSize="sm" color="gray.500">
+                                                ยังไม่มีข้อมูล E-Stamp
+                                            </Text>
+                                        ) : (
+                                            <TableContainer>
+                                                <Table variant="striped" size="sm">
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th>ชื่อ-สกุล</Th>
+                                                            <Th>Email</Th>
+                                                            <Th>เบอร์โทร</Th>
+                                                            <Th>stampBy</Th>
+                                                            <Th>เวลา</Th>
+                                                            <Th>Rating</Th>
+                                                            {/* <Th>Feedback</Th> */}
+                                                        </Tr>
+                                                    </Thead>
+                                                    <Tbody>
+                                                        {estamps.map((e) => (
+                                                            <Tr key={e.id}>
+                                                                <Td>{e.studentName}</Td>
+                                                                <Td>{e.email}</Td>
+                                                                <Td>{e.phone}</Td>
+                                                                <Td>{e.stampedByName || e.stampBy}</Td>
+                                                                <Td>{new Date(e.issued_at).toLocaleString("th-TH")}</Td>
+                                                                <Td>{e.rating ?? "—"}</Td>
+                                                                {/* <Td>{e.feedback ?? "—"}</Td> */}
+                                                            </Tr>
+                                                        ))}
+                                                    </Tbody>
+                                                </Table>
+                                            </TableContainer>
+                                        )}
                                     </TabPanel>
 
                                     {/* Survey Result Tab */}
                                     <TabPanel>
-                                        <Text fontSize="sm" color="gray.500">
-                                            (ยังไม่ได้ใส่ข้อมูลผลแบบสอบถาม)
+                                        <Text fontSize="sm" fontWeight="bold" mb={2}>
+                                            สรุปผลแบบสอบถาม
                                         </Text>
+
+                                        {loadingEstamps ? (
+                                            <Spinner />
+                                        ) : !surveySummary ? (
+                                            <Text fontSize="sm" color="gray.500">
+                                                ยังไม่มีข้อมูลแบบสอบถาม
+                                            </Text>
+                                        ) : (
+                                            <>
+                                                <Box width="100%" height={240}>
+                                                    <ResponsiveContainer width="100%" height="100%">
+                                                        <BarChart
+                                                            data={[
+                                                                { name: "1", count: surveySummary.ratingCounts["1"] || 0 },
+                                                                { name: "2", count: surveySummary.ratingCounts["2"] || 0 },
+                                                                { name: "3", count: surveySummary.ratingCounts["3"] || 0 },
+                                                                { name: "4", count: surveySummary.ratingCounts["4"] || 0 },
+                                                                { name: "5", count: surveySummary.ratingCounts["5"] || 0 },
+                                                            ]}
+                                                            margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                                                        >
+                                                            <CartesianGrid strokeDasharray="3 3" />
+                                                            <XAxis dataKey="name" />
+                                                            <YAxis allowDecimals={false} />
+                                                            <Tooltip />
+                                                            <Bar dataKey="count" >
+                                                                <LabelList dataKey="count" position="top" />
+                                                            </Bar>
+                                                        </BarChart>
+                                                    </ResponsiveContainer>
+                                                </Box>
+
+                                                <HStack mt={3}>
+                                                    <Text>เฉลี่ย (ไม่รวมค่าว่าง): </Text>
+                                                    <Text fontWeight="bold" fontSize="xl">
+                                                        {surveySummary.averageRating ? Number(surveySummary.averageRating).toFixed(2) : "—"}
+                                                    </Text>
+                                                    <Text color="gray.500"> (นับ {surveySummary.ratingCounted || 0} รายการ)</Text>
+                                                </HStack>
+
+                                                <Divider my={3} />
+                                                <Text fontSize="sm" fontWeight="bold" mb={2}>
+                                                    ข้อความ feedback (เรียงล่าสุด)
+                                                </Text>
+                                                {surveySummary.feedbacks?.length === 0 ? (
+                                                    <Text color="gray.500">ยังไม่มี feedback</Text>
+                                                ) : (
+                                                    <VStack align="stretch" spacing={3}>
+                                                        {surveySummary.feedbacks.map((f) => (
+                                                            <Box
+                                                                key={f.id}
+                                                                p={3}
+                                                                bg="white"
+                                                                _dark={{ bg: "gray.700" }}
+                                                                rounded="md"
+                                                                shadow="sm"
+                                                            >
+                                                                <Text fontSize="sm" fontWeight="bold">
+                                                                    {f.studentName}
+                                                                    {f.rating ? ` — (${f.rating})` : ""}
+                                                                </Text>
+                                                                <Text fontSize="sm" color="gray.600">
+                                                                    {f.feedback}
+                                                                </Text>
+                                                                <Text fontSize="xs" color="gray.400" mt={1}>
+                                                                    {new Date(f.issued_at).toLocaleString("th-TH")}
+                                                                </Text>
+                                                            </Box>
+                                                        ))}
+                                                    </VStack>
+                                                )}
+                                            </>
+                                        )}
                                     </TabPanel>
                                 </TabPanels>
                             </Tabs>
@@ -305,14 +456,10 @@ export const ViewActivityPage = () => {
                                     <FormLabel htmlFor="display" mb="0">
                                         แสดงกิจกรรม
                                     </FormLabel>
-                                    {/* use select */}
                                     <select
-
                                         id="display"
                                         value={form.display ? "true" : "false"}
-                                        onChange={(e) =>
-                                            setForm({ ...form, display: e.target.value === "true" })
-                                        }
+                                        onChange={(e) => setForm({ ...form, display: e.target.value === "true" })}
                                         style={{ width: "100px", border: "1px solid gray", fontSize: "20px", marginLeft: "10px", padding: "5px", borderRadius: "5px" }}
                                     >
                                         <option value="true">แสดง</option>
@@ -322,79 +469,47 @@ export const ViewActivityPage = () => {
 
                                 <FormControl mb={3}>
                                     <FormLabel>ชื่อกิจกรรม</FormLabel>
-                                    <Input
-                                        value={form.title || ""}
-                                        onChange={(e) => setForm({ ...form, title: e.target.value })}
-                                    />
+                                    <Input value={form.title || ""} onChange={(e) => setForm({ ...form, title: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>รายละเอียด</FormLabel>
-                                    <Textarea
-                                        value={form.description || ""}
-                                        onChange={(e) => setForm({ ...form, description: e.target.value })}
-                                    />
+                                    <Textarea value={form.description || ""} onChange={(e) => setForm({ ...form, description: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>สถานที่</FormLabel>
-                                    <Input
-                                        value={form.location || ""}
-                                        onChange={(e) => setForm({ ...form, location: e.target.value })}
-                                    />
+                                    <Input value={form.location || ""} onChange={(e) => setForm({ ...form, location: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>วันที่</FormLabel>
-                                    <Input
-                                        type="date"
-                                        value={form.date || ""}
-                                        onChange={(e) => setForm({ ...form, date: e.target.value })}
-                                    />
+                                    <Input type="date" value={form.date || ""} onChange={(e) => setForm({ ...form, date: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>เวลาเริ่ม</FormLabel>
-                                    <Input
-                                        type="time"
-                                        value={form.start_time || ""}
-                                        onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                                    />
+                                    <Input type="time" value={form.start_time || ""} onChange={(e) => setForm({ ...form, start_time: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>เวลาสิ้นสุด</FormLabel>
-                                    <Input
-                                        type="time"
-                                        value={form.end_time || ""}
-                                        onChange={(e) => setForm({ ...form, end_time: e.target.value })}
-                                    />
+                                    <Input type="time" value={form.end_time || ""} onChange={(e) => setForm({ ...form, end_time: e.target.value })} />
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>คะแนน</FormLabel>
                                     <NumberInput value={form.point || 0} min={0}>
-                                        <NumberInputField
-                                            onChange={(e) => setForm({ ...form, point: parseInt(e.target.value) || 0 })}
-                                        />
+                                        <NumberInputField onChange={(e) => setForm({ ...form, point: parseInt(e.target.value) || 0 })} />
                                     </NumberInput>
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>จำนวนผู้เข้าร่วมสูงสุด</FormLabel>
                                     <NumberInput value={form.max_participants || 0} min={1}>
-                                        <NumberInputField
-                                            onChange={(e) =>
-                                                setForm({ ...form, max_participants: parseInt(e.target.value) || 0 })
-                                            }
-                                        />
+                                        <NumberInputField onChange={(e) => setForm({ ...form, max_participants: parseInt(e.target.value) || 0 })} />
                                     </NumberInput>
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>ลิงก์ฟอร์ม</FormLabel>
-                                    <Input
-                                        value={form.form_link || ""}
-                                        onChange={(e) => setForm({ ...form, form_link: e.target.value })}
-                                    />
+                                    <Input value={form.form_link || ""} onChange={(e) => setForm({ ...form, form_link: e.target.value })} />
                                 </FormControl>
                             </ModalBody>
                             <ModalFooter>
-                                <Button colorScheme="blue" mr={3} onClick={handleSave}>
-                                    บันทึก
-                                </Button>
+                                <Button colorScheme="blue" mr={3} onClick={handleSave}>บันทึก</Button>
                                 <Button onClick={onClose}>ยกเลิก</Button>
                             </ModalFooter>
                         </ModalContent>
@@ -404,3 +519,5 @@ export const ViewActivityPage = () => {
         </KMAppLayout>
     );
 };
+
+export default ViewActivityPage;
