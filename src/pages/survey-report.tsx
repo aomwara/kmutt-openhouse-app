@@ -29,6 +29,10 @@ type Survey = {
     preferredFaculty: string
     infoChannels: string
     confusionRanking: string
+    factors: string
+    creditTransferInterest: number | null
+    teachingMode: string
+    interestKMUTT: string
 }
 
 const COLORS = [
@@ -70,33 +74,42 @@ const ReportPage = () => {
         )
     }
 
-    // สร้างสถิติ
+    // ✅ ฟังก์ชันรวมข้อมูลนับจำนวน
     const countBy = (key: keyof Survey) => {
         const map: Record<string, number> = {}
         surveys.forEach((s) => {
-            const vals = (s[key] || "").split(",")
+            const vals = (s[key] || "").toString().split(",")
             vals.forEach((v) => {
-                if (!v) return
-                map[v] = (map[v] || 0) + 1
+                const trimmed = v.trim()
+                if (!trimmed) return
+                map[trimmed] = (map[trimmed] || 0) + 1
             })
         })
         return Object.entries(map).map(([name, value]) => ({ name, value }))
     }
 
     const participantData = countBy("participantType")
-    const educationData = countBy("educationLevel") // ✅ เพิ่มระดับการศึกษา
+    const educationData = countBy("educationLevel")
     const interestData = countBy("interestLevel")
     const facultyData = countBy("preferredFaculty")
     const infoChannelData = countBy("infoChannels")
+    const factorsData = countBy("factors")
+    const teachingModeData = countBy("teachingMode")
+    const interestKMUTTData = countBy("interestKMUTT")
 
-    // สับสนการจำแนก 3 พระจอม
+    // ✅ สรุปค่าเฉลี่ยความสนใจเทียบโอนหน่วยกิต
+    const avgCreditInterest =
+        surveys.reduce((sum, s) => sum + (s.creditTransferInterest || 0), 0) /
+        (surveys.filter((s) => s.creditTransferInterest !== null).length || 1)
+
+    // ✅ สรุปสับสน 3 พระจอม
     const confusionStats: Record<string, number[]> = {
         "มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.)": [0, 0, 0],
         "มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ (มจพ.)": [0, 0, 0],
-        "สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง (สจล.)": [0, 0, 0]
+        "สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง (สจล.)": [0, 0, 0],
     }
-    surveys.forEach(s => {
-        const ranks = s.confusionRanking.split(",")
+    surveys.forEach((s) => {
+        const ranks = (s.confusionRanking || "").split(",")
         ranks.forEach((uni, idx) => {
             if (confusionStats[uni]) confusionStats[uni][idx] += 1
         })
@@ -116,7 +129,7 @@ const ReportPage = () => {
                     รายงานผลแบบสอบถาม KMUTT Open House 2025
                 </Heading>
 
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+                <SimpleGrid columns={{ base: 1, md: 1 }} spacing={8}>
                     {/* Participant Type */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md">
                         <Heading size="md" mb={4}>ประเภทผู้เข้าร่วมกิจกรรม</Heading>
@@ -128,7 +141,7 @@ const ReportPage = () => {
                         </PieChart>
                     </Box>
 
-                    {/* Education Level ✅ */}
+                    {/* Education Level */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md">
                         <Heading size="md" mb={4}>ระดับการศึกษา</Heading>
                         <BarChart width={350} height={300} data={educationData}>
@@ -139,24 +152,6 @@ const ReportPage = () => {
                             <Legend />
                             <Bar dataKey="value" fill="#775DD0" />
                         </BarChart>
-
-                        {/* ตารางสรุป */}
-                        <Table size="sm" mt={4}>
-                            <Thead>
-                                <Tr>
-                                    <Th>ระดับการศึกษา</Th>
-                                    <Th isNumeric>จำนวน</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {educationData.map((row) => (
-                                    <Tr key={row.name}>
-                                        <Td>{row.name}</Td>
-                                        <Td isNumeric>{row.value}</Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
                     </Box>
 
                     {/* Interest Level */}
@@ -175,7 +170,7 @@ const ReportPage = () => {
                     {/* Preferred Faculty */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md">
                         <Heading size="md" mb={4}>คณะที่สนใจ (เลือกได้หลายข้อ)</Heading>
-                        <PieChart width={300} height={300}>
+                        <PieChart width={500} height={500}>
                             <Pie data={facultyData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#00C49F" label>
                                 {facultyData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                             </Pie>
@@ -186,7 +181,7 @@ const ReportPage = () => {
                     {/* Info Channels */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md">
                         <Heading size="md" mb={4}>ช่องทางรับข้อมูลข่าวสาร</Heading>
-                        <BarChart width={350} height={300} data={infoChannelData}>
+                        <BarChart width={700} height={500} data={infoChannelData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} angle={-20} textAnchor="end" />
                             <YAxis />
@@ -194,6 +189,51 @@ const ReportPage = () => {
                             <Legend />
                             <Bar dataKey="value" fill="#FFBB28" />
                         </BarChart>
+                    </Box>
+
+                    {/* ✅ ปัจจัยในการเลือกมหาวิทยาลัย */}
+                    <Box bg={cardBg} p={4} rounded="xl" shadow="md">
+                        <Heading size="md" mb={4}>ปัจจัยในการเลือกมหาวิทยาลัย</Heading>
+                        <BarChart width={700} height={500} data={factorsData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} angle={-20} textAnchor="end" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="value" fill="#00E396" />
+                        </BarChart>
+                    </Box>
+
+                    {/* ✅ รูปแบบการเรียนที่สนใจ */}
+                    <Box bg={cardBg} p={4} rounded="xl" shadow="md">
+                        <Heading size="md" mb={4}>รูปแบบการเรียนที่สนใจ</Heading>
+                        <PieChart width={300} height={300}>
+                            <Pie data={teachingModeData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#FF4560" label>
+                                {teachingModeData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                            </Pie>
+                            <Tooltip /><Legend verticalAlign="bottom" />
+                        </PieChart>
+                    </Box>
+
+                    {/* ✅ ความสนใจเข้าศึกษาต่อที่ มจธ. */}
+                    <Box bg={cardBg} p={4} rounded="xl" shadow="md">
+                        <Heading size="md" mb={4}>ความสนใจเข้าศึกษาต่อที่ มจธ.</Heading>
+                        <BarChart width={350} height={300} data={interestKMUTTData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="value" fill="#775DD0" />
+                        </BarChart>
+                    </Box>
+
+                    {/* ✅ ความสนใจเทียบโอนหน่วยกิต */}
+                    <Box bg={cardBg} p={4} rounded="xl" shadow="md" textAlign="center">
+                        <Heading size="md" mb={2}>ระดับความสนใจเรื่องเทียบโอนหน่วยกิต (เฉลี่ย)</Heading>
+                        <Text fontSize="4xl" color="orange.500" fontWeight="bold">
+                            {avgCreditInterest.toFixed(2)} / 5
+                        </Text>
                     </Box>
 
                     {/* Confusion Ranking */}
