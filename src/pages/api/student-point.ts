@@ -1,0 +1,77 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient()
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const students = await prisma.students.findMany({
+      where: {
+        RegisterActivities: {
+          some: {
+            activity: {
+              department: {
+                facultyId: 1
+              }
+            }
+          }
+        }
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        school: true,
+        province: true,
+        email: true,
+        phone: true,
+        EStamp: {
+          select: {
+            activity: {
+              select: {
+                title: true,
+                activity_type: true,
+                point: true,
+                date: true,
+                start_time: true,
+                end_time: true
+              }
+            }
+          },
+          orderBy: {
+            activity: {
+              date: "asc"
+            }
+          }
+        }
+      }
+    });
+
+    const result = students.map(student => {
+      const total_points = student.EStamp.reduce((sum, e) => sum + (e.activity.point ?? 0), 0);
+
+      const activities: Record<string, string | null> = {};
+      student.EStamp.forEach((e, idx) => {
+        const colName = `activity_${idx + 1}`;
+        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time})`;
+      });
+
+      return {
+        student_id: student.id,
+        student_name: `${student.first_name} ${student.last_name}`,
+        school: student.school,
+        province: student.province,
+        email: student.email,
+        phone: student.phone,
+        total_points,
+        ...activities
+      };
+    });
+
+    result.sort((a, b) => b.total_points - a.total_points);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
