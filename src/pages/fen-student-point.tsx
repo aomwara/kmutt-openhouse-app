@@ -24,8 +24,7 @@ export default function StudentsPointsPage() {
     fetch("/api/student-point")
       .then((res) => res.json())
       .then((json: StudentData[]) => {
-        const filtered = json.filter((student) => student.total_points > 0);
-        setData(filtered);
+        setData(json);
         setLoading(false);
       })
       .catch((err) => {
@@ -37,21 +36,22 @@ export default function StudentsPointsPage() {
   if (loading) return <p>Loading...</p>;
   if (!data.length) return <p>No data found</p>;
 
+  // หาชื่อ activity columns แบบ dynamic
   const activityColumns = Object.keys(data[0]).filter((key) =>
     key.startsWith("activity_")
   ) as Array<keyof StudentData>;
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Students Points & Activities</h2>
+      <h2>Students Points & Activities (Engineering Faculty)</h2>
 
-      {/* Container scrollable horizontal */}
+      {/* container scrollable horizontal */}
       <div style={{ overflowX: "auto" }}>
         <table
           style={{
             borderCollapse: "collapse",
             width: "100%",
-            minWidth: 800, // กำหนดขั้นต่ำเพื่อ scroll
+            minWidth: 800, // ให้ scroll ทำงานเมื่อ column เยอะ
             backgroundColor: "white",
           }}
         >

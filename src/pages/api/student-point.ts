@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    // ดึงนักเรียนที่มี EStamp ของคณะวิศวกรรมศาสตร์ (facultyId = 1)
     const students = await prisma.students.findMany({
       where: {
         EStamp: {
@@ -34,6 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
           },
           select: {
+            issued_at: true, // เวลาที่นักเรียน stamp
             activity: {
               select: {
                 title: true,
@@ -54,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
-    // map ให้เป็น output
+    // map data ให้อยู่ในรูปแบบที่ frontend ใช้
     const result = students.map((student) => {
       const total_points = student.EStamp.reduce(
         (sum, e) => sum + (e.activity.point ?? 0),
@@ -64,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const activities: Record<string, string | null> = {};
       student.EStamp.forEach((e, idx) => {
         const colName = `activity_${idx + 1}`;
-        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time})`;
+        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time}) [Stamp: ${new Date(e.issued_at).toLocaleString()}]`;
       });
 
       return {
