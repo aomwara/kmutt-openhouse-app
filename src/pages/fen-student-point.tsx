@@ -24,7 +24,6 @@ export default function StudentsPointsPage() {
     fetch("/api/student-point")
       .then((res) => res.json())
       .then((json: StudentData[]) => {
-        // กรองเฉพาะนักเรียนที่ total_points > 0
         const filtered = json.filter((student) => student.total_points > 0);
         setData(filtered);
         setLoading(false);
@@ -44,47 +43,52 @@ export default function StudentsPointsPage() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{ color: "white", fontSize: "30px" }}>Engineering Students Points & Activities</h2>
-      <table
-        style={{
-          borderCollapse: "collapse",
-          width: "100%",
-          backgroundColor: "white",
-        }}
-      >
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #000", padding: 8 }}>Student Name</th>
-            <th style={{ border: "1px solid #000", padding: 8 }}>School</th>
-            <th style={{ border: "1px solid #000", padding: 8 }}>Province</th>
-            <th style={{ border: "1px solid #000", padding: 8 }}>Email</th>
-            <th style={{ border: "1px solid #000", padding: 8 }}>Phone</th>
-            <th style={{ border: "1px solid #000", padding: 8 }}>Total Points</th>
-            {activityColumns.map((col) => (
-              <th key={col} style={{ border: "1px solid #000", padding: 8 }}>
-                {col}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((student) => (
-            <tr key={student.student_id}>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.student_name}</td>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.school}</td>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.province}</td>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.email}</td>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.phone}</td>
-              <td style={{ border: "1px solid #000", padding: 8 }}>{student.total_points}</td>
+      <h2>Students Points & Activities</h2>
+
+      {/* Container scrollable horizontal */}
+      <div style={{ overflowX: "auto" }}>
+        <table
+          style={{
+            borderCollapse: "collapse",
+            width: "100%",
+            minWidth: 800, // กำหนดขั้นต่ำเพื่อ scroll
+            backgroundColor: "white",
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid #000", padding: 8 }}>Student Name</th>
+              <th style={{ border: "1px solid #000", padding: 8 }}>School</th>
+              <th style={{ border: "1px solid #000", padding: 8 }}>Province</th>
+              <th style={{ border: "1px solid #000", padding: 8 }}>Email</th>
+              <th style={{ border: "1px solid #000", padding: 8 }}>Phone</th>
+              <th style={{ border: "1px solid #000", padding: 8 }}>Total Points</th>
               {activityColumns.map((col) => (
-                <td key={col} style={{ border: "1px solid #000", padding: 8 }}>
-                  {student[col] ?? "-"}
-                </td>
+                <th key={col} style={{ border: "1px solid #000", padding: 8 }}>
+                  {col}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((student) => (
+              <tr key={student.student_id}>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.student_name}</td>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.school}</td>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.province}</td>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.email}</td>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.phone}</td>
+                <td style={{ border: "1px solid #000", padding: 8 }}>{student.total_points}</td>
+                {activityColumns.map((col) => (
+                  <td key={col} style={{ border: "1px solid #000", padding: 8 }}>
+                    {student[col] ?? "-"}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
