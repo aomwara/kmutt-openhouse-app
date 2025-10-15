@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const activities: Record<string, string | null> = {};
       student.EStamp.forEach((e, idx) => {
         const colName = `activity_${idx + 1}`;
-        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time}) [Stamp: ${new Date(e.issued_at).toLocaleString()}]`;
+        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time})`;
       });
 
       return {
