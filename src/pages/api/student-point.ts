@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient()
+
+const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const students = await prisma.students.findMany({
       where: {
-        RegisterActivities: {
+        EStamp: {
           some: {
             activity: {
               department: {
@@ -25,6 +26,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email: true,
         phone: true,
         EStamp: {
+          where: {
+            activity: {
+              department: {
+                facultyId: 1
+              }
+            }
+          },
           select: {
             activity: {
               select: {
@@ -46,8 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
-    const result = students.map(student => {
-      const total_points = student.EStamp.reduce((sum, e) => sum + (e.activity.point ?? 0), 0);
+    // map ให้เป็น output
+    const result = students.map((student) => {
+      const total_points = student.EStamp.reduce(
+        (sum, e) => sum + (e.activity.point ?? 0),
+        0
+      );
 
       const activities: Record<string, string | null> = {};
       student.EStamp.forEach((e, idx) => {
@@ -67,6 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       };
     });
 
+    // sort by total_points desc
     result.sort((a, b) => b.total_points - a.total_points);
 
     res.status(200).json(result);
