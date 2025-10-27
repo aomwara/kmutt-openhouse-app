@@ -15,6 +15,8 @@ interface ActivityData {
   date: string | Date | null; // 👈 รองรับทั้ง string และ Date
   time: string | null;
   stamp_time: string | Date | null; // 👈 รองรับทั้ง string และ Date
+  rating: number | null;
+  feedback: string | null;
 }
 
 interface StudentData {
@@ -86,6 +88,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
           select: {
             issued_at: true,
+            rating: true,
+            feedback: true,
             activity: {
               select: {
                 title: true,
@@ -132,6 +136,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           ? `${e.activity.start_time}-${e.activity.end_time}`
           : null,
         stamp_time: e.issued_at ?? null,
+        rating: e.rating ?? null,
+        feedback: e.feedback ?? null,
       }));
 
       return {
