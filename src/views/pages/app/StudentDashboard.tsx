@@ -30,7 +30,7 @@ import { GrWorkshop } from "react-icons/gr"
 import Link from "next/link"
 import Head from "next/head"
 import MiniContactSection from "../landing/MiniContactSection"
-import { FaCameraRetro, FaClipboardList, FaQrcode } from "react-icons/fa"
+import { FaCameraRetro, FaCertificate, FaClipboardList, FaQrcode } from "react-icons/fa"
 import { useRouter } from "next/router"
 import { GiJourney } from "react-icons/gi"
 
@@ -275,7 +275,11 @@ const StudentDashboardPage = () => {
                             </Text>
                         </Flex>
                     </Box>
+
+
                 </SimpleGrid>
+
+                {/* <Box mt={4} onClick={() => router.push("/app/e-certificate")} bgGradient="linear(to-r, green.400, green.500)" _hover={{ bgGradient: "linear(to-r, green.500, green.600)", transform: "scale(1.05)", boxShadow: "lg", }} transition="all 0.2s" w="100%" h="fit-content" p={6} rounded="2xl" shadow="md" cursor={"pointer"} > <Flex direction="column" align="center" justify="center" textAlign="center"> <Icon as={FaCertificate} boxSize={8} color="white" mb={3} /> <Text fontWeight="bold" fontSize="lg" color="white" lineHeight={"30px"}> E-Certificate </Text> </Flex> </Box> */}
 
                 {/* ค้นหา + รายการกิจกรรม */}
                 <Flex justify="space-between" align="center" my={4}>
