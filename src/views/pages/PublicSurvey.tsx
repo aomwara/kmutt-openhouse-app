@@ -246,7 +246,7 @@ const PublicSurvey = () => {
                         </Box>
 
                         <Box mb={4}>
-                            <Text fontSize="sm" fontWeight="semibold" mb={2}>5. สับสนการจำแนก 3 พระจอม และจัดลำดับความสนใจ</Text>
+                            <Text fontSize="sm" fontWeight="semibold" mb={2}>5. จัดลำดับความสนใจของ 3 พระจอม</Text>
                             <HStack spacing={2} wrap="wrap">
                                 {["อันดับ 1", "อันดับ 2", "อันดับ 3"].map((label, idx) => (
                                     <Select

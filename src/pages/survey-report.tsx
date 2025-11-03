@@ -215,19 +215,6 @@ const ReportPage = () => {
                         </PieChart>
                     </Box>
 
-                    {/* ✅ ความสนใจเข้าศึกษาต่อที่ มจธ. */}
-                    <Box bg={cardBg} p={4} rounded="xl" shadow="md">
-                        <Heading size="md" mb={4}>ความสนใจเข้าศึกษาต่อที่ มจธ.</Heading>
-                        <BarChart width={350} height={300} data={interestKMUTTData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="value" fill="#775DD0" />
-                        </BarChart>
-                    </Box>
-
                     {/* ✅ ความสนใจเทียบโอนหน่วยกิต */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md" textAlign="center">
                         <Heading size="md" mb={2}>ระดับความสนใจเรื่องเทียบโอนหน่วยกิต (เฉลี่ย)</Heading>
@@ -238,7 +225,7 @@ const ReportPage = () => {
 
                     {/* Confusion Ranking */}
                     <Box bg={cardBg} p={4} rounded="xl" shadow="md">
-                        <Heading size="md" mb={4}>สับสนการจำแนก 3 พระจอม</Heading>
+                        <Heading size="md" mb={4}>ลำดับความสนใจของ 3 พระจอม</Heading>
                         <BarChart width={500} height={300} data={confusionData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="university" />
@@ -248,6 +235,19 @@ const ReportPage = () => {
                             <Bar dataKey="rank1" stackId="a" fill="#FF8042" />
                             <Bar dataKey="rank2" stackId="a" fill="#00C49F" />
                             <Bar dataKey="rank3" stackId="a" fill="#0088FE" />
+                        </BarChart>
+                    </Box>
+
+                    {/* ✅ ความสนใจเข้าศึกษาต่อที่ มจธ. */}
+                    <Box bg={cardBg} p={4} rounded="xl" shadow="md">
+                        <Heading size="md" mb={4}>ความสนใจเข้าศึกษาต่อที่ มจธ.</Heading>
+                        <BarChart width={350} height={300} data={interestKMUTTData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="value" fill="#775DD0" />
                         </BarChart>
                     </Box>
                 </SimpleGrid>
