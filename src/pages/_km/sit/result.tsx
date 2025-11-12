@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 
 type BaseStudentData = {
     student_id: number;
@@ -36,8 +37,11 @@ export default function StudentsPointsPage() {
     if (loading) return <p>Loading...</p>;
     if (!data.length) return <p>No data found</p>;
 
-    // ดึงชื่อ activity columns (dynamic) จากข้อมูลชุดแรก
-    const activityColumns = Object.keys(data[0])
+    // ✅ รวมคีย์จากทุก record เพื่อให้เจอ activity_2, 3, ...
+    const allKeys = Array.from(
+        new Set(data.flatMap((d) => Object.keys(d)))
+    );
+    const activityColumns = allKeys
         .filter((key) => key.startsWith("activity_"))
         .sort((a, b) => {
             const numA = parseInt(a.split("_")[1] ?? "0", 10);
@@ -45,12 +49,50 @@ export default function StudentsPointsPage() {
             return numA - numB;
         }) as Array<keyof StudentData>;
 
+    // ✅ ฟังก์ชัน export Excel
+    const handleExportExcel = () => {
+        const sheetData = data.map((student) => {
+            const row: Record<string, any> = {
+                "Student ID": student.student_id,
+                "Student Name": student.student_name,
+                School: student.school ?? "-",
+                Province: student.province ?? "-",
+                Email: student.email ?? "-",
+                Phone: student.phone ?? "-",
+                "Total Points": student.total_points,
+            };
+            activityColumns.forEach((col) => {
+                row[col.replace("activity_", "Activity ")] = student[col] ?? "-";
+            });
+            return row;
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(sheetData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "SIT Points");
+        XLSX.writeFile(workbook, "sit_students_points.xlsx");
+    };
+
     return (
         <div style={{ padding: 20 }}>
-            <h2 style={{ marginBottom: 10 }}>Students Points & Activities (SIT)</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h2>Students Points & Activities (SIT)</h2>
+                <button
+                    onClick={handleExportExcel}
+                    style={{
+                        backgroundColor: "#2e7d32",
+                        color: "white",
+                        border: "none",
+                        padding: "8px 16px",
+                        borderRadius: 6,
+                        cursor: "pointer",
+                    }}
+                >
+                    📤 Export Excel
+                </button>
+            </div>
 
-            {/* ตารางเลื่อนแนวนอนได้ */}
-            <div style={{ overflowX: "auto", maxWidth: "100%" }}>
+            <div style={{ overflowX: "auto", maxWidth: "100%", marginTop: 10 }}>
                 <table
                     style={{
                         borderCollapse: "collapse",
@@ -58,6 +100,7 @@ export default function StudentsPointsPage() {
                         minWidth: 1000,
                         backgroundColor: "white",
                         fontFamily: "sans-serif",
+                        fontSize: 14,
                     }}
                 >
                     <thead style={{ background: "#f0f0f0" }}>
