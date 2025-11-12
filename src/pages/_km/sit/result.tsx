@@ -37,10 +37,8 @@ export default function StudentsPointsPage() {
     if (loading) return <p>Loading...</p>;
     if (!data.length) return <p>No data found</p>;
 
-    // ✅ รวมคีย์จากทุก record เพื่อให้เจอ activity_2, 3, ...
-    const allKeys = Array.from(
-        new Set(data.flatMap((d) => Object.keys(d)))
-    );
+    // รวมคีย์จากทุก record
+    const allKeys = Array.from(new Set(data.flatMap((d) => Object.keys(d))));
     const activityColumns = allKeys
         .filter((key) => key.startsWith("activity_"))
         .sort((a, b) => {
@@ -49,23 +47,28 @@ export default function StudentsPointsPage() {
             return numA - numB;
         }) as Array<keyof StudentData>;
 
-    // ✅ ฟังก์ชัน export Excel
+    // ✅ Export Excel (type-safe)
     const handleExportExcel = () => {
-        const sheetData = data.map((student) => {
-            const row: Record<string, any> = {
-                "Student ID": student.student_id,
-                "Student Name": student.student_name,
-                School: student.school ?? "-",
-                Province: student.province ?? "-",
-                Email: student.email ?? "-",
-                Phone: student.phone ?? "-",
-                "Total Points": student.total_points,
-            };
-            activityColumns.forEach((col) => {
-                row[col.replace("activity_", "Activity ")] = student[col] ?? "-";
-            });
-            return row;
-        });
+        const sheetData: Record<string, string | number | null>[] = data.map(
+            (student) => {
+                const row: Record<string, string | number | null> = {
+                    "Student ID": student.student_id,
+                    "Student Name": student.student_name,
+                    School: student.school ?? "-",
+                    Province: student.province ?? "-",
+                    Email: student.email ?? "-",
+                    Phone: student.phone ?? "-",
+                    "Total Points": student.total_points,
+                };
+
+                activityColumns.forEach((col) => {
+                    const label = col.replace("activity_", "Activity ");
+                    row[label] = student[col] ?? "-";
+                });
+
+                return row;
+            }
+        );
 
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         const workbook = XLSX.utils.book_new();
@@ -75,7 +78,13 @@ export default function StudentsPointsPage() {
 
     return (
         <div style={{ padding: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
                 <h2>Students Points & Activities (SIT)</h2>
                 <button
                     onClick={handleExportExcel}
@@ -128,7 +137,9 @@ export default function StudentsPointsPage() {
                                 <td style={tdStyle}>{student.province ?? "-"}</td>
                                 <td style={tdStyle}>{student.email ?? "-"}</td>
                                 <td style={tdStyle}>{student.phone ?? "-"}</td>
-                                <td style={{ ...tdStyle, fontWeight: "bold" }}>{student.total_points}</td>
+                                <td style={{ ...tdStyle, fontWeight: "bold" }}>
+                                    {student.total_points}
+                                </td>
                                 {activityColumns.map((col) => (
                                     <td key={col} style={{ ...tdStyle, whiteSpace: "nowrap" }}>
                                         {student[col] ?? "-"}
