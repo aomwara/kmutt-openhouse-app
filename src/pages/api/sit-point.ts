@@ -6,18 +6,16 @@ const prisma = new PrismaClient();
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   try {
-    // ดึงนักเรียนที่มี EStamp ของคณะเทคโนโลยีสารสนเทศ (facultyId = 4)
+    // ดึงข้อมูลนักเรียน + EStamp + Activity ของคณะเทคโนโลยีสารสนเทศ (facultyId = 4)
     const students = await prisma.students.findMany({
       where: {
         EStamp: {
           some: {
             activity: {
-              department: {
-                facultyId: 4
-              }
-            }
-          }
-        }
+              department: { facultyId: 4 },
+            },
+          },
+        },
       },
       select: {
         id: true,
@@ -30,44 +28,49 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         EStamp: {
           where: {
             activity: {
-              department: {
-                facultyId: 4
-              }
-            }
+              department: { facultyId: 4 },
+            },
           },
           select: {
-            issued_at: true, // เวลาที่นักเรียน stamp
+            issued_at: true,
             activity: {
               select: {
+                id: true,
                 title: true,
                 activity_type: true,
                 point: true,
                 date: true,
                 start_time: true,
-                end_time: true
-              }
-            }
+                end_time: true,
+              },
+            },
           },
-          orderBy: {
-            activity: {
-              date: "asc"
-            }
-          }
-        }
-      }
+        },
+      },
     });
 
-    // map data ให้อยู่ในรูปแบบที่ frontend ใช้
+    // แปลงข้อมูล + คำนวณแต้มรวม
     const result = students.map((student) => {
-      const total_points = student.EStamp.reduce(
+      // sort activities ตามวันที่และเวลา
+      const sortedEStamp = [...student.EStamp].sort((a, b) => {
+        const da = new Date(a.activity.date);
+        const db = new Date(b.activity.date);
+        if (da.getTime() !== db.getTime()) return da.getTime() - db.getTime();
+        return (a.activity.start_time ?? "").localeCompare(b.activity.start_time ?? "");
+      });
+
+      // รวมแต้ม
+      const total_points = sortedEStamp.reduce(
         (sum, e) => sum + (e.activity.point ?? 0),
         0
       );
 
+      // ทำ pivot (activity_1, activity_2, ...)
       const activities: Record<string, string | null> = {};
-      student.EStamp.forEach((e, idx) => {
+      sortedEStamp.forEach((e, idx) => {
         const colName = `activity_${idx + 1}`;
-        activities[colName] = `[${e.activity.activity_type}] [${e.activity.point}] ${e.activity.title} (${e.activity.date} ${e.activity.start_time}-${e.activity.end_time})`;
+        const act = e.activity;
+        activities[colName] = `[${act.activity_type}] [${act.point}] ${act.title}`;
       });
 
       return {
@@ -78,16 +81,16 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         email: student.email,
         phone: student.phone,
         total_points,
-        ...activities
+        ...activities,
       };
     });
 
-    // sort by total_points desc
+    // เรียงจากแต้มรวมมากไปน้อย
     result.sort((a, b) => b.total_points - a.total_points);
 
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
+    console.error("Error in student report:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
