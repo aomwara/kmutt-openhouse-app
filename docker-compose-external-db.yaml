@@ -3,7 +3,7 @@ version: "3.9"
 services:
   # Nginx reverse proxy + sticky session
   nginx:
-    image: nginx:latest
+    image: zengxs/nginx:latest
     container_name: openhouse_nginx
     ports:
       - "80:80"
