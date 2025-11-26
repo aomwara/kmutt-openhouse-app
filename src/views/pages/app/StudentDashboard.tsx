@@ -143,7 +143,7 @@ const StudentDashboardPage = () => {
 
     // ✅ เมื่อกด “ทำแล้ว” จะไม่เด้งอีก
     const handleDoneSurvey = () => {
-        localStorage.setItem("doneSurvey", "true")
+        localStorage.setItem("doneSurveyXSIT", "true")
         onClose()
     }
 
