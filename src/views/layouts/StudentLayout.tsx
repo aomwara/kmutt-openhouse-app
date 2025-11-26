@@ -141,16 +141,21 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                                     {"> "}โปรไฟล์ - Profile
                                 </Link>
                                 <Link href="/app/my-passport" onClick={() => setMenuOpen(false)}>
-                                    {"> "}พาสปอร์ตของฉัน - My Passport <Badge colorScheme="orange">ใช้ในวันงาน</Badge>
+                                    {"> "}พาสปอร์ตของฉัน - My Passport
+                                    {/* <Badge colorScheme="orange">ใช้ในวันงาน</Badge> */}
                                 </Link>
                                 <Link href="/app/my-journey" onClick={() => setMenuOpen(false)}>
-                                    {"> "}กิจกรรมที่ฉันเข้าร่วม - My Journey <Badge colorScheme="orange">ใช้ในวันงาน</Badge>
+                                    {"> "}กิจกรรมที่ฉันเข้าร่วม - My Journey
+                                    {/* <Badge colorScheme="orange">ใช้ในวันงาน</Badge> */}
                                 </Link>
                                 <Link href="/app/activity-search" onClick={() => setMenuOpen(false)}>
                                     {"> "}ค้นหากิจกรรม - Search Activities
                                 </Link>
                                 <Link href="/app/activity-register" onClick={() => setMenuOpen(false)}>
                                     {"> "}กิจกรรมที่ลงทะเบียน - Registered Activities
+                                </Link>
+                                <Link href="/app/e-certificate" onClick={() => setMenuOpen(false)}>
+                                    {"> "}เกียรติบัตร - E-Certificate <Badge colorScheme="green">ใหม่</Badge>
                                 </Link>
 
                                 <Button
@@ -170,13 +175,13 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                         </Box>
                     )}
                 </Container>
-            </Box>
+            </Box >
             {/* ===== END NAVBAR ===== */}
             {/* Main content */}
             <Box as="main" minH="80vh" py={10} position="relative" zIndex={1}>
 
                 {children}
             </Box>
-        </Box>
+        </Box >
     );
 };

@@ -33,6 +33,7 @@ model Students {
   RegisterActivities RegisterActivities[]
   EStamp             EStamp[]
   TakePicture        TakePicture[]
+  sitcerts           SITCert[]
 }
 
 model PasswordResetToken {
@@ -226,4 +227,13 @@ model oAuthToken {
 
   student    Students @relation(fields: [studentId], references: [id])
   created_at DateTime @default(now())
+}
+
+model SITCert {
+  studentId Int
+  certName  String
+
+  student Students @relation(fields: [studentId], references: [id])
+
+  @@id([studentId, certName])
 }

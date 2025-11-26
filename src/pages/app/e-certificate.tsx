@@ -12,106 +12,45 @@ import {
     Button,
     useColorModeValue,
     Center,
+    VStack,
+    HStack,
 } from "@chakra-ui/react";
-import { DownloadIcon, LockIcon } from "@chakra-ui/icons";
+import { DownloadIcon } from "@chakra-ui/icons";
 import Head from "next/head";
-import jsPDF from "jspdf";
 
-interface CertificateStatus {
-    canDownload: boolean;
-    totalPoints: number;
-    studentName: string;
+interface CertItem {
+    certName: string;
+    downloadUrl: string;
 }
 
-const ECertificate = () => {
+const SITCertificatePage = () => {
     const bgColor = useColorModeValue("white", "gray.800");
+    const cardBg = useColorModeValue("gray.50", "gray.700");
 
-    const [status, setStatus] = useState<CertificateStatus | null>(null);
+    const [certs, setCerts] = useState<CertItem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // 🔹 ดึงข้อมูลคะแนนจาก backend
     useEffect(() => {
-        const fetchStatus = async () => {
+        const fetchCerts = async () => {
             try {
-                const res = await fetch("/api/student/engineering-points");
+                const res = await fetch("/api/student/sit-certificates");
                 const data = await res.json();
-
                 if (!res.ok) throw new Error(data.error || "Fetch failed");
 
-                setStatus({
-                    canDownload: data.student.can_download,
-                    totalPoints: data.student.total_points,
-                    studentName: data.student.name ?? "ไม่ทราบชื่อ",
-                });
+                setCerts(data.certificates);
             } catch (err) {
-                console.error("Error fetching certificate status:", err);
+                console.error("Error fetching SIT certificates:", err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchStatus();
+        fetchCerts();
     }, []);
-
-    // ✅ ฟังก์ชัน helper แปลง ArrayBuffer เป็น Base64 แบบไม่กิน stack
-    function arrayBufferToBase64(buffer: ArrayBuffer) {
-        let binary = "";
-        const bytes = new Uint8Array(buffer);
-        const chunkSize = 0x8000; // 32KB ต่อรอบ
-        for (let i = 0; i < bytes.length; i += chunkSize) {
-            const chunk = bytes.subarray(i, i + chunkSize);
-            binary += String.fromCharCode.apply(null, Array.from(chunk));
-        }
-        return btoa(binary);
-    }
-
-    // ✅ ฟังก์ชัน generate PDF
-    const handleDownload = async () => {
-        if (!status) return;
-
-        const pdf = new jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: "a4",
-        });
-
-        // โหลดพื้นหลัง
-        const img = await fetch("/cert-bg.png");
-        const blob = await img.blob();
-        const reader = new FileReader();
-
-        reader.onloadend = async function () {
-            const imgData = reader.result as string;
-
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-
-            // วางภาพพื้นหลังแบบ fit
-            pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
-
-            // โหลดฟอนต์ภาษาไทย (TH Sarabun New)
-            const fontRes = await fetch("/fonts/THSarabunNew.ttf");
-            const fontBlob = await fontRes.arrayBuffer();
-            const fontBase64 = arrayBufferToBase64(fontBlob);
-
-            pdf.addFileToVFS("THSarabunNew.ttf", fontBase64);
-            pdf.addFont("THSarabunNew.ttf", "THSarabunNew", "normal");
-            pdf.setFont("THSarabunNew", "normal");
-
-            // ตั้งค่าขนาดตัวอักษรและตำแหน่ง
-            pdf.setFontSize(36);
-            pdf.setTextColor(40, 40, 40);
-            pdf.text(status.studentName, pageWidth / 2, pageHeight / 2 + 30, { align: "center" });
-
-            pdf.save(`KMUTT_ECertificate_${status.studentName}.pdf`);
-        };
-
-        reader.readAsDataURL(blob);
-    };
 
     if (loading) {
         return (
-            <StudentAppLayout navigation="E-Certificate">
+            <StudentAppLayout navigation="SIT Certificate">
                 <Center h="80vh">
                     <Spinner size="xl" />
                 </Center>
@@ -125,56 +64,60 @@ const ECertificate = () => {
                 <title>Openhouse / E-Certificate</title>
             </Head>
 
-            <Box p={6}>
-                <Heading size="lg" mb={6}>
-                    E-Certificate
+            <Box p={3}>
+                <Heading size={{ base: "sm", md: "md" }} mb={3}>
+                    คณะเทคโนโลยีสารสนเทศ (SIT)
                 </Heading>
 
                 <Box
-                    bg={bgColor}
-                    rounded="2xl"
-                    shadow="md"
-                    p={6}
-                    maxW="3xl"
+                    // bg={bgColor}
+                    // rounded="2xl"
+                    // shadow="md"
+                    p={0}
+                    // maxW="3xl"
                     mx="auto"
-                    borderWidth="1px"
+                // borderWidth="1px"
                 >
-                    <Flex align="center" justify="space-between" flexWrap="wrap">
-                        <Box>
-                            <Heading size="md" mb={2}>
-                                เกียรติบัตรคณะวิศวกรรมศาสตร์
-                            </Heading>
-                            <Text color="gray.500" fontSize="sm">
-                                คะแนนกิจกรรมสะสม:{" "}
-                                <Badge colorScheme={status!.canDownload ? "green" : "red"}>
-                                    {status!.totalPoints} คะแนน
-                                </Badge>
+                    {certs.length === 0 ? (
+                        <Center py={10}>
+                            <Text color="gray.500" fontSize="lg">
+                                ไม่พบเกียรติบัตรของ SIT ที่สามารถดาวน์โหลดได้ในขณะนี้
                             </Text>
-                        </Box>
+                        </Center>
+                    ) : (
+                        <VStack spacing={4} align="stretch">
+                            {certs.map((cert) => (
+                                <Flex
+                                    key={cert.certName}
+                                    justify="space-between"
+                                    align="center"
+                                    p={4}
+                                    borderWidth="1px"
+                                    rounded="lg"
+                                    bg={cardBg}
+                                >
+                                    <Box>
+                                        <Text fontSize={{ base: "sm", md: "md" }} fontWeight="bold">
+                                            {cert.certName}
+                                        </Text>
+                                        <Badge colorScheme="blue">SIT Certificate</Badge>
+                                    </Box>
 
-                        {status!.canDownload ? (
-                            <Button
-                                colorScheme="orange"
-                                leftIcon={<DownloadIcon />}
-                                onClick={handleDownload}
-                            >
-                                ดาวน์โหลด
-                            </Button>
-                        ) : (
-                            <Button
-                                leftIcon={<LockIcon />}
-                                colorScheme="gray"
-                                variant="outline"
-                                isDisabled
-                            >
-                                ยังไม่ผ่านเกณฑ์ (≥ 5 คะแนน)
-                            </Button>
-                        )}
-                    </Flex>
+                                    <Button
+                                        colorScheme="orange"
+                                        onClick={() => window.open(cert.downloadUrl, "_blank")}
+                                    >
+                                        <DownloadIcon fontSize={{ base: "xs", md: "md" }} />
+                                        <Text display={{ base: "none", md: "block" }}>ดาวน์โหลด</Text>
+                                    </Button>
+                                </Flex>
+                            ))}
+                        </VStack>
+                    )}
                 </Box>
             </Box>
         </StudentAppLayout>
     );
 };
 
-export default ECertificate;
+export default SITCertificatePage;
