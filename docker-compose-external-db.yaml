@@ -11,6 +11,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx_logs:/var/log/nginx
+      - /root/sit-cert:/sit-cert:ro
     depends_on:
       - openhouse_app_ex
       - openhouse_app_ex_2
