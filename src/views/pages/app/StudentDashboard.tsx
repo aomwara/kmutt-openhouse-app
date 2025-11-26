@@ -84,7 +84,7 @@ const StudentDashboardPage = () => {
 
     // ✅ ตรวจสอบว่าทำแบบสอบถามหรือยัง
     useEffect(() => {
-        const doneSurvey = localStorage.getItem("doneSurvey")
+        const doneSurvey = localStorage.getItem("doneSurveyXSIT")
         if (!doneSurvey) {
             // ยังไม่ทำ — เด้ง modal ขึ้นหลังโหลด
             setTimeout(onOpen, 1000)
