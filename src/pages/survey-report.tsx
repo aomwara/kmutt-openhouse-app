@@ -112,11 +112,10 @@ const ReportPage = () => {
         surveys.reduce((sum, s) => sum + (s.creditTransferInterest || 0), 0) /
         (surveys.filter((s) => s.creditTransferInterest !== null).length || 1)
 
-    // ❌ ไม่ sort (เพราะเป็น ranking)
-    const confusionStats: Record<string, number[]> = {
-        "มจธ.": [0, 0, 0],
-        "มจพ.": [0, 0, 0],
-        "สจล.": [0, 0, 0],
+   const confusionStats: Record<string, number[]> = {
+        "มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (มจธ.)": [0, 0, 0],
+        "มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ (มจพ.)": [0, 0, 0],
+        "สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง (สจล.)": [0, 0, 0],
     }
 
     surveys.forEach((s) => {
